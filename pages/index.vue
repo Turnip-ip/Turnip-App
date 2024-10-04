@@ -1,15 +1,13 @@
 <template>
-  <div class="p-10">
-    <Textarea
-      v-model="dotArea"
-      class="mb-5"
-      placeholder="Type your message here."
-    />
-    <GraphView
-      class="h-44 w-44"
-      :dot="dot"
-    />
-  </div>
+    <ResizablePanelGroup direction="horizontal">
+      <ResizablePanel>
+        <TextEditor v-model="dotArea" class="m-4" height="500px"/>
+      </ResizablePanel>
+      <ResizableHandle with-handle />
+      <ResizablePanel>
+        <GraphView class="m-4 w-44 h-44" :dot="dot"/>
+      </ResizablePanel>
+    </ResizablePanelGroup>
 </template>
 
 <script setup lang="ts">
