@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-// https://github.com/murawakimitsuhiro/exgraph/blob/86ff28eb05b88c243ba9e0ea5b7c8962467bf14b/app.vue
-const dotArea = ref<string>("digraph {a -> c}");
-const dot = computed(() => dotArea.value);
+
+const dotArea = ref<string>("digraph {a -> c}")
+const dot = computed(() => dotArea.value)
 </script>
