@@ -1,13 +1,44 @@
 <template>
-  <div class="p-10">
-    <Textarea class="mb-5" placeholder="Type your message here." v-model="dotArea" />
-    <GraphView class="w-44 h-44" :dot="dot"/>
-
-  </div>
+    <ResizablePanelGroup direction="horizontal">
+      <ResizablePanel>
+        <TextEditor v-model="dotArea" class="m-4" height="500px"/>
+      </ResizablePanel>
+      <ResizableHandle with-handle />
+      <ResizablePanel>
+        <GraphView class="m-4 w-72 h-82" :dot="dot"/>
+      </ResizablePanel>
+    </ResizablePanelGroup>
 </template>
 
 <script setup lang="ts">
-// https://github.com/murawakimitsuhiro/exgraph/blob/86ff28eb05b88c243ba9e0ea5b7c8962467bf14b/app.vue
-const dotArea = ref<string>("digraph {a -> c}")
-const dot = computed(() => dotArea.value)
+import init, { tm_string_to_dot } from "tm_parser/tm_parser.js?init";
+
+onMounted(() => {
+  init().then(() => {
+    console.log("Init finished")
+    inited.value = true
+  });
+});
+
+let inited = ref(false);
+
+const dotArea = ref<string>(`START
+| b -> (b,R), START
+| _ -> (_,L), q
+
+q
+| 1 -> (0,L), q
+| 0 -> (1,L), END
+`)
+const dot = computed(() => {
+  //await init();
+  //console.log("Computing", inited.value, dotArea.value)
+  if (inited.value) {
+    const a = tm_string_to_dot(dotArea.value, 'TEST');
+    console.log(a);
+    return a
+  } else {
+    return ""
+  }
+});
 </script>
