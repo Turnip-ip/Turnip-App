@@ -26,6 +26,7 @@
     "shadcn-nuxt": "^0.10.4",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
+    "tm_parser": "github:Turnip-ip/TM-core#deployment",
     "vue": "latest",
     "vue-router": "latest"
   },
