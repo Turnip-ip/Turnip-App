@@ -1,9 +1,9 @@
 {
-    "recommendations": [
-        "esbenp.prettier-vscode",
-        "vue.volar",
-        "antfu.goto-alias",
-        "nuxtr.nuxtr-vscode",
-        "dbaeumer.vscode-eslint"
-    ]
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "vue.volar",
+    "antfu.goto-alias",
+    "nuxtr.nuxtr-vscode",
+    "dbaeumer.vscode-eslint"
+  ]
 }

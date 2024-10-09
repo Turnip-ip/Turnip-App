@@ -2,12 +2,12 @@
 
 ## Graph
 
- - https://github.com/magjac/d3-graphviz
- - d3-graphviz Nuxt example : https://github.com/murawakimitsuhiro/exgraph
+- https://github.com/magjac/d3-graphviz
+- d3-graphviz Nuxt example : https://github.com/murawakimitsuhiro/exgraph
 
 ## Shadcn components
 
- - https://www.shadcn-vue.com/
+- https://www.shadcn-vue.com/
 
 # Nuxt 3 Minimal Starter
 
