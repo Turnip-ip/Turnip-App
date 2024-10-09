@@ -6,7 +6,7 @@
       placeholder="Type your message here."
     />
     <GraphView
-      class="w-44 h-44"
+      class="h-44 w-44"
       :dot="dot"
     />
   </div>
