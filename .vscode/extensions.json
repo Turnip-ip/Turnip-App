@@ -4,6 +4,7 @@
     "vue.volar",
     "antfu.goto-alias",
     "nuxtr.nuxtr-vscode",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss"
   ]
 }
