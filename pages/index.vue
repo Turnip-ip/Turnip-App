@@ -11,13 +11,7 @@
         <RightHalfPanel> 
           <h2> Right Half Panel space</h2>
           <div style="height: 33.33%; overflow: hidden;">
-            <GraphPanel>
-            <div style="height: 33.33%; overflow: hidden;">
             <GraphView class="m-4 w-44 h-44" :dot="dot"/>
-          </div>
-            </GraphPanel>
-          
-
           </div>
          
           

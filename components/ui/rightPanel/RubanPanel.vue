@@ -12,7 +12,7 @@
   const props = defineProps({
     bgColor: {
       type: String,
-      default: ' #DAF7A6'   
+      default: ' #EAE2DD'   
     }
   })
   </script>
