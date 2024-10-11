@@ -10,7 +10,7 @@
   const props = defineProps({
     bgColor: {
       type: String,
-      default: 'pink'    
+      default: '#8391A3'    
     },
     height: {
       type: String,
