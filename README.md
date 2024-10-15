@@ -1,86 +1,36 @@
+# Get started
+
+## Installation
+
+```bash
+npm install
+```
+
+## Launching a local development server
+
+```bash
+npm run dev
+```
+
+## Lint and format
+
+We use eslint to lint our project, and Prettier to format the code.
+
+```bash
+npm run lintfix
+```
+
 # Resources
 
 ## Graph
 
- - https://github.com/magjac/d3-graphviz
- - d3-graphviz Nuxt example : https://github.com/murawakimitsuhiro/exgraph
+- https://github.com/magjac/d3-graphviz
+- d3-graphviz Nuxt example : https://github.com/murawakimitsuhiro/exgraph
 
 ## Shadcn components
 
- - https://www.shadcn-vue.com/
+- https://www.shadcn-vue.com/
 
 # Nuxt 3 Minimal Starter
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
-
-## Setup
-
-Make sure to install the dependencies:
-
-```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
