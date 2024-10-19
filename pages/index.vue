@@ -22,13 +22,14 @@
 import init, { tm_string_to_dot } from "tm_parse?init";
 
 onMounted(() => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   init()
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     .then(() => {
       console.log("Init finished");
       inited.value = true;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     })
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     .catch((e: unknown) => {
       console.error("Init failed", e);
     });
