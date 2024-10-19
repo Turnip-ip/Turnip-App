@@ -18,26 +18,26 @@
 
 <script setup lang="ts">
 //import type { ViewUpdate } from '@codemirror/view';
-import type { CodeMirrorRef } from 'nuxt-codemirror'; // Statistics
-import { basicSetup } from 'codemirror'
+import type { CodeMirrorRef } from "nuxt-codemirror"; // Statistics
+import { basicSetup } from "codemirror";
 
 import { dot } from "@viz-js/lang-dot";
-import { useVModel } from '@vueuse/core';
+import { useVModel } from "@vueuse/core";
 
 const props = defineProps<{
-  height?: string,
-  modelValue?: string
-}>()
+  height?: string;
+  modelValue?: string;
+}>();
 
 const emits = defineEmits<{
-  (e: 'update:modelValue', payload: string): void
-}>()
+  (e: "update:modelValue", payload: string): void;
+}>();
 
-const modelValue = useVModel(props, 'modelValue', emits, {
+const modelValue = useVModel(props, "modelValue", emits, {
   passive: true,
-})
+});
 
-const theme = ref<'light' | 'dark' | 'none'>('light');
+const theme = ref<"light" | "dark" | "none">("light");
 const codemirror = ref<CodeMirrorRef>();
 
 // We need to add `basicSetup` to the extensions array to fix highlighting. See https://github.com/ThimoDEV/nuxt-codemirror/issues/37
