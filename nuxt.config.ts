@@ -6,7 +6,7 @@ export default defineNuxtConfig({
     "@nuxtjs/tailwindcss",
     "shadcn-nuxt",
     "@nuxt/eslint",
-    "nuxt-codemirror"
+    "nuxt-codemirror",
   ],
   typescript: {
     tsConfig: {
