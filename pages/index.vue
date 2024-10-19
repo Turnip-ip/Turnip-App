@@ -19,7 +19,7 @@
 
 <script setup lang="ts">
 // @ts-expect-error TODO create a type schime
-import init, { tm_string_to_dot } from "tm_parse?init";
+import init, { tm_string_to_dot } from "tm_parser/tm_parser.js?init";
 
 onMounted(() => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-call
