@@ -14,7 +14,6 @@
   -->
 
     <div>
-      <Menubar></Menubar>
       <Homepage></Homepage>
     </div>
     
@@ -26,10 +25,10 @@
 <script setup>
 import Homepage from './HomePage.vue'; 
 import { ref, computed } from 'vue';
-import Menubar from '@/components/ui/menubar/MenuBar.vue'; 
 
-//import AnswerHere from './AnswerHere.vue'; 
-//import Questions from './Questions.vue'; 
+
+
+
 
 //const currentWindow = ref('AnswerHere');
 
