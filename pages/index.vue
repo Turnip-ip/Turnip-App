@@ -9,9 +9,9 @@
     </ResizablePanel>
     <ResizableHandle with-handle />
     <ResizablePanel>
-      <GraphView
+      <TuringGraphView
         class="h-82 m-4 w-72"
-        :dot="dot"
+        :code="dotArea"
       />
     </ResizablePanel>
   </ResizablePanelGroup>

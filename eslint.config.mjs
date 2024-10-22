@@ -9,7 +9,7 @@ export default withNuxt(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+
   ...eslintPluginVue.configs["flat/recommended"],
   {
     ignores: ["components/ui/"],
