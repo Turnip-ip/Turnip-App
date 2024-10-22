@@ -1,43 +1,49 @@
 <template>
-    <ResizablePanelGroup direction="horizontal">
-      <ResizablePanel>
-        <LeftHalfPanel > 
-          <TextEditor v-model="dotArea" class="m-4" height="1000px"/>
-        </LeftHalfPanel>
+  
+    <!-- 
+    <Menubar @change="handleChange" />  Include the Menubar This is a comment -->
+
+    <!-- Main content for the index page -->
+    <!--
+    <div class="p-8">
+      <h1 class="text-2xl font-bold">Welcome to the Main Page</h1>
+      <p>Select a window from the menu bar to navigate.</p>
       
-      </ResizablePanel>
-      <ResizableHandle with-handle />
-      <ResizablePanel height = '100%'>
-        <RightHalfPanel> 
-          <h2> Right Half Panel space</h2>
-          <div style="height: 33.33%; overflow: hidden;">
-            <GraphView class="m-4 w-44 h-44" :dot="dot"/>
-          </div>
-         
-          
-          <div style="height: 33.33%; overflow: hidden;">
-            <RubanPanel/>
-          </div>
-          <div style="height: 33.33%; overflow: hidden;">
-            <OutputPanel/>
-          </div>
-         
-        </RightHalfPanel>
-        
-      </ResizablePanel>
-    </ResizablePanelGroup>
+      <component :is="currentWindowComponent" />
+    </div>  
+  -->
+
+    <div>
+      <Menubar></Menubar>
+      <Homepage></Homepage>
+    </div>
+    
 </template>
 
-<script setup lang="ts">
-import LeftHalfPanel from '../components/ui/leftPanel/leftHalfPanel.vue';
-import GraphPanel from '../components/ui/rightPanel/GraphPanel.vue';
-import OutputPanel from '../components/ui/rightPanel/OutputPanel.vue';
-import RightHalfPanel from '../components/ui/rightPanel/RightHalfPanel.vue';
-import RubanPanel from '../components/ui/rightPanel/RubanPanel.vue';
 
 
-q
-| 1 -> (0,L), q
-| 0 -> (1,L), END
-  `);
+
+<script setup>
+import Homepage from './HomePage.vue'; 
+import { ref, computed } from 'vue';
+import Menubar from '@/components/ui/menubar/MenuBar.vue'; 
+
+//import AnswerHere from './AnswerHere.vue'; 
+//import Questions from './Questions.vue'; 
+
+//const currentWindow = ref('AnswerHere');
+
+/* const currentWindowComponent = computed(() => {
+  return currentWindow.value === 'AnswerHere' ? AnswerHere : Question;
+});
+
+// Handle change from Menubar
+function handleChange(window) {
+  currentWindow.value = window;
+}*/
+
 </script>
+
+<style scoped>
+/* Add any additional styling you need for the main page */
+</style>
