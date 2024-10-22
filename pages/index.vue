@@ -1,19 +1,58 @@
 <template>
-  <div class="p-10">
-    <Textarea
-      v-model="dotArea"
-      class="mb-5"
-      placeholder="Type your message here."
-    />
-    <GraphView
-      class="h-44 w-44"
-      :dot="dot"
-    />
-  </div>
+  <ResizablePanelGroup direction="horizontal">
+    <ResizablePanel>
+      <TextEditor
+        v-model="dotArea"
+        class="m-4"
+        height="500px"
+      />
+    </ResizablePanel>
+    <ResizableHandle with-handle />
+    <ResizablePanel>
+      <GraphView
+        class="h-82 m-4 w-72"
+        :dot="dot"
+      />
+    </ResizablePanel>
+  </ResizablePanelGroup>
 </template>
 
 <script setup lang="ts">
-// https://github.com/murawakimitsuhiro/exgraph/blob/86ff28eb05b88c243ba9e0ea5b7c8962467bf14b/app.vue
-const dotArea = ref<string>("digraph {a -> c}");
-const dot = computed(() => dotArea.value);
+// @ts-expect-error TODO create a type schime
+import init, { tm_string_to_dot } from "tm_parser/tm_parser.js?init";
+
+onMounted(() => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  init()
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    .then(() => {
+      console.log("Init finished");
+      inited.value = true;
+    })
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    .catch((e: unknown) => {
+      console.error("Init failed", e);
+    });
+});
+
+const inited = ref(false);
+
+const dotArea = ref<string>(`START
+| b -> (b,R), START
+| _ -> (_,L), q
+
+q
+| 1 -> (0,L), q
+| 0 -> (1,L), END
+`);
+const dot = computed(() => {
+  //await init();
+  //console.log("Computing", inited.value, dotArea.value)
+  if (inited.value) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-return
+    return tm_string_to_dot(dotArea.value, "TEST");
+  } else {
+    return "";
+  }
+});
 </script>
