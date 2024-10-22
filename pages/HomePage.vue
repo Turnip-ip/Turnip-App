@@ -1,5 +1,7 @@
 <template>
+    <MenuBar></MenuBar>
     <div class="container">
+        
         <h1 class="title">
             Home Page ! 
         </h1>
@@ -11,9 +13,14 @@
 </template>
 
 <script>
+import MenuBar from '@/components/ui/menubar/MenuBar.vue'; 
+
 export default {
   name: 'HomeView', 
-  loading: false
+  loading: false,
+  components: {
+    MenuBar, // Register the MenuBar component
+  }
 };
 </script>
 
