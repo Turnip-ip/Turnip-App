@@ -17,11 +17,14 @@
 </template>
 
 <script setup lang="ts">
-//import type { ViewUpdate } from '@codemirror/view';
-import type { CodeMirrorRef } from "nuxt-codemirror"; // Statistics
+import type { CodeMirrorRef } from "nuxt-codemirror";
 import { basicSetup } from "codemirror";
+import { turnip_lang } from "codemirror-lang-turnip-lang";
+import {
+  syntaxHighlighting,
+  defaultHighlightStyle,
+} from "@codemirror/language";
 
-import { dot } from "@viz-js/lang-dot";
 import { useVModel } from "@vueuse/core";
 
 const props = defineProps<{
@@ -41,7 +44,11 @@ const theme = ref<"light" | "dark" | "none">("light");
 const codemirror = ref<CodeMirrorRef>();
 
 // We need to add `basicSetup` to the extensions array to fix highlighting. See https://github.com/ThimoDEV/nuxt-codemirror/issues/37
-const extensions = [basicSetup, dot()];
+const extensions = [
+  basicSetup,
+  turnip_lang(),
+  syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
+];
 
 // const handleChange = (value: string, viewUpdate: ViewUpdate) => {
 //   console.log('Value changed:', value);
