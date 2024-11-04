@@ -36,7 +36,7 @@ interface Text {
   /**
    * Group IDs unlocked after having read this text.
    */
-  unlocks: string;
+  to: string;
 }
 
 interface Group {
@@ -49,9 +49,9 @@ interface Group {
    */
   levels: string[];
   /**
-   * Text nodes IDs unlocked when the group is finished.
+   * Text node IDs that need to be read to unlock this group.
    */
-  unlocks: string[];
+  requires: string[];
 }
 
 interface Level {
@@ -68,9 +68,9 @@ interface Level {
    */
   initial_code: string;
   /**
-   * Which levels will be unlocked when completing this level.
+   * Which levels need to be completed to unlock this level.
    */
-  unlocks: string[];
+  requires: string[];
 }
 
 /**
@@ -139,17 +139,17 @@ const levels_data: JSONLevelsFile = {
     text0: {
       content: "text0",
       from: null,
-      unlocks: "Tutorial",
+      to: "Tutorial",
     },
     text1: {
       content: "text1",
       from: "Tutorial",
-      unlocks: "Tapes",
+      to: "Tapes",
     },
     text2: {
       content: "text2",
       from: "Tutorial",
-      unlocks: "Basics",
+      to: "Basics",
     },
   },
 
@@ -157,17 +157,17 @@ const levels_data: JSONLevelsFile = {
     Tutorial: {
       label: "Tutorial",
       levels: ["ZERO", "MOVE_L", "MOVE_R"],
-      unlocks: ["text1", "text2"],
+      requires: [],
     },
     Tapes: {
       label: "Working with 2 tapes",
       levels: ["ZERO_2", "COPY_TO_MAIN", "COPY_TO_WORK"],
-      unlocks: [],
+      requires: ["text1"],
     },
     Basics: {
       label: "Basic Operations",
       levels: ["ADD1", "SUB1", "NEG"],
-      unlocks: [],
+      requires: ["text2"],
     },
   },
 
@@ -178,7 +178,7 @@ const levels_data: JSONLevelsFile = {
         "An example Turing Machine (TM) to get you started\nHere, you have a TM that writes 0 to the tape and moves right.\n\nWe would rather want to write 0 and stay on the same spot. Add states and/or state rules to go back left after having written the 0.",
       initial_code:
         "// We start by declaring the START State\nSTART\n// Then we declare a rule that reads any bit b and writes a 0 at that same spot,\n// Then moves right (R) and goes to the state END to end the execution of the Turing Machine\n| 0 -> (0, R), END\n| 1 -> (0, R), END\n",
-      unlocks: ["MOVE_L", "MOVE_R"],
+      requires: [],
     },
     MOVE_R: {
       tooltip: "Moving head Right",
@@ -186,7 +186,7 @@ const levels_data: JSONLevelsFile = {
         "Write a TM that only moves right and does not modify anything on the tape.",
       initial_code:
         "// Declaring a state:\n// START\n// | read_char -> (written_char, head_move), target_state\n",
-      unlocks: [],
+      requires: ["ZERO"],
     },
     MOVE_L: {
       tooltip: "Moving head Left",
@@ -194,49 +194,49 @@ const levels_data: JSONLevelsFile = {
         "Write a TM that only moves left and does not modify anything on the tape.",
       initial_code:
         "// Declaring a state:\n// START\n// | read_char -> (written_char, head_move), target_state\n",
-      unlocks: [],
+      requires: ["ZERO"],
     },
     ZERO_2: {
       tooltip: "Reading and writing with 2 tapes",
       description:
         "Write 0 on both tapes and return the head at its initial position.",
       initial_code: "",
-      unlocks: ["COPY_TO_MAIN", "COPY_TO_WORK"],
+      requires: [],
     },
     COPY_TO_MAIN: {
       tooltip: "Copy to the Main tape",
       description:
         "Copy the content of the Working tape to the Main tape.\n\nINPUT: arbitraty bit string on the Working tape.",
       initial_code: "",
-      unlocks: [],
+      requires: ["ZERO_2"],
     },
     COPY_TO_WORK: {
       tooltip: "Copy to the Work tape",
       description:
         "Copy the content of the Main tape to the Working tape.\n\nINPUT: arbitrary bit string on the Main tape.",
       initial_code: "",
-      unlocks: [],
+      requires: ["ZERO_2"],
     },
     ADD1: {
       tooltip: "Adding 1 to an input: x + 1",
       description:
         "Add 1 to a number written in binary form (modulo 256)\n\nINPUT: number between 0 and 255 in binary form.",
       initial_code: "",
-      unlocks: [],
+      requires: [],
     },
     SUB1: {
       tooltip: "Subtracting 1 to an input: x - 1",
       description:
         "Subtract 1 from a number written in binary form (modulo 256)\n\nINPUT: number between 0 and 255 in binary form.",
       initial_code: "",
-      unlocks: [],
+      requires: [],
     },
     NEG: {
       tooltip: "Negating an input: -x",
       description:
         "Negate a binary number (Two's complement) in place\n\nINPUT: number between -128 and 127 in binary form.",
       initial_code: "",
-      unlocks: [],
+      requires: [],
     },
   },
 };
@@ -272,10 +272,10 @@ for (const group_name in groups) {
   // Create the cluster's edges
   for (let i: number = 0; i < level_names.length; ++i) {
     const level_name: string = level_names[i];
-    const level_unlocks: string[] = levels[level_name].unlocks;
-    for (let j: number = 0; j < level_unlocks.length; ++j) {
-      const unlocked_level: string = level_unlocks[j];
-      dot_levels += `${level_name} -> ${unlocked_level};`;
+    const level_requires: string[] = levels[level_name].requires;
+    for (let j: number = 0; j < level_requires.length; ++j) {
+      const required_level: string = level_requires[j];
+      dot_levels += `${required_level} -> ${level_name};`;
     }
   }
   // Set the cluster's label
@@ -296,8 +296,8 @@ for (const text_name in texts) {
     const prev: string = groups[text.from].levels[0];
     dot_levels += `${prev} -> ${text_name} [ltail="cluster_${clusters_ids[text.from].toString()}"];`;
   }
-  const next: string = groups[text.unlocks].levels[0];
-  dot_levels += `${text_name} -> ${next} [lhead="cluster_${clusters_ids[text.unlocks].toString()}"];`;
+  const next: string = groups[text.to].levels[0];
+  dot_levels += `${text_name} -> ${next} [lhead="cluster_${clusters_ids[text.to].toString()}"];`;
 }
 
 // Close the dot string
