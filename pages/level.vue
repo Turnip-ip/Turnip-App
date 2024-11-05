@@ -1,9 +1,6 @@
 <template>
   <div>
-    <GraphView
-      :dot="dot"
-      class="h-82 m-4 w-72"
-    />
+    <GraphView :dot="dot" class="h-82 m-4 w-72" />
   </div>
 </template>
 
@@ -32,11 +29,11 @@ interface Text {
   /**
    * Group ID from the Group unlocking this text.
    */
-  from: string | null;
+  from?: string;
   /**
    * Group IDs unlocked after having read this text.
    */
-  to: string;
+  to?: string;
 }
 
 interface Group {
@@ -138,7 +135,6 @@ const levels_data: JSONLevelsFile = {
   texts: {
     text0: {
       content: "text0",
-      from: null,
       to: "Tutorial",
     },
     text1: {
@@ -241,9 +237,9 @@ const levels_data: JSONLevelsFile = {
   },
 };
 
-const texts: { [key: string]: Text } = levels_data["texts"];
-const groups: { [key: string]: Group } = levels_data["groups"];
-const levels: { [key: string]: Level } = levels_data["levels"];
+const texts: { [key: string]: Text } = levels_data.texts;
+const groups: { [key: string]: Group } = levels_data.groups;
+const levels: { [key: string]: Level } = levels_data.levels;
 
 // Create the dot graph from the JSON file
 let dot_levels: string = "digraph {";
@@ -265,16 +261,13 @@ for (const group_name in groups) {
   const group: Group = groups[group_name];
   const level_names: string[] = group.levels;
   // Create the cluster's nodes
-  for (let i: number = 0; i < level_names.length; ++i) {
-    const level_name: string = level_names[i];
-    dot_levels += `${level_name} [label="${level_name}" tooltip="${levels[level_name].tooltip}"];`;
+  for (const level_name of level_names) {
+    dot_levels += `${level_name} [label="${level_name}" tooltip="${levels[level_name].tooltip}" tag="test"];`;
   }
   // Create the cluster's edges
-  for (let i: number = 0; i < level_names.length; ++i) {
-    const level_name: string = level_names[i];
+  for (const level_name of level_names) {
     const level_requires: string[] = levels[level_name].requires;
-    for (let j: number = 0; j < level_requires.length; ++j) {
-      const required_level: string = level_requires[j];
+    for (const required_level of level_requires) {
       dot_levels += `${required_level} -> ${level_name};`;
     }
   }
@@ -292,12 +285,14 @@ for (const text_name in texts) {
 // Set the text edges
 for (const text_name in texts) {
   const text: Text = texts[text_name];
-  if (text.from != null) {
+  if (text.from) {
     const prev: string = groups[text.from].levels[0];
     dot_levels += `${prev} -> ${text_name} [ltail="cluster_${clusters_ids[text.from].toString()}"];`;
   }
-  const next: string = groups[text.to].levels[0];
-  dot_levels += `${text_name} -> ${next} [lhead="cluster_${clusters_ids[text.to].toString()}"];`;
+  if (text.to) {
+    const next: string = groups[text.to].levels[0];
+    dot_levels += `${text_name} -> ${next} [lhead="cluster_${clusters_ids[text.to].toString()}"];`;
+  }
 }
 
 // Close the dot string
