@@ -1,5 +1,4 @@
 <template>
-    <MenuBar></MenuBar>
     <div class="container">
         
         <h1 class="title">
@@ -31,7 +30,7 @@ body {
 .container{
     flex-direction: column; /* pour mettre les enfants verticallement alignes*/
     display: flex; 
-    min-height: 100vh;
+    height: calc(100vh - 4rem);
     justify-content: center; /*  horizontally */
     align-items: center; /*  vertically */
     text-align: center;

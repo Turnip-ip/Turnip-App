@@ -30,15 +30,16 @@
     </div>
   </template>
   
-  <script setup lang="ts">
-  import { ref, computed } from 'vue';
-  import LeftHalfPanel from '../components/ui/leftPanel/leftHalfPanel.vue';
-  import GraphPanel from '../components/ui/rightPanel/GraphPanel.vue';
-  import OutputPanel from '../components/ui/rightPanel/OutputPanel.vue';
-  import RightHalfPanel from '../components/ui/rightPanel/RightHalfPanel.vue';
-  import RubanPanel from '../components/ui/rightPanel/RubanPanel.vue';
-  
-  const dotArea = ref<string>("digraph {a -> c}");
-  const dot = computed(() => dotArea.value);
-  </script>
+<script setup lang="ts">
+import { ref, computed } from 'vue';
+import LeftHalfPanel from '../components/ui/leftPanel/leftHalfPanel.vue';
+import GraphPanel from '../components/ui/rightPanel/GraphPanel.vue';
+import OutputPanel from '../components/ui/rightPanel/OutputPanel.vue';
+import RightHalfPanel from '../components/ui/rightPanel/RightHalfPanel.vue';
+import RubanPanel from '../components/ui/rightPanel/RubanPanel.vue';
+
+const dotArea = ref<string>("digraph {a -> c}");
+const dot = computed(() => dotArea.value);
+</script>
+
   

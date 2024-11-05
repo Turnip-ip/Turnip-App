@@ -1,48 +1,48 @@
 <template>
-  
-    <!-- 
-    <Menubar @change="handleChange" />  Include the Menubar This is a comment -->
-
-    <!-- Main content for the index page -->
-    <!--
-    <div class="p-8">
-      <h1 class="text-2xl font-bold">Welcome to the Main Page</h1>
-      <p>Select a window from the menu bar to navigate.</p>
-      
-      <component :is="currentWindowComponent" />
-    </div>  
-  -->
-
-    <div>
-      <Homepage></Homepage>
+  <div class="page-container">
+    <MenuBar @change="handleChange" /> <!-- The menu bar at the top -->
+    <div class="content-container">
+      <component :is="currentWindowComponent" /> <!-- Dynamic content filling the remaining space -->
     </div>
-    
+  </div>
 </template>
 
-
-
-
 <script setup>
-import Homepage from './HomePage.vue'; 
 import { ref, computed } from 'vue';
+import Homepage from './HomePage.vue'; 
+import AnswerHere from './AnswerHere.vue'; // Ensure this component exists
+import Question from './Questions.vue'; // Ensure this component exists
+import MenuBar from '@/components/ui/menubar/MenuBar.vue'; 
 
+const currentWindow = ref('HomePage'); // Default to HomePage
 
-
-
-
-//const currentWindow = ref('AnswerHere');
-
-/* const currentWindowComponent = computed(() => {
-  return currentWindow.value === 'AnswerHere' ? AnswerHere : Question;
+// Compute the current component to render based on currentWindow
+const currentWindowComponent = computed(() => {
+  if (currentWindow.value === 'HomePage') {
+    return Homepage;
+  } else if (currentWindow.value === 'AnswerHere') {
+    return AnswerHere;
+  } else if (currentWindow.value === 'Question') {
+    return Question;
+  }
 });
 
-// Handle change from Menubar
+// Method to handle changes from the MenuBar
 function handleChange(window) {
-  currentWindow.value = window;
-}*/
-
+  currentWindow.value = window; // Update the current window based on the event from MenuBar
+}
 </script>
 
 <style scoped>
-/* Add any additional styling you need for the main page */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+}
+
+.content-container {
+  flex: 1; /* Take up the remaining space */
+  overflow: hidden; /* Allows scrolling if content exceeds the height */
+  height: calc(100vh - 4rem); /* Adjust to account for MenuBar height */
+}
 </style>
