@@ -33,7 +33,7 @@ const render = (content: string) => {
     .zoom(false)
     .render()
     .onerror((em) => {
-      console.log("graph error", em);
+      console.log("graph error:", em);
     });
 };
 
