@@ -12,6 +12,7 @@
     "lintfix": "eslint . --fix && prettier --write --list-different ."
   },
   "dependencies": {
+    "@nuxt/image": "^1.8.1",
     "@viz-js/lang-dot": "^1.0.4",
     "@vueuse/core": "^11.1.0",
     "class-variance-authority": "^0.7.0",

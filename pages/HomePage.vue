@@ -1,12 +1,11 @@
 <template>
     <div class="container">
-        
-        <h1 class="title">
-            Home Page ! 
+        <h1 class ="imag">
+          <NuxtImg src="/logo.jpg" class = "framed-imag"/>
         </h1>
-        <p>
-            Please click on a window tab
-        </p>
+        <h1 class="title">
+            Please click on Levels to start 
+        </h1>
     </div>
     
 </template>
@@ -27,6 +26,13 @@ export default {
 body {
   background-color: pink; 
 }
+.imag {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem; 
+}
+
 .container{
     flex-direction: column; /* pour mettre les enfants verticallement alignes*/
     display: flex; 

@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "shadcn-nuxt",
     "@nuxt/eslint",
     "nuxt-codemirror",
+    "@nuxt/image"
   ],
   typescript: {
     tsConfig: {
