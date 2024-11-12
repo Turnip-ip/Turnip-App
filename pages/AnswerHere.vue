@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div class="answerpage">
       <!-- Resizable Panels -->
       <ResizablePanelGroup direction="horizontal">
         <ResizablePanel>
           <LeftHalfPanel>
-            <TextEditor v-model="dotArea" class="m-4" height="1000px" />
+            <TextEditor v-model="dotArea" class="m-4" height="931px" /> <!-- 931 parce que 1000 - 4 rem, 1 rem = 16 px et il faut considerer le padding donc un peu moins de 1000-4*16 -->
           </LeftHalfPanel>
         </ResizablePanel>
   
@@ -42,4 +42,9 @@ const dotArea = ref<string>("digraph {a -> c}");
 const dot = computed(() => dotArea.value);
 </script>
 
-  
+<style scoped>
+.answerpage {
+  height: calc(100vh - 4rem); 
+  flex-direction: column;
+}
+</style>

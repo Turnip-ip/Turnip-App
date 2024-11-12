@@ -1,13 +1,13 @@
 <template>
   <nav class="flex space-x-4 bg-gray-200 p-4">
-    <button @click="changeWindow('AnswerHere')" class="p-2 rounded hover:bg-gray-300">
-      Answer
+    <button @click="changeWindow('Levels')" class="p-2 rounded hover:bg-gray-300">
+      Levels
     </button>
     <button @click="changeWindow('Question')" class="p-2 rounded hover:bg-gray-300">
       Question
     </button>
-    <button @click="changeWindow('Levels')" class="p-2 rounded hover:bg-gray-300">
-      Levels
+    <button @click="changeWindow('AnswerHere')" class="p-2 rounded hover:bg-gray-300">
+      Answer
     </button>
   </nav>
 </template>
@@ -18,10 +18,9 @@ import { defineEmits } from 'vue';
 const emit = defineEmits();
 
 function changeWindow(window) {
-  emit('change', window); // Emit the change event to the parent component
+  emit('change', window); 
 }
 </script>
 
 <style scoped>
-/* Add any styles for your MenuBar here */
 </style>

@@ -17,7 +17,7 @@ import Levels from './Levels.vue';
 
 const currentWindow = ref('HomePage'); // Default to HomePage
 
-// Compute the current component to render based on currentWindow
+// compute the current component to render based on currentWindow
 const currentWindowComponent = computed(() => {
   if (currentWindow.value === 'HomePage') {
     return Homepage;
@@ -30,9 +30,9 @@ const currentWindowComponent = computed(() => {
   }
 });
 
-// Method to handle changes from the MenuBar
+// mthod to handle changes from the MenuBar
 function handleChange(window) {
-  currentWindow.value = window; // Update the current window based on the event from MenuBar
+  currentWindow.value = window; // update the current window based on the event from MenuBar
 }
 </script>
 
@@ -40,12 +40,11 @@ function handleChange(window) {
 .page-container {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* Full viewport height */
+  height: 100vh; 
 }
 
 .content-container {
-  flex: 1; /* Take up the remaining space */
-  overflow: hidden; /* Allows scrolling if content exceeds the height */
-  height: calc(100vh - 4rem); /* Adjust to account for MenuBar height */
+  flex: 1; 
+  height: calc(100vh - 4rem); 
 }
 </style>
