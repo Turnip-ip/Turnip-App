@@ -26,15 +26,54 @@ function transitionFactory() {
   return d3.transition("main").duration(750).ease(d3.easeLinear);
 }
 
+
+function interactive() {
+
+  const nodes = d3.selectAll('.node,.edge');
+  nodes
+    .on("click", function () {
+      const title = d3.select(this).selectAll('title').text().trim();
+      const text = d3.select(this).selectAll('text').text();
+      const id = d3.select(this).attr('id');
+      const class1 = d3.select(this).attr('class');
+      const dotElement = title.replace('->', ' -> ');
+      console.log('Element id="%s" class="%s" title="%s" text="%s" dotElement="%s"', id, class1, title, text, dotElement);
+      console.log('Finding and deleting references to %s "%s" from the DOT source', class1, dotElement);
+      // for (i = 0; i < dotSrcLines.length;) {
+      //   if (dotSrcLines[i].indexOf(dotElement) >= 0) {
+      //     console.log('Deleting line %d: %s', i, dotSrcLines[i]);
+      //     dotSrcLines.splice(i, 1);
+      //   } else {
+      //     i++;
+      //   }
+      // }
+      // dotSrc = dotSrcLines.join('\n');
+      // render();
+    });
+}
+
+
 const render = (content: string) => {
   graph
     .dot(content)
     .transition(transitionFactory)
     .zoom(false)
+    .on("end", interactive)
+    // .attributer(function (d: BaseType) {
+    //   console.log("attributer", d);
+    //   //d.attr('cursor', 'pointer')
+    //   if (d.tag == "#text") {
+    //     console.log("test")
+    //     d3.select(d)
+    //       .attr("fill", "yellow");
+    //     //d.attributes.fill = "red";
+    //   }
+    // })
     .render()
     .onerror((em) => {
-      console.log("graph error", em);
+      console.log("graph error:", em);
     });
+
 };
 
 watch(
@@ -49,10 +88,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    ref="graphDivRef"
-    class="graph"
-  />
+  <div ref="graphDivRef" class="graph" />
 </template>
 
 <style>
