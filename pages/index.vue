@@ -13,6 +13,7 @@ import Homepage from './HomePage.vue';
 import AnswerHere from './AnswerHere.vue'; // Ensure this component exists
 import Question from './Questions.vue'; // Ensure this component exists
 import MenuBar from '@/components/ui/menubar/MenuBar.vue'; 
+import Levels from './Levels.vue';
 
 const currentWindow = ref('HomePage'); // Default to HomePage
 
@@ -24,6 +25,8 @@ const currentWindowComponent = computed(() => {
     return AnswerHere;
   } else if (currentWindow.value === 'Question') {
     return Question;
+  } else if (currentWindow.value === 'Levels') {
+    return Levels;
   }
 });
 

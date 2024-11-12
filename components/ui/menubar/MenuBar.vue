@@ -6,6 +6,9 @@
     <button @click="changeWindow('Question')" class="p-2 rounded hover:bg-gray-300">
       Question
     </button>
+    <button @click="changeWindow('Levels')" class="p-2 rounded hover:bg-gray-300">
+      Levels
+    </button>
   </nav>
 </template>
 
