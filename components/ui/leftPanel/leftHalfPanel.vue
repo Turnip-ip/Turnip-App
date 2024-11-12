@@ -1,5 +1,5 @@
 <template>
-    <div :style="{ backgroundColor: bgColor, padding: '16px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }">
+    <div :style="{ backgroundColor: bgColor, padding: '16px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }">
         <h2> Code Editor Space</h2>
         <slot>
       </slot>
@@ -20,6 +20,5 @@
   </script>
   
   <style scoped>
-  /* You can add additional styles here if necessary */
   </style>
   

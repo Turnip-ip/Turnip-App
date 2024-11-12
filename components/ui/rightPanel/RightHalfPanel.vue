@@ -1,20 +1,47 @@
 <!-- components/ui/resizable/RightHalfPanel.vue -->
 <template>
-    <div :style="{ backgroundColor: bgColor, padding: '16px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', height: '100%' }">
-      <slot></slot>
+  <div
+    :style="{ backgroundColor: bgColor, boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', height: '100%' }"
+    class="right-half-panel"
+  >
+    <div class="panel-section">
+      <GraphPanel />
     </div>
-  </template>
-  
-  <script setup lang="ts">
-  const props = defineProps({
-    bgColor: {
-      type: String,
-      //default: '#C0BFCF'    
-    }
-  })
-  </script>
-  
-  <style scoped>
-  /* No additional styles needed */
-  </style>
-  
+
+    <div class="divider"></div>
+
+    <div class="panel-section">
+      <RubanPanel />
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="panel-section">
+      <OutputPanel />
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import GraphPanel from '../rightPanel/GraphPanel.vue';
+import RubanPanel from '../rightPanel/RubanPanel.vue';
+import OutputPanel from '../rightPanel/OutputPanel.vue';
+
+const props = defineProps({
+  bgColor: {
+    type: String,
+  },
+});
+</script>
+
+<style>
+.right-half-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.divider {
+  height: 5px; 
+  background-color: black; 
+}
+</style>

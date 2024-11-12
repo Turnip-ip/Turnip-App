@@ -1,6 +1,6 @@
 <!-- components/ui/resizable/RightHalfPanel.vue -->
 <template>
-    <div :style="{ backgroundColor: bgColor, padding: '16px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', height: '100%' }">
+    <div :style="{ backgroundColor: bgColor, padding: '16px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', height: '340px' }">
       <slot>
         <h2> Output Space</h2>
       </slot>
