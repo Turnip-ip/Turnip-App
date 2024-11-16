@@ -17,7 +17,7 @@ export default {
   name: 'HomeView', 
   loading: false,
   components: {
-    MenuBar, // Register the MenuBar component
+    MenuBar, 
   }
 };
 </script>

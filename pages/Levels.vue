@@ -1,28 +1,20 @@
 <template>
-    <div>
-      <!-- Centered text content -->
-      <div class="flex justify-center items-center h-screen">
-        <h1 class="text-3xl font-bold">Enter levels here</h1>
-      </div>
-    </div>
-  </template>
+    <Level @showTwoTabs="showTabs" />
+</template>
   
-  <script>
-  //au debut que levels
-  // puis mettre levels, 
-//aura un titre 
+
+<script setup>
+import Level from './components/ui/levels/Level.vue';
+const emit = defineEmits(['showTabs']);
 
 
-  export default {
-    name: 'Levels', 
-    loading: false,
-  };
-  </script>
-  
-  <style scoped>
-  /* Ensures the text is centered vertically and horizontally */
-  .h-screen {
-    height: 100vh;
-  }
-  </style>
-  
+const showTabs = () => {
+    //show other two tabs if not visible
+    emit('showTabs');
+    
+    //set current page to Questions page
+    // show the corresponding question
+};
+
+</script>
+
