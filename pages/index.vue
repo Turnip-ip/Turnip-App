@@ -1,11 +1,12 @@
 <template>
   <div class="page-container">
-    <MenuBar @change="handleChange" /> <!-- The menu bar at the top -->
+    <MenuBar @change="handleChange"  :showButtons="showButtons"/> 
     <div class="content-container">
-      <component :is="currentWindowComponent" @showTabs="ShowTabsAndQuestions"/> 
+      <component :is="currentWindowComponent" @showTabs="activateButtons" /> 
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, computed } from 'vue';
@@ -16,6 +17,7 @@ import MenuBar from '@/components/ui/menubar/MenuBar.vue';
 import Levels from './Levels.vue';
 
 const currentWindow = ref('HomePage'); // par default HomePage
+const showButtons = ref(false);  // ne pas montrer les questions answers au debut 
 
 // fenetre actuelle 
 const currentWindowComponent = computed(() => {
@@ -35,9 +37,10 @@ function handleChange(window) {
   currentWindow.value = window; 
 }
 
-function ShowTabsAndQuestions() {
+const activateButtons = () => {
   currentWindow.value = 'Question';
-}
+  showButtons.value = true;
+};
 </script>
 
 <style scoped>
