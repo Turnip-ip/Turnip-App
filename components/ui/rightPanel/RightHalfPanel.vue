@@ -1,20 +1,18 @@
 <!-- components/ui/resizable/RightHalfPanel.vue -->
 <template>
-  <div
-    :style="{ backgroundColor: bgColor, boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', height: '100%' }"
-    class="right-half-panel"
-  >
+  <div :style="{ backgroundColor: bgColor, boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', height: '100%' }"
+    class="right-half-panel">
     <div class="panel-section">
-      <GraphPanel />
+      <GraphPanel :dotArea="dotArea" />
     </div>
 
-    <div class="divider"/>
+    <div class="divider" />
 
     <div class="panel-section">
       <RubanPanel />
     </div>
 
-    <div class="divider"/>
+    <div class="divider" />
 
     <div class="panel-section">
       <OutputPanel />
@@ -31,6 +29,10 @@ const props = defineProps({
   bgColor: {
     type: String,
   },
+  dotArea: {
+    type: String,
+    default: ''
+  }
 });
 </script>
 
@@ -40,8 +42,9 @@ const props = defineProps({
   flex-direction: column;
   height: 100%;
 }
+
 .divider {
-  height: 5px; 
-  background-color: black; 
+  height: 5px;
+  background-color: black;
 }
 </style>

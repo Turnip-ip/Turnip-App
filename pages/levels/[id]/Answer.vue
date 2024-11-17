@@ -12,7 +12,7 @@
       <ResizableHandle with-handle />
 
       <ResizablePanel>
-        <RightHalfPanel />
+        <RightHalfPanel :dotArea="dotArea" />
       </ResizablePanel>
     </ResizablePanelGroup>
   </div>
@@ -23,7 +23,15 @@ import { ref, computed } from 'vue';
 import LeftHalfPanel from '../components/ui/leftPanel/leftHalfPanel.vue';
 import RightHalfPanel from '../components/ui/rightPanel/RightHalfPanel.vue';
 
-const dotArea = ref<string>('digraph {a -> c}');
+const dotArea = ref<string>(`START
+| b -> (b,R), START
+| _ -> (_,L), q
+
+q
+| 1 -> (0,L), q
+| 0 -> (1,L), END
+`);
+
 const dot = computed(() => dotArea.value);
 </script>
 
