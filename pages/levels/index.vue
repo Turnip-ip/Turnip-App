@@ -1,5 +1,5 @@
 <template>
-    <Level @showTwoTabs="showTabs" />
+    <Level @show-two-tabs="showTabs" />
 </template>
   
 

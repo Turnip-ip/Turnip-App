@@ -1,57 +1,42 @@
 <template>
-  <div class="page-container">
-    <MenuBar @change="handleChange"  :showButtons="showButtons"/> 
-    <div class="content-container">
-      <component :is="currentWindowComponent" @showTabs="activateButtons" /> 
-    </div>
+  <div class="container">
+    <h1 class="imag">
+      <NuxtImg src="/logo.jpg" class="framed-imag" />
+    </h1>
+    <h1 class="title">
+      Please click on Levels to start
+    </h1>
   </div>
+
 </template>
 
 
-<script setup>
-import { ref, computed } from 'vue';
-import Homepage from './HomePage.vue'; 
-import AnswerHere from './AnswerHere.vue'; 
-import Question from './Questions.vue'; 
-import MenuBar from '@/components/ui/menubar/MenuBar.vue'; 
-import Levels from './Levels.vue';
-
-const currentWindow = ref('HomePage'); // par default HomePage
-const showButtons = ref(false);  // ne pas montrer les questions answers au debut 
-
-// fenetre actuelle 
-const currentWindowComponent = computed(() => {
-  if (currentWindow.value === 'HomePage') {
-    return Homepage;
-  } else if (currentWindow.value === 'AnswerHere') {
-    return AnswerHere;
-  } else if (currentWindow.value === 'Question') {
-    return Question;
-  } else if (currentWindow.value === 'Levels') {
-    return Levels;
-  }
-});
-
-// mthod to handle changes from the MenuBar
-function handleChange(window) {
-  currentWindow.value = window; 
+<style>
+body {
+  background-color: pink;
 }
 
-const activateButtons = () => {
-  currentWindow.value = 'Question';
-  showButtons.value = true;
-};
-</script>
-
-<style scoped>
-.page-container {
+.imag {
   display: flex;
-  flex-direction: column;
-  height: 100vh; 
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
 }
 
-.content-container {
-  flex: 1; 
-  height: calc(100vh - 4rem); 
+.container {
+  flex-direction: column;
+  /* pour mettre les enfants verticallement alignes*/
+  display: flex;
+  height: calc(100vh - 4rem);
+  justify-content: center;
+  /*  horizontally */
+  align-items: center;
+  /*  vertically */
+  text-align: center;
+}
+
+.title {
+  font-size: 3rem;
+  margin: 0;
 }
 </style>

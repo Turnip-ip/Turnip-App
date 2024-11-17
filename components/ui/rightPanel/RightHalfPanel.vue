@@ -8,13 +8,13 @@
       <GraphPanel />
     </div>
 
-    <div class="divider"></div>
+    <div class="divider"/>
 
     <div class="panel-section">
       <RubanPanel />
     </div>
 
-    <div class="divider"></div>
+    <div class="divider"/>
 
     <div class="panel-section">
       <OutputPanel />
