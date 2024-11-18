@@ -1,6 +1,6 @@
 <template>
-    <div :style="{ backgroundColor: bgColor, padding: '16px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }">
-        <h2> Code Editor Space</h2>
+    <div class="text" :style="{ backgroundColor: bgColor, padding: '16px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }">
+        <h2> Write your code here !</h2>
         <slot/>
     </div>
   </template>
@@ -19,5 +19,8 @@
   </script>
   
   <style scoped>
+  .text{
+    font-family: "Press Start 2P", sans-serif;
+  }
   </style>
   

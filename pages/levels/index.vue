@@ -3,11 +3,17 @@
     <div class="text-center">
       <NuxtLink
         to="/levels/0"
-        class="cursor-pointer font-bold"
+        class="nuxt-link cursor-pointer font-bold"
         >Level 0</NuxtLink
       >
-      <p>Our first level</p>
+      <p>Example : Syntax Discovery</p>
     </div>
   </div>
 </template>
 
+<style>
+.nuxt-link{
+  font-family: "Press Start 2P", sans-serif;
+  color:darkslateblue;
+}
+</style>
