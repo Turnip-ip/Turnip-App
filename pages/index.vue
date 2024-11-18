@@ -1,29 +1,70 @@
 <template>
-  <ResizablePanelGroup direction="horizontal">
-    <ResizablePanel>
-      <TextEditor
-        v-model="dotArea"
-        class="m-4"
-        height="500px"
+  <div class="flex h-screen flex-col items-center md:flex-row">
+    <div class="w-1/3">
+      <NuxtImg
+        src="/Turnip_Boy_Portrait_sans_background.jpeg"
+        class="framed-imag imag"
       />
-    </ResizablePanel>
-    <ResizableHandle with-handle />
-    <ResizablePanel>
-      <TuringGraphView
-        class="h-82 m-4 w-72"
-        :code="dotArea"
-      />
-    </ResizablePanel>
-  </ResizablePanelGroup>
+    </div>
+    <!-- <h1 class="imag w-1/2">
+      <NuxtImg src="/Turnip_Boy_Portrait_sans_background.jpeg" class="framed-imag" />
+    </h1> -->
+    <div class="flex w-2/3 flex-col items-center justify-center gap-2">
+      <TurnipText />
+      <h1 class="title text-center text-2xl">
+        Click on
+        <NuxtLink
+          to="/levels"
+          class="niveau"
+          >Levels</NuxtLink
+        >
+        to start
+      </h1>
+    </div>
+  </div>
 </template>
 
-<script setup lang="ts">
-const dotArea = ref<string>(`START
-| b -> (b,R), START
-| _ -> (_,L), q
+<style>
+body {
+  background-color: #ffc0cb;
+  overflow: hidden;
+  margin: 0;
+}
 
-q
-| 1 -> (0,L), q
-| 0 -> (1,L), END
-  `);
-</script>
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100vh;
+  position: relative;
+  /* For positioning child elements */
+}
+
+.niveau {
+  color: darkslateblue;
+}
+
+.titreJeu {
+  position: absolute;
+  left: 60%;
+  /* Push image more to the left */
+  bottom: 55%;
+  /* Make the image overflow at the bottom */
+  max-width: 100%;
+  /* Make the image larger */
+  transform: translateY(10%);
+  /* Adjust vertical position */
+}
+
+.imag {
+  position: absolute;
+  left: -30%;
+  bottom: -20%;
+  max-width: 90%;
+  transform: translateY(10%);
+}
+
+.title {
+  font-family: "Press Start 2P", sans-serif;
+}
+</style>

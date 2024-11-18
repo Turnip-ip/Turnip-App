@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     "shadcn-nuxt",
     "@nuxt/eslint",
     "nuxt-codemirror",
+    "@nuxt/image",
   ],
   typescript: {
     tsConfig: {
@@ -25,5 +26,19 @@ export default defineNuxtConfig({
      * @default "./components/ui"
      */
     componentDir: "./components/ui",
+  },
+  app: {
+    head: {
+      link: [
+        {
+          rel: "preconnect",
+          href: "https://fonts.bunny.net",
+        },
+        {
+          rel: "stylesheet",
+          href: "https://fonts.bunny.net/css?family=press-start-2p:400",
+        },
+      ],
+    },
   },
 });
