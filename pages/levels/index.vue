@@ -1,9 +1,5 @@
 <template>
-  <GraphView
-    :dot="dot"
-    class="h-82 m-4 w-72"
-    @click="handleBodyClick"
-  />
+  <GraphView :dot="dot" class="h-82 m-4 w-72" @click="handleBodyClick" />
 </template>
 
 <script setup lang="ts">
