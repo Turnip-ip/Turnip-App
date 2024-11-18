@@ -29,7 +29,7 @@ function transitionFactory() {
 const render = (content: string) => {
   graph
     .dot(content)
-    .transition(transitionFactory)
+    //.transition(transitionFactory)
     .zoom(false)
     .render()
     .onerror((em) => {
@@ -49,10 +49,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
-    ref="graphDivRef"
-    class="graph"
-  />
+  <div ref="graphDivRef" class="graph" />
 </template>
 
 <style>
