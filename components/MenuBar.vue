@@ -24,4 +24,18 @@ defineProps<{
 
 </script>
 
-<style scoped></style>
+<style scoped>
+button {
+  font-family: 'Press Start 2P', sans-serif;
+  color: darkslateblue;
+}
+
+nav {
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  background-color: #f5f5f5;
+  border-bottom: 6px solid #000;
+  box-sizing: border-box;
+}
+</style>

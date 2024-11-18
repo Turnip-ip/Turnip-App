@@ -1,10 +1,14 @@
 <template>
   <div class="container">
     <h1 class="imag">
-      <NuxtImg src="/logo.jpg" class="framed-imag" />
+      <NuxtImg src="/Turnip_Boy_Portrait_sans_background.jpeg" class="framed-imag" />
     </h1>
+    <h1 class="titreJeu">
+      <NuxtImg src="/screen.png" />
+    </h1>
+
     <h1 class="title">
-      Please click on Levels to start
+      Click on <span class="niveau">Levels</span> to start
     </h1>
   </div>
 
@@ -13,30 +17,52 @@
 
 <style>
 body {
-  background-color: pink;
-}
-
-.imag {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
+  background-color: #ffc0cb;
+  overflow: hidden;
+  margin: 0;
 }
 
 .container {
-  flex-direction: column;
-  /* pour mettre les enfants verticallement alignes*/
   display: flex;
-  height: calc(100vh - 4rem);
-  justify-content: center;
-  /*  horizontally */
-  align-items: center;
-  /*  vertically */
-  text-align: center;
+  flex-direction: column;
+  justify-content: flex-start;
+  height: 100vh;
+  position: relative;
+  /* For positioning child elements */
+}
+
+.niveau {
+  color: darkslateblue;
+}
+
+.titreJeu {
+  position: absolute;
+  left: 60%;
+  /* Push image more to the left */
+  bottom: 55%;
+  /* Make the image overflow at the bottom */
+  max-width: 100%;
+  /* Make the image larger */
+  transform: translateY(10%);
+  /* Adjust vertical position */
+}
+
+.imag {
+  position: absolute;
+  left: -30%;
+  bottom: -10%;
+  max-width: 90%;
+  transform: translateY(10%);
 }
 
 .title {
-  font-size: 3rem;
-  margin: 0;
+  position: absolute;
+  left: 80%;
+  bottom: 45%;
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: 30px;
+  white-space: nowrap;
+  transform: translateX(-50%);
+
 }
 </style>
