@@ -1,8 +1,7 @@
 <!-- components/ui/resizable/RightHalfPanel.vue -->
 <!-- n'est pas ajouté au index.vue car bug quand on rajoute le graphview dedans -->
 <template>
-  <div
-    :style="{ backgroundColor: bgColor, padding: '16px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', height: '340px' }">
+  <div :style="{ backgroundColor: bgColor, padding: '16px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)' }">
     <slot>
       <h2> Graph Space</h2>
       <TuringGraphView class="p-4 h-50" :code="dotArea" />
