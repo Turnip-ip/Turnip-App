@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Centered text content -->
-    <div class="flex justify-center items-center h-screen">
+    <div class="flex h-screen items-center justify-center">
       <h1 class="text-3xl font-bold">Rentrer les questions plus tard</h1>
     </div>
   </div>
@@ -9,13 +9,12 @@
 
 <script setup lang="ts">
 //au debut que levels
-// puis mettre levels, 
-//aura un titre 
+// puis mettre levels,
+//aura un titre
 
 definePageMeta({
-  layout: 'level'
-})
-
+  layout: "level",
+});
 </script>
 
 <style scoped>
