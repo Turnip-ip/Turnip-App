@@ -1,6 +1,6 @@
 <template>
     <div class="page-container">
-        <MenuBar :show-buttons="false" />
+        <MenuBar :show-buttons="true" />
         <div class="content-container">
             <slot />
         </div>

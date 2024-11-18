@@ -10,6 +10,7 @@
     <h1 class="title">
       Click on <span class="niveau">Levels</span> to start
     </h1>
+
   </div>
 
 </template>

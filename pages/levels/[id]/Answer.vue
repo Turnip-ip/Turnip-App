@@ -23,6 +23,11 @@ import { ref, computed } from 'vue';
 import LeftHalfPanel from '../components/ui/leftPanel/leftHalfPanel.vue';
 import RightHalfPanel from '../components/ui/rightPanel/RightHalfPanel.vue';
 
+definePageMeta({
+  layout: 'level'
+})
+
+
 const dotArea = ref<string>(`START
 | b -> (b,R), START
 | _ -> (_,L), q
