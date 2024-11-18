@@ -5,7 +5,7 @@
     :style="{ backgroundColor: bgColor, padding: '16px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', height: '340px' }">
     <slot>
       <h2> Graph Space</h2>
-      <TuringGraphView class="h-82 m-4 w-72" :code="dotArea" />
+      <TuringGraphView class="p-4 h-50" :code="dotArea" />
     </slot>
   </div>
 </template>
