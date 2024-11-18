@@ -1,12 +1,9 @@
 <template>
-  <div>
-    <NuxtLink to="/levels/0" class="font-bold">Level 0</NuxtLink>
-    <p>Description for Level 0</p>
+  <div class="flex flex-col mt-5">
+    <div class="text-center">
+      <NuxtLink to="/levels/0" class="font-bold cursor-pointer">Level 0</NuxtLink>
+      <p>Our first level</p>
+    </div>
+
   </div>
 </template>
-
-<style scoped>
-h1 {
-  cursor: pointer;
-}
-</style>
