@@ -24,8 +24,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import LeftHalfPanel from "../components/ui/leftPanel/leftHalfPanel.vue";
-import RightHalfPanel from "../components/ui/rightPanel/RightHalfPanel.vue";
+import LeftHalfPanel from "../../../components/ui/leftPanel/leftHalfPanel.vue";
+import RightHalfPanel from "../../../components/ui/rightPanel/RightHalfPanel.vue";
 
 definePageMeta({
   layout: "level",
