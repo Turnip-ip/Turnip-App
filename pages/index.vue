@@ -1,15 +1,19 @@
 <template>
-  <div class="container">
-    <h1 class="imag">
+  <div class="flex flex-col md:flex-row items-center h-screen">
+    <div class="w-1/3">
+      <NuxtImg src="/Turnip_Boy_Portrait_sans_background.jpeg" class="framed-imag imag" />
+    </div>
+    <!-- <h1 class="imag w-1/2">
       <NuxtImg src="/Turnip_Boy_Portrait_sans_background.jpeg" class="framed-imag" />
-    </h1>
-    <h1 class="titreJeu">
-      <NuxtImg src="/screen.png" />
-    </h1>
+    </h1> -->
+    <div class="w-2/3 flex flex-col justify-center items-center gap-2">
+      <TurnipText />
+      <h1 class="text-2xl title text-center">
+        Click on <NuxtLink to="/levels" class="niveau">Levels</NuxtLink> to start
+      </h1>
+    </div>
 
-    <h1 class="title">
-      Click on <span class="niveau">Levels</span> to start
-    </h1>
+
 
   </div>
 
@@ -51,19 +55,12 @@ body {
 .imag {
   position: absolute;
   left: -30%;
-  bottom: -10%;
+  bottom: -20%;
   max-width: 90%;
   transform: translateY(10%);
 }
 
 .title {
-  position: absolute;
-  left: 80%;
-  bottom: 45%;
   font-family: 'Press Start 2P', sans-serif;
-  font-size: 30px;
-  white-space: nowrap;
-  transform: translateX(-50%);
-
 }
 </style>

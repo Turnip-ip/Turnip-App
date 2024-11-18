@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NuxtLink to="/levels/0"><b>Level 0</b></NuxtLink>
+    <NuxtLink to="/levels/0" class="font-bold">Level 0</NuxtLink>
     <p>Description for Level 0</p>
   </div>
 </template>

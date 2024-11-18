@@ -6,3 +6,11 @@
         </div>
     </div>
 </template>
+
+<style>
+body {
+    background-color: #ffc0cb;
+    overflow: hidden;
+    margin: 0;
+}
+</style>
