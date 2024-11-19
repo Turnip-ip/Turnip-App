@@ -2,21 +2,21 @@
 <template>
   <div :style="{ backgroundColor: bgColor, boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', height: '100%' }"
     class="right-half-panel">
-    <div class="panel-section">
-      <GraphPanel :dotArea="dotArea" />
-    </div>
+
+    <GraphPanel :dotArea="dotArea" class="panel-section h-1/2" />
+
 
     <div class="divider" />
 
-    <div class="panel-section">
-      <RubanPanel />
-    </div>
+
+    <RubanPanel class="panel-section h-1/4" />
+
 
     <div class="divider" />
 
-    <div class="panel-section">
-      <OutputPanel />
-    </div>
+
+    <OutputPanel class="panel-section h-full" />
+
   </div>
 </template>
 
