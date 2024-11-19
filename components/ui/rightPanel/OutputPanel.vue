@@ -1,6 +1,6 @@
 <!-- components/ui/resizable/RightHalfPanel.vue -->
 <template>
-    <div :style="{ backgroundColor: bgColor, padding: '16px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', height: '340px' }">
+    <div :style="{ backgroundColor: bgColor, padding: '16px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', height: '400px' }">
       <slot>
         <div class="bubbleImg"><NuxtImg src="bubble_speech.png"></NuxtImg></div>
       <div class="TapeComingSoon">output coming soon !</div>
