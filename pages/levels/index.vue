@@ -243,7 +243,7 @@ const levels: { [key: string]: Level } = levels_data.levels;
 let dot_levels: string = "digraph {";
 // Global setup
 dot_levels += `graph [fontsize=10 fontname="Verdana" compound=true clusterrank=local];`;
-dot_levels += `node [shape=record fontsize=10 fontname="Verdana"];`;
+dot_levels += `node [shape=record fontsize=10 fontname="Verdana" style=filled color=silver];`;
 
 // Create clusters corresponding to a group
 let cluster_i: number = 0;
