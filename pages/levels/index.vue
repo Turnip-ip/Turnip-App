@@ -397,23 +397,23 @@ function read_completed_lvl() {
 
 
 
-/*
-//try load json
+let data={};
+
 onMounted(async () => {
+  try {
+    const response = await fetch('levels_contents.json')
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    data = await response.json();
+    console.log(data); //it exists
+    //call create graph
+  } catch (error) {
+    console.error('Error fetching JSON:', error)
+  }
+})
 
-  var xhr = new XMLHttpRequest();
-  xhr.onload = function() {
-      if (xhr.status === 200) {
-          var res = xhr.responseText;
-          console.log(res);
-      }
-  };
-
-  xhr.open('GET', '/levels/levels_contents.json');
-  xhr.send();
-
-});
-*/
+//data will exist when a button is clicked: ok in the future
 
 </script>
 
