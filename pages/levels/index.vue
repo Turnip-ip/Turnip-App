@@ -242,8 +242,8 @@ const levels: { [key: string]: Level } = levels_data.levels;
 // Create the dot graph from the JSON file
 let dot_levels: string = "digraph {";
 // Global setup
-dot_levels += `graph [fontsize=10 fontname="Verdana" compound=true clusterrank=local];`;
-dot_levels += `node [shape=record fontsize=10 fontname="Verdana" style=filled color=silver];`;
+dot_levels += `graph [fontsize=10 fontname="Verdana" compound=true clusterrank=local style=filled color=pink];`;
+dot_levels += `node [shape=record fontsize=10 fontname="Verdana" style=filled fillcolor=white];`;
 
 // Create clusters corresponding to a group
 let cluster_i: number = 0;
@@ -298,6 +298,8 @@ dot_levels += "}";
 
 // Update the dot value
 dot.value = dot_levels;
+
+
 
 // Click and links
 
@@ -378,6 +380,7 @@ function search_in_levels(name) {
 }
 
 function find_group_of_lvl (name) {
+  //find the group level name belongs to
   for (const e in levels_data["groups"]) {
     if (levels_data["groups"][e]["levels"].includes(name)) { return levels_data["groups"][e]; }
   }
@@ -394,10 +397,8 @@ function read_completed_lvl() {
 
 
 
-
-
-
 /*
+//try load json
 onMounted(async () => {
 
   var xhr = new XMLHttpRequest();
@@ -413,7 +414,6 @@ onMounted(async () => {
 
 });
 */
-
 
 </script>
 
