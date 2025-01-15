@@ -92,7 +92,7 @@ function build_lvl_graph(levels_data) {
 
   // Set the text nodes
   for (const text_name in texts) {
-    dot_levels += `${text_name} [tooltip=TODO];`;
+    dot_levels += `${text_name} [tooltip="${texts[text_name].tooltip}"];`;
   }
   // Set the text edges
   for (const text_name in texts) {
