@@ -385,10 +385,34 @@ function find_group_of_lvl (name) {
 
 function read_completed_lvl() {
   // read completed_lvl in localStorage
-  let res = localStorage.getItem("completed_lvl")
+  let res = localStorage.getItem("completed_lvl");
   if (res==null) return [];
   return JSON.parse(res);
 }
+
+
+
+
+
+
+
+
+/*
+onMounted(async () => {
+
+  var xhr = new XMLHttpRequest();
+  xhr.onload = function() {
+      if (xhr.status === 200) {
+          var res = xhr.responseText;
+          console.log(res);
+      }
+  };
+
+  xhr.open('GET', '/levels/levels_contents.json');
+  xhr.send();
+
+});
+*/
 
 
 </script>
@@ -396,9 +420,13 @@ function read_completed_lvl() {
 <style>
 .graph{
   width: 100%;
+  margin: 0;
 }
 body{
   overflow: auto;
+}
+svg a *{
+  cursor: pointer;
 }
 .nuxt-link{
   font-family: "Press Start 2P", sans-serif;
