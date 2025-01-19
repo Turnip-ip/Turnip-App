@@ -54,7 +54,7 @@
     "Medium": {
       "label": "More Operations",
       "levels": ["ADD", "SUB", "MUL", "MOD", "DIV", "EXP", "GEQ", "LEQ", "IS_PRIME", "LEN_SYRACUSE"],
-      "grammar_version": 0,
+      "grammar_version": 2,
       "requires": ["text3", "text4"]
     }
   },
@@ -67,6 +67,8 @@
       "in": "*: an arbitrary byte",
       "out": "0: a byte with value 0",
       "constraints": "no overflow allowed, at the end the cursor must return to its initial position",
+      "ex_in": "1.0101010",
+      "ex_out": "0.0000000",
       "requires": []
     },
     "MOVE_R": {
@@ -76,6 +78,8 @@
       "in": "*: an arbitrary byte",
       "out": "*: the same byte (unchanged)",
       "constraints": "no overflow allowed, at the end the cursor must has been moved to the right",
+      "ex_in": "0.0000000",
+      "ex_out": "00.000000",
       "requires": ["ZERO"]
     },
     "MOVE_L": {
@@ -85,6 +89,8 @@
       "in": "*: an arbitrary byte",
       "out": "*: the same byte (unchanged)",
       "constraints": "no overflow allowed, at the end the cursor must has been moved to the left",
+      "ex_in": "00000.000",
+      "ex_out": "0000.0000",
       "requires": ["ZERO"]
     },
     "ZERO_2": {
@@ -94,52 +100,64 @@
       "in": "*, *: two arbitrary bytes",
       "out": "0, 0",
       "constraints": "no overflow allowed, at the end the head must return at its initial position",
+      "ex_in": "1.0101010, 1.0101010",
+      "ex_out": "0.0000000, 0.0000000",
       "requires": []
     },
     "COPY_TO_MAIN": {
       "tooltip": "Copy to the Main tape",
       "description": "Copy the content (one byte) of the Working tape to the Main tape.",
+      "initial_code": "",
       "in": "*, b: two arbitrary bytes",
       "out": "b, b",
       "constraints": "no overflow allowed, at the end the head must return at its initial position",
-      "initial_code": "",
+      "ex_in": "0.0000000, 1.1100010",
+      "ex_out": "1.1100010, 1.1100010",
       "requires": ["ZERO_2"]
     },
     "COPY_TO_WORK": {
       "tooltip": "Copy to the Work tape",
       "description": "Copy the content of the Main tape to the Working tape.",
+      "initial_code": "",
       "in": "b, *: two arbitrary bytes",
       "out": "b, b",
       "constraints": "no overflow allowed, at the end the head must return at its initial position",
-      "initial_code": "",
+      "ex_in": "1.1100010, 0.0000000",
+      "ex_out": "1.1100010, 1.1100010",
       "requires": ["ZERO_2"]
     },
     "ADD1": {
       "tooltip": "Adding 1 to an input modulo 256",
-      "description": "Add 1 to a number written in binary form (modulo 256). +++++ DEFINE CLEARLY STRONG AND WEAK BIT AND/OR GIVE AN EXAMPLE IN BINARY",
+      "description": "Add 1 to a number written in binary form (modulo 256).\n\nHere, we use the big-endian convention, meaning that the strong bits are the one at the left of a byte, while the least significant byte will be at the right.\n\nSo here, 0|0|0|0|0|0|0|1 represents 1 while 1|0|0|0|0|0|0|0 represents 128.",
       "initial_code": "",
       "in": "b: number between 0 and 255 in binary form",
       "out": "b+1: mod 256",
       "constraints": "no overflow allowed, at the end the head must return at its initial position",
+      "ex_in": "00001011",
+      "ex_out": "00001100",
       "requires": []
     },
     "SUB1": {
       "tooltip": "Subtracting 1 to an input modulo 256",
-      "description": "Subtract 1 from a number written in binary form (modulo 256).",
+      "description": "Subtract 1 from a number written in binary form (modulo 256).\n\nHere, we use the big-endian convention, meaning that the strong bits are the one at the left of a byte, while the least significant byte will be at the right.\n\nSo here, 0|0|0|0|0|0|0|1 represents 1 while 1|0|0|0|0|0|0|0 represents 128.",
       "initial_code": "",
       "in": "b: number between 0 and 255 in binary form",
       "out": "b-1: mod 256",
       "constraints": "no overflow allowed, at the end the head must return at its initial position",
+      "ex_in": "00010100",
+      "ex_out": "00010011",
       "requires": []
     },
     "NEG": {
       "tooltip": "Negating an input: -x",
-      "description": "Negate a binary number (Two's complement) in place.",
+      "description": "Negate a binary number (Two's complement: -a is represented by NOT(a) + 1, where NOT is the bitwise operator) in place.\n\nHere, we use the big-endian convention, meaning that the strong bits are the one at the left of a byte, while the least significant byte will be at the right.\n\nSo here, 0|0|0|0|0|0|0|1 represents 1 while 1|0|0|0|0|0|0|0 represents 128.",
       "initial_code": "",
       "in": "b: number between -128 and 127 in binary form",
       "out": "-b: mod 256 (Two's complement)",
       "constraints": "no overflow allowed, at the end the head must return at its initial position",
-      "requires": []
+      "ex_in": "00000010",
+      "ex_out": "11111110",
+      "requires": ["ADD1"]
     },
     "ADD": {
       "tooltip": "Adding two numbers",
@@ -148,6 +166,8 @@
       "in": "b1|b2|*: numbers between 0 and 255 in binary form (on main tape, and working tape is arbitrary)",
       "out": "b1|b2|(b1+b2 mod 256)",
       "constraints": "overflow only allowed on the right, at the end the head must return at its initial position",
+      "ex_in": "3|4|11",
+      "ex_out": "3|4|7",
       "requires": []
     },
     "SUB": {
@@ -157,6 +177,8 @@
       "in": "b1|b2|*: numbers between 0 and 255 in binary form (on main tape, and working tape is arbitrary)",
       "out": "b1|b2|(b1-b2 mod 256)",
       "constraints": "overflow only allowed on the right, at the end the head must return at its initial position",
+      "ex_in": "45|26|3",
+      "ex_out": "45|26|19",
       "requires": []
     },
     "GEQ": {
@@ -166,6 +188,8 @@
       "in": "b1|b2|*: numbers between 0 and 255 in binary form (on main tape, and working tape is arbitrary)",
       "out": "b1|b2|1 if b1 >= b2 and b1|b2|0 otherwise",
       "constraints": "overflow only allowed on the right, at the end the head must return at its initial position",
+      "ex_in": "5|4|36",
+      "ex_out": "5|4|1",
       "requires": []
     },
     "LEQ": {
@@ -175,6 +199,8 @@
       "in": "b1|b2|*: numbers between 0 and 255 in binary form (on main tape, and working tape is arbitrary)",
       "out": "b1|b2|1 if b1 <= b2 and b1|b2|0 otherwise",
       "constraints": "overflow only allowed on the right, at the end the head must return at its initial position",
+      "ex_in": "5|4|36",
+      "ex_out": "5|4|0",
       "requires": []
     },
     "MUL": {
@@ -184,6 +210,8 @@
       "in": "b1|b2|*: numbers between 0 and 255 in binary form",
       "out": "b1|b2|(b1*b2 mod 256)",
       "constraints": "overflow only allowed on the right, at the end the head must return at its initial position",
+      "ex_in": "5|7|",
+      "ex_out": "5|7|35",
       "requires": ["ADD"]
     },
     "MOD": {
@@ -193,6 +221,8 @@
       "in": "b1|b2|*: numbers between 0 and 255 in binary form",
       "out": "b1|b2|(b1%b2) where % is the modulo operator",
       "constraints": "overflow only allowed on the right, at the end the head must return at its initial position",
+      "ex_in": "34|5|",
+      "ex_out": "34|5|4",
       "requires": ["LEQ", "GEQ", "SUB"]
     },
     "DIV": {
@@ -202,6 +232,8 @@
       "in": "b1|b2|*: numbers between 0 and 255 in binary form",
       "out": "b1|b2|(b1/b2) where / is the euclidian division",
       "constraints": "overflow only allowed on the right, at the end the head must return at its initial position",
+      "ex_in": "34|5|",
+      "ex_out": "34|5|6",
       "requires": ["LEQ", "GEQ", "SUB"]
     },
     "EXP": {
@@ -211,6 +243,8 @@
       "in": "b1|b2|*: numbers between 0 and 255 in binary form",
       "out": "b1|b2|(b1^b2 mod 256)",
       "constraints": "overflow only allowed on the right, at the end the head must return at its initial position",
+      "ex_in": "3|4|",
+      "ex_out": "3|4|81",
       "requires": ["MUL"]
     },
     "IS_PRIME": {
@@ -220,6 +254,8 @@
       "in": "b|*: integer between 1 and 255 in binary form",
       "out": "b|1 if b is prime, b|0 otherwise",
       "constraints": "overflow only allowed on the right, at the end the head must return at its initial position",
+      "ex_in": "121",
+      "ex_out": "121|0",
       "requires": ["MOD"]
     },
     "LEN_SYRACUSE": {
@@ -229,6 +265,8 @@
       "in": "b|*: integer between 0 and 255 in binary form",
       "out": "b|n where n is the smallest integer such that syracuse(b, n) = 1",
       "constraints": "overflow only allowed on the right, at the end the head must return at its initial position",
+      "ex_in": "4",
+      "ex_out": "2",
       "requires": ["MUL", "MOD", "DIV"]
     }
   }
