@@ -19,6 +19,25 @@
 </template>
 
 <script setup lang="ts">
+import { onMounted } from 'vue';
+
+let levels_data={};
+onMounted(async () => {
+  try {
+    const response = await fetch('../../levels_contents.json')
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`)
+    }
+    levels_data = await response.json();
+    //call create graph
+    console.log(levels_data);
+  } catch (error) {
+    console.error('Error fetching JSON:', error)
+  }
+});
+
+
+
 //au debut que levels
 // puis mettre levels,
 //aura un titre
