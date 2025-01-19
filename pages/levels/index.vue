@@ -19,13 +19,12 @@ onMounted(async () => {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
     levels_data = await response.json();
-    console.log(levels_data); //it exists
     //call create graph
-    build_lvl_graph(levels_data)
+    build_lvl_graph(levels_data);
   } catch (error) {
     console.error('Error fetching JSON:', error)
   }
-})
+});
 
 
 
@@ -153,6 +152,9 @@ function start_level(name) {
         return ;
       }
     }
+    // follow link
+    localStorage.setItem("current_level", name);
+    window.location.href = "/levels/id/text"
   } else {
     //level: group where i am is unblock && check requires
     let group = find_group_of_lvl(name);
@@ -175,11 +177,10 @@ function start_level(name) {
       alert("You must before pass " + res.slice(0, -2));
       return ;
     }
+    // follow link
+    localStorage.setItem("current_level", name);
+    window.location.href = "/levels/id/"
   }
-  
-  // follow link +++to change if text??
-  localStorage.setItem("current_level", name);
-  window.location.href = "/levels/id/"
 }
 
 function search_in_levels(name) {
@@ -215,6 +216,7 @@ function read_completed_lvl() {
 }
 body{
   overflow: auto;
+  /*background-color: white;*/
 }
 svg a *{
   cursor: pointer;
