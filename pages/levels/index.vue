@@ -120,12 +120,12 @@ function build_lvl_graph(levels_data) {
 onMounted(() => {
   if (process.client) {
     function handleBodyClick(event) {
-      if (event.target.tagName === "text") {
+      if (event.target.tagName === "text" && event.target.parentNode && event.target.parentNode.tagName === 'a') {
           start_level(event.target.textContent);
       }
       else if (event.target.tagName === 'polygon'
         && event.target.nextElementSibling && event.target.nextElementSibling.tagName === "text"
-        && !(event.target.parentElement && event.target.parentElement.classList.contains('cluster'))) {
+        && event.target.parentNode && event.target.parentNode.tagName === 'a') {
           start_level(event.target.nextElementSibling.textContent);
       }
     }
@@ -134,7 +134,6 @@ onMounted(() => {
 });
 
 function start_level(name) {
-  console.log(name);
   // check list of levels: is this one accessible?
   let [ob, type] = search_in_levels(name);
   if (type === 0) {
