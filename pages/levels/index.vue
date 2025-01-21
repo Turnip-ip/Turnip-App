@@ -6,58 +6,10 @@
 import { hsl, type HSLColor, select } from "d3";
 
 import { onMounted } from 'vue';
+import { LevelsData } from "~/lib/levels_data";
+import type { Data, Group, TextPage } from "~/lib/types";
 
-interface Text {
-  content: string,
-  tooltip: string,
-  from: string,
-  to: string
-}
-
-interface Group {
-  label: string,
-  levels: string[],
-  grammar_version: number,
-  requires: string[]
-}
-
-interface Level {
-  tooltip: string,
-  description: string,
-  initial_code: string,
-  in: string,
-  out: string,
-  constraints: string,
-  ex_in: string,
-  ex_out: string,
-  requires: string[]
-}
-
-interface LevelsData {
-  texts: { [key: string]: Text },
-  groups: { [key: string]: Group },
-  levels: { [key: string]: Level }
-}
-
-let levels_data: LevelsData; //data will exist when a button is clicked: ok in the future
-
-
-onMounted(async () => {
-  try {
-    const response = await fetch('levels_contents.json')
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-    levels_data = await response.json();
-    //call create graph
-    build_lvl_graph(levels_data);
-  } catch (error) {
-    console.error('Error fetching JSON:', error)
-  }
-});
-
-
-
+const dot = build_lvl_graph();
 
 // Graph build
 
@@ -73,14 +25,16 @@ function rainbowInterpolation(n: number) {
   return colors;
 }
 
-const dot = ref<string>(`digraph {}`);
 
-/* function to build the lvl graph */
-function build_lvl_graph(levels_data: LevelsData) {
+/** 
+ * Function to build the lvl graph 
+ * Return the corresponding dot graph
+ */
+function build_lvl_graph(): string {
 
-  const texts = levels_data.texts;
-  const groups = levels_data.groups;
-  const levels = levels_data.levels;
+  const texts = LevelsData.texts;
+  const groups = LevelsData.groups;
+  const levels = LevelsData.levels;
 
   // Create the dot graph from the JSON file
   let dot_levels: string = "digraph {";
@@ -125,7 +79,7 @@ function build_lvl_graph(levels_data: LevelsData) {
   }
   // Set the text edges
   for (const text_name in texts) {
-    const text: Text = texts[text_name];
+    const text: TextPage = texts[text_name];
     if (text.from) {
       const prev: string = groups[text.from].levels[0];
       dot_levels += `${prev} -> ${text_name} [ltail="cluster_${clusters_ids[text.from].toString()}"];`;
@@ -140,7 +94,7 @@ function build_lvl_graph(levels_data: LevelsData) {
   dot_levels += "}";
 
   // Update the dot value
-  dot.value = dot_levels;
+  return dot_levels;
 }
 
 
@@ -169,7 +123,7 @@ function start_level(name: string) {
   if (type === 0) {
     //text: check from
     if (ob["from"] != null) {
-      let required = levels_data["groups"][ob["from"]]["levels"];
+      let required = LevelsData["groups"][ob["from"]]["levels"];
       let passed = read_completed_lvl();
       let res = "";
 
@@ -214,18 +168,18 @@ function start_level(name: string) {
 
 function search_in_levels(name: string) {
   // find a level or a text in levels_data
-  if (name in levels_data["texts"]) {
-    return [levels_data["texts"][name], 0];
+  if (name in LevelsData["texts"]) {
+    return [LevelsData["texts"][name], 0];
   }
-  if (name in levels_data["levels"]) {
-    return [levels_data["levels"][name], 1];
+  if (name in LevelsData["levels"]) {
+    return [LevelsData["levels"][name], 1];
   }
 }
 
 function find_group_of_lvl(name: string) {
   //find the group level name belongs to
-  for (const e in levels_data["groups"]) {
-    if (levels_data["groups"][e]["levels"].includes(name)) { return levels_data["groups"][e]; }
+  for (const e in LevelsData["groups"]) {
+    if (LevelsData["groups"][e]["levels"].includes(name)) { return LevelsData["groups"][e]; }
   }
 }
 
