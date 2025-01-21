@@ -23,10 +23,8 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-
-let questionText = "";
-
-let levels_data = {};
+const questionText = ref(""); // Use ref to make it reactive
+const levels_data = ref({});
 onMounted(async () => {
   try {
     console.log("step1");
@@ -35,17 +33,20 @@ onMounted(async () => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const levels_data = await response.json();
-    console.log("step2");
+    const data = await response.json(); // Fetch and store the data in a temporary variable
+    levels_data.value = data; // Update the reactive `levels_data`
     const current_level = localStorage.getItem("current_level");
-    console.log("retrieved current level ");
-    questionText = levels_data["levels"][current_level]["description"];
+    console.log(
+      "retrieved current level ",
+      current_level,
+      levels_data.value["levels"][current_level]["description"]
+    );
+    questionText.value = levels_data.value["levels"][current_level]["description"]; // Update the reactive `questionText`
   } catch (error) {
     console.error("Failed to load question text:", error);
-    questionText = "Error loading question.";
+    questionText.value = "Error loading question."; // Update the reactive `questionText` with an error message
   }
-}
-);
+});
 
 
 
