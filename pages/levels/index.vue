@@ -4,6 +4,7 @@
 
 <script setup lang="ts">
 import { hsl, type HSLColor, select } from "d3";
+import { navigateTo } from "nuxt/app";
 
 import { onMounted } from 'vue';
 import { LevelsData } from "~/lib/levels_data";
@@ -117,7 +118,7 @@ onMounted(() => {
   }
 });
 
-function start_level(name: string) {
+async function start_level(name: string) {
   // check list of levels: is this one accessible?
   let [ob, type] = search_in_levels(name);
   if (type === 0) {
@@ -136,8 +137,7 @@ function start_level(name: string) {
       }
     }
     // follow link
-    localStorage.setItem("current_level", name);
-    window.location.href = "/levels/id/text"
+    await navigateTo(`/levels/texts/${name}`)
   } else {
     //level: group where i am is unblock && check requires
     let group = find_group_of_lvl(name);
@@ -160,9 +160,7 @@ function start_level(name: string) {
       alert("You must before pass " + res.slice(0, -2));
       return;
     }
-    // follow link
-    localStorage.setItem("current_level", name);
-    window.location.href = "/levels/id/"
+    await navigateTo(`/levels/${name}/`)
   }
 }
 

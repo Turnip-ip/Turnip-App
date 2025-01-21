@@ -29,40 +29,23 @@
 
 
 <script setup lang="ts">
-import { onMounted } from 'vue';
-const questionText = ref("");
+const route = useRoute()
+
+import { LevelsData } from '~/lib/levels_data';
+const questionText = ref(""); // Use ref to make it reactive
 const input = ref(""); // Use ref to make it reactive
 const output = ref("");
 const constraints = ref("");
 const levels_data = ref({});
-onMounted(async () => {
-  try {
-    console.log("step1");
-    const response = await fetch('../../levels_contents.json');
-    console.log("step3");
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    const data = await response.json(); // Fetch and store the data in a temporary variable
-    levels_data.value = data; // Update the reactive `levels_data`
-    const current_level = localStorage.getItem("current_level");
-    console.log(
-      "retrieved current level ",
-      current_level,
-      levels_data.value["levels"][current_level]["description"]
-    );
-    questionText.value = levels_data.value["levels"][current_level]["description"]; // Update the reactive `questionText`
-    input.value = levels_data.value["levels"][current_level]["in"]; // Update the reactive `questionText`
-    output.value = levels_data.value["levels"][current_level]["out"]; // Update the reactive `questionText`
-    constraints.value = levels_data.value["levels"][current_level]["constraints"]; // Update the reactive `questionText`
-
-  } catch (error) {
-    console.error("Failed to load question text:", error);
-    questionText.value = "Error loading question."; // Update the reactive `questionText` with an error message
-  }
-});
 
 
+const currentLevelId: string = route.params.id as string;
+
+
+questionText.value = LevelsData.levels[currentLevelId].description; // Update the reactive `questionText`
+input.value = LevelsData.levels[currentLevelId].in; // Update the reactive `questionText`
+output.value = LevelsData.levels[currentLevelId].out; // Update the reactive `questionText`
+constraints.value = LevelsData.levels[currentLevelId].constraints; // Update the reactive `questionText`
 
 
 //au debut que levels
