@@ -81,4 +81,10 @@ interface Data {
   levels: { [key: string]: Level };
 }
 
+enum PageType {
+  Level,
+  TextPage,
+}
+
 export type { TextPage, Group, Level, Data };
+export { PageType };
