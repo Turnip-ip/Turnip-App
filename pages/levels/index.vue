@@ -103,7 +103,7 @@ function build_lvl_graph(): string {
 // Click and links
 
 onMounted(() => {
-  if (process.client) {
+  if (import.meta.client) {
     function handleBodyClick(event) {
       if (event.target.tagName === "text" && event.target.parentNode && event.target.parentNode.tagName === 'a') {
         start_level(event.target.textContent);
