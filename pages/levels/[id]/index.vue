@@ -11,6 +11,13 @@
       <!-- pour la demo, a modifier quand on fera l'integration de toutes les questions-->
       <div v-if="questionText" class="questionText">{{ questionText }}</div>
       <!--<div class="questionText">Given the current position on the tape, write a program to move the cursor to the right.</div>-->
+
+      <div class="ConstraintsTitle">Constraints</div>
+
+      <div v-if="input" class="input">intput : {{ input }}</div>
+      <div v-if="output" class="output">output : {{ output }}</div>
+      <div v-if="constraints" class="constraints">constraints : {{ constraints }}</div>
+
       <div class="submitText">
         Click on
         <NuxtLink to="/levels/id/Answer" class="answer">Answer</NuxtLink>
@@ -23,7 +30,10 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue';
-const questionText = ref(""); // Use ref to make it reactive
+const questionText = ref("");
+const input = ref(""); // Use ref to make it reactive
+const output = ref("");
+const constraints = ref("");
 const levels_data = ref({});
 onMounted(async () => {
   try {
@@ -42,6 +52,10 @@ onMounted(async () => {
       levels_data.value["levels"][current_level]["description"]
     );
     questionText.value = levels_data.value["levels"][current_level]["description"]; // Update the reactive `questionText`
+    input.value = levels_data.value["levels"][current_level]["in"]; // Update the reactive `questionText`
+    output.value = levels_data.value["levels"][current_level]["out"]; // Update the reactive `questionText`
+    constraints.value = levels_data.value["levels"][current_level]["constraints"]; // Update the reactive `questionText`
+
   } catch (error) {
     console.error("Failed to load question text:", error);
     questionText.value = "Error loading question."; // Update the reactive `questionText` with an error message
@@ -69,8 +83,8 @@ definePageMeta({
 .imageBubble {
   position: absolute;
   bottom: 40%;
-  height: 40%;
-  width: 80%;
+  height: 50%;
+  width: 90%;
 }
 
 .imageTurnip {
@@ -80,9 +94,30 @@ definePageMeta({
   left: 10%;
 }
 
+.input {
+  position: absolute;
+  height: 18%;
+  font-size: 15px;
+  font-family: "Press Start 2P", sans-serif;
+}
+
+.output {
+  position: absolute;
+  height: 14%;
+  font-size: 15px;
+  font-family: "Press Start 2P", sans-serif;
+}
+
+.constraints {
+  position: absolute;
+  height: 10%;
+  font-size: 15px;
+  font-family: "Press Start 2P", sans-serif;
+}
+
 .questionText {
   position: absolute;
-  bottom: 61%;
+  bottom: 63%;
   font-family: "Press Start 2P", sans-serif;
   color: darkslateblue;
   font-size: 30px;
@@ -90,6 +125,14 @@ definePageMeta({
   width: 1500px;
 
 }
+
+.ConstraintsTitle {
+  position: absolute;
+  font-family: "Press Start 2P", sans-serif;
+  font-size: 30px;
+  height: 23%;
+}
+
 
 .submitText {
   position: absolute;
