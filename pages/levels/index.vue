@@ -1,5 +1,5 @@
 <template>
-    <GraphView :dot="dot" class="h-82 m-4 w-72" />
+  <GraphView :dot="dot" class="h-82 m-4 w-72" />
 </template>
 
 <script setup lang="ts">
@@ -7,10 +7,40 @@ import { hsl, type HSLColor, select } from "d3";
 
 import { onMounted } from 'vue';
 
+interface Text {
+  content: string,
+  tooltip: string,
+  from: string,
+  to: string
+}
 
+interface Group {
+  label: string,
+  levels: string[],
+  grammar_version: number,
+  requires: string[]
+}
 
-let levels_data={};
-//data will exist when a button is clicked: ok in the future
+interface Level {
+  tooltip: string,
+  description: string,
+  initial_code: string,
+  in: string,
+  out: string,
+  constraints: string,
+  ex_in: string,
+  ex_out: string,
+  requires: string[]
+}
+
+interface LevelsData {
+  texts: { [key: string]: Text },
+  groups: { [key: string]: Group },
+  levels: { [key: string]: Level }
+}
+
+let levels_data: LevelsData; //data will exist when a button is clicked: ok in the future
+
 
 onMounted(async () => {
   try {
@@ -46,11 +76,11 @@ function rainbowInterpolation(n: number) {
 const dot = ref<string>(`digraph {}`);
 
 /* function to build the lvl graph */
-function build_lvl_graph(levels_data) {
+function build_lvl_graph(levels_data: LevelsData) {
 
-  const texts: { [key: string]: Text } = levels_data.texts;
-  const groups: { [key: string]: Group } = levels_data.groups;
-  const levels: { [key: string]: Level } = levels_data.levels;
+  const texts = levels_data.texts;
+  const groups = levels_data.groups;
+  const levels = levels_data.levels;
 
   // Create the dot graph from the JSON file
   let dot_levels: string = "digraph {";
@@ -63,10 +93,10 @@ function build_lvl_graph(levels_data) {
   const clusters_ids: { [key: string]: number } = {};
   const colors: HSLColor[] = rainbowInterpolation(Object.entries(groups).length);
   for (const group_name in groups) {
-     // Create the cluster
+    // Create the cluster
     clusters_ids[group_name] = cluster_i;
     dot_levels += `subgraph cluster_${cluster_i.toString()} {`;
-     dot_levels += `style=filled;color="${colors[cluster_i].formatHex()}";node [style=filled color=white];`;
+    dot_levels += `style=filled;color="${colors[cluster_i].formatHex()}";node [style=filled color=white];`;
 
     // Get the nodes in the group
     const group: Group = groups[group_name];
@@ -121,19 +151,19 @@ onMounted(() => {
   if (process.client) {
     function handleBodyClick(event) {
       if (event.target.tagName === "text" && event.target.parentNode && event.target.parentNode.tagName === 'a') {
-          start_level(event.target.textContent);
+        start_level(event.target.textContent);
       }
       else if (event.target.tagName === 'polygon'
         && event.target.nextElementSibling && event.target.nextElementSibling.tagName === "text"
         && event.target.parentNode && event.target.parentNode.tagName === 'a') {
-          start_level(event.target.nextElementSibling.textContent);
+        start_level(event.target.nextElementSibling.textContent);
       }
     }
     document.body.addEventListener('click', handleBodyClick);
   }
 });
 
-function start_level(name) {
+function start_level(name: string) {
   // check list of levels: is this one accessible?
   let [ob, type] = search_in_levels(name);
   if (type === 0) {
@@ -148,7 +178,7 @@ function start_level(name) {
       }
       if (res.length > 0) {
         alert("You must before pass " + res.slice(0, -2));
-        return ;
+        return;
       }
     }
     // follow link
@@ -165,7 +195,7 @@ function start_level(name) {
     }
     if (res.length > 0) {
       alert("You must before pass " + res.slice(0, -2));
-      return ;
+      return;
     }
 
     required = ob["requires"];
@@ -174,7 +204,7 @@ function start_level(name) {
     }
     if (res.length > 0) {
       alert("You must before pass " + res.slice(0, -2));
-      return ;
+      return;
     }
     // follow link
     localStorage.setItem("current_level", name);
@@ -182,7 +212,7 @@ function start_level(name) {
   }
 }
 
-function search_in_levels(name) {
+function search_in_levels(name: string) {
   // find a level or a text in levels_data
   if (name in levels_data["texts"]) {
     return [levels_data["texts"][name], 0];
@@ -192,7 +222,7 @@ function search_in_levels(name) {
   }
 }
 
-function find_group_of_lvl (name) {
+function find_group_of_lvl(name: string) {
   //find the group level name belongs to
   for (const e in levels_data["groups"]) {
     if (levels_data["groups"][e]["levels"].includes(name)) { return levels_data["groups"][e]; }
@@ -202,26 +232,29 @@ function find_group_of_lvl (name) {
 function read_completed_lvl() {
   // read completed_lvl in localStorage
   let res = localStorage.getItem("completed_lvl");
-  if (res==null) return [];
+  if (res == null) return [];
   return JSON.parse(res);
 }
 
 </script>
 
 <style>
-.graph{
+.graph {
   width: 100%;
   margin: 0;
 }
-body{
+
+body {
   overflow: auto;
   /*background-color: white;*/
 }
-svg a *{
+
+svg a * {
   cursor: pointer;
 }
-.nuxt-link{
+
+.nuxt-link {
   font-family: "Press Start 2P", sans-serif;
-  color:darkslateblue;
+  color: darkslateblue;
 }
 </style>
