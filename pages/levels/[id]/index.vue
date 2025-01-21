@@ -36,7 +36,6 @@ const questionText = ref(""); // Use ref to make it reactive
 const input = ref(""); // Use ref to make it reactive
 const output = ref("");
 const constraints = ref("");
-const levels_data = ref({});
 
 
 const currentLevelId: string = route.params.id as string;
