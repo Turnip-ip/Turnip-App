@@ -8,7 +8,7 @@ import { navigateTo } from "nuxt/app";
 
 import { onMounted } from 'vue';
 import { LevelsData } from "~/lib/levels_data";
-import type { Data, Group, TextPage } from "~/lib/types";
+import { PageType, type Data, type Group, type TextPage } from "~/lib/types";
 
 const dot = build_lvl_graph();
 
@@ -120,11 +120,11 @@ onMounted(() => {
 
 async function start_level(name: string) {
   // check list of levels: is this one accessible?
-  let [ob, type] = search_in_levels(name);
-  if (type === 0) {
+  let { level, text } = search_in_levels(name);
+  if (text) {
     //text: check from
-    if (ob["from"] != null) {
-      let required = LevelsData["groups"][ob["from"]]["levels"];
+    if (text.from != null) {
+      let required = LevelsData.groups[text.from].levels;
       let passed = read_completed_lvl();
       let res = "";
 
@@ -138,7 +138,8 @@ async function start_level(name: string) {
     }
     // follow link
     await navigateTo(`/levels/texts/${name}`)
-  } else {
+
+  } else if (level) {
     //level: group where i am is unblock && check requires
     let group = find_group_of_lvl(name);
     let required = group["requires"];
@@ -152,7 +153,7 @@ async function start_level(name: string) {
       return;
     }
 
-    required = ob["requires"];
+    required = level.requires;
     for (const e of required) {
       if (!(passed.includes(e))) { res += e + ", " }
     }
@@ -166,18 +167,16 @@ async function start_level(name: string) {
 
 function search_in_levels(name: string) {
   // find a level or a text in levels_data
-  if (name in LevelsData["texts"]) {
-    return [LevelsData["texts"][name], 0];
-  }
-  if (name in LevelsData["levels"]) {
-    return [LevelsData["levels"][name], 1];
+  return {
+    level: LevelsData.levels[name],
+    text: LevelsData.texts[name]
   }
 }
 
 function find_group_of_lvl(name: string) {
   //find the group level name belongs to
-  for (const e in LevelsData["groups"]) {
-    if (LevelsData["groups"][e]["levels"].includes(name)) { return LevelsData["groups"][e]; }
+  for (const e in LevelsData.groups) {
+    if (LevelsData.groups[e].levels.includes(name)) { return LevelsData.groups[e]; }
   }
 }
 
