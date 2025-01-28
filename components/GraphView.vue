@@ -49,7 +49,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="graphDivRef" class="graph" />
+  <div
+    ref="graphDivRef"
+    class="graph"
+  />
 </template>
 
 <style>
