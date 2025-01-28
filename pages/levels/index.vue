@@ -20,9 +20,18 @@ const dot = build_lvl_graph();
  * @returns An array of n colors.
  */
 function rainbowInterpolation(n: number) {
+  return ["#d1cfe2", "#9cadce", "#7ec4cf", "#daeaf6"].slice(0, n);
+
+
   const colors = [];
-  for (let i: number = 0; i < n; ++i)
-    colors.push(hsl((360 / n) * i, 100, 80, 1));
+  colors.push(hsl(246, 24.7, 84.9, 1));
+  colors.push(hsl(220, 33.8, 71, 1));
+  colors.push(hsl(188, 45.8, 65.3, 1));
+  colors.push(hsl(206, 60.9, 91, 1));
+
+
+  //for (let i: number = 0; i < n; ++i)
+  // colors.push(hsl((360 / n) * i, 100, 80, 1));
   return colors;
 }
 
@@ -40,8 +49,8 @@ function build_lvl_graph(): string {
   // Create the dot graph from the JSON file
   let dot_levels: string = "digraph {";
   // Global setup
-  dot_levels += `graph [fontsize=10 fontname="Verdana" compound=true clusterrank=local style=filled color=pink];`;
-  dot_levels += `node [shape=record fontsize=10 fontname="Verdana" style=filled fillcolor=white];`;
+  dot_levels += `graph [fontsize=10 fontname="Verdana" compound=true clusterrank=local style=filled bgcolor=pink ];`;
+  dot_levels += `node [shape=octagon fontsize=10 fontname="Verdana" style=filled fillcolor=white];`;
 
   // Create clusters corresponding to a group
   let cluster_i: number = 0;
@@ -50,15 +59,15 @@ function build_lvl_graph(): string {
   for (const group_name in groups) {
     // Create the cluster
     clusters_ids[group_name] = cluster_i;
-    dot_levels += `subgraph cluster_${cluster_i.toString()} {`;
-    dot_levels += `style=filled;color="${colors[cluster_i].formatHex()}";node [style=filled color=white];`;
+    dot_levels += `subgraph cluster_${cluster_i} {`;
+    dot_levels += `style=filled;color="${colors[cluster_i]}";node [style=filled color=grey]`;
 
     // Get the nodes in the group
     const group: Group = groups[group_name];
     const level_names: string[] = group.levels;
     // Create the cluster's nodes
     for (const level_name of level_names) {
-      dot_levels += `${level_name} [label="${level_name}" tooltip="${levels[level_name].tooltip}" tag="test"];`;
+      dot_levels += `${level_name} [label="${level_name}" tooltip="${levels[level_name].tooltip}" tag="test" ];`;
     }
     // Create the cluster's edges
     for (const level_name of level_names) {
