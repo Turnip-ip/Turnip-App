@@ -1,11 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="imag">
-      <NuxtImg
-        src="/logo.jpg"
-        class="framed-imag"
-      />
-    </h1>
+
     <h1 class="title">Please click on Levels to start</h1>
   </div>
 </template>
@@ -19,7 +14,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 1rem;
+  padding: 1;
 }
 
 .container {
