@@ -16,6 +16,7 @@ export default defineNuxtConfig({
       },
     },
   },
+  css: ["~/assets/css/base.styl"],
   shadcn: {
     /**
      * Prefix for all the imported component
