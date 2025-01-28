@@ -6,7 +6,7 @@ import eslint from "@eslint/js";
 import eslintConfigPrettier from "eslint-config-prettier";
 
 export default withNuxt(
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+   
   eslint.configs.recommended,
   ...tseslint.configs.strictTypeChecked,
 

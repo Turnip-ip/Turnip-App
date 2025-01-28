@@ -21,10 +21,10 @@ const initGraphViz = () => {
   render(props.dot);
 };
 
-function transitionFactory() {
-  // We need to create a new transition for each render
-  return d3.transition("main").duration(750).ease(d3.easeLinear);
-}
+// function transitionFactory() {
+//   // We need to create a new transition for each render
+//   return d3.transition("main").duration(750).ease(d3.easeLinear);
+// }
 
 const render = (content: string) => {
   graph
