@@ -40,7 +40,7 @@ const constraints = ref("");
 
 const currentLevelId: string = route.params.id as string;
 
-
+//if undefined cest que le niveau n'est pas encore choisi !
 questionText.value = LevelsData.levels[currentLevelId].description; // Update the reactive `questionText`
 input.value = LevelsData.levels[currentLevelId].in; // Update the reactive `questionText`
 output.value = LevelsData.levels[currentLevelId].out; // Update the reactive `questionText`
