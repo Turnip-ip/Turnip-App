@@ -2,7 +2,7 @@
 import { onMounted, ref, watch } from "vue";
 import type { Graphviz } from "d3-graphviz";
 import { graphviz } from "d3-graphviz";
-import * as d3 from "d3";
+//import * as d3 from "d3";
 import type { BaseType } from "d3-selection";
 
 interface Props {
