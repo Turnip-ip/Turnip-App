@@ -87,8 +87,8 @@ const LevelsData: Data = {
       out: "0: a byte with value 0",
       constraints:
         "no overflow allowed, at the end the cursor must return to its initial position",
-      ex_in: "1.0101010",
-      ex_out: "0.0000000",
+      ex_in: ".10101010",
+      ex_out: ".00000000",
       requires: [],
     },
     MOVE_R: {
@@ -101,8 +101,8 @@ const LevelsData: Data = {
       out: "*: the same byte (unchanged)",
       constraints:
         "no overflow allowed, at the end the cursor must has been moved to the right",
-      ex_in: "0.0000000",
-      ex_out: "00.000000",
+      ex_in: ".00000000",
+      ex_out: "0.0000000",
       requires: ["ZERO"],
     },
     MOVE_L: {
@@ -115,8 +115,8 @@ const LevelsData: Data = {
       out: "*: the same byte (unchanged)",
       constraints:
         "no overflow allowed, at the end the cursor must has been moved to the left",
-      ex_in: "00000.000",
-      ex_out: "0000.0000",
+      ex_in: "0000.0000",
+      ex_out: "000.00000",
       requires: ["ZERO"],
     },
     ZERO_2: {
@@ -128,8 +128,8 @@ const LevelsData: Data = {
       out: "0, 0",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "1.0101010, 1.0101010",
-      ex_out: "0.0000000, 0.0000000",
+      ex_in: "1010101010101010",
+      ex_out: "0000000000000000",
       requires: [],
     },
     COPY_TO_MAIN: {
@@ -141,8 +141,8 @@ const LevelsData: Data = {
       out: "b, b",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "0.0000000, 1.1100010",
-      ex_out: "1.1100010, 1.1100010",
+      ex_in: "0000000011100010",
+      ex_out: "1110001011100010",
       requires: ["ZERO_2"],
     },
     COPY_TO_WORK: {
@@ -153,8 +153,8 @@ const LevelsData: Data = {
       out: "b, b",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "1.1100010, 0.0000000",
-      ex_out: "1.1100010, 1.1100010",
+      ex_in: "1110001000000000",
+      ex_out: "1110001011100010",
       requires: ["ZERO_2"],
     },
     ADD1: {
@@ -166,8 +166,8 @@ const LevelsData: Data = {
       out: "b+1: mod 256",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "00001011",
-      ex_out: "00001100",
+      ex_in: ".00001011",
+      ex_out: ".00001100",
       requires: [],
     },
     SUB1: {
@@ -179,8 +179,8 @@ const LevelsData: Data = {
       out: "b-1: mod 256",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "00010100",
-      ex_out: "00010011",
+      ex_in: ".00010100",
+      ex_out: ".00010011",
       requires: [],
     },
     NEG: {
@@ -192,8 +192,8 @@ const LevelsData: Data = {
       out: "-b: mod 256 (Two's complement)",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "00000010",
-      ex_out: "11111110",
+      ex_in: ".00000010",
+      ex_out: ".11111110",
       requires: ["ADD1"],
     },
     ADD: {
@@ -204,8 +204,8 @@ const LevelsData: Data = {
       out: "b1|b2|(b1+b2 mod 256)",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "3|4|11",
-      ex_out: "3|4|7",
+      ex_in: [3, 4, 11],
+      ex_out: [3, 4, 7],
       requires: [],
     },
     SUB: {
@@ -217,8 +217,8 @@ const LevelsData: Data = {
       out: "b1|b2|(b1-b2 mod 256)",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "45|26|3",
-      ex_out: "45|26|19",
+      ex_in: [45,26,3],
+      ex_out: [45,26,19],
       requires: [],
     },
     GEQ: {
@@ -230,8 +230,8 @@ const LevelsData: Data = {
       out: "b1|b2|1 if b1 >= b2 and b1|b2|0 otherwise",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "5|4|36",
-      ex_out: "5|4|1",
+      ex_in: [5,4,36],
+      ex_out: [5,4,1],
       requires: [],
     },
     LEQ: {
@@ -243,8 +243,8 @@ const LevelsData: Data = {
       out: "b1|b2|1 if b1 <= b2 and b1|b2|0 otherwise",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "5|4|36",
-      ex_out: "5|4|0",
+      ex_in: [5,4,36],
+      ex_out: [5,4,0],
       requires: [],
     },
     MUL: {
@@ -255,8 +255,8 @@ const LevelsData: Data = {
       out: "b1|b2|(b1*b2 mod 256)",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "5|7|",
-      ex_out: "5|7|35",
+      ex_in: [5,7],
+      ex_out: [5,7,35],
       requires: ["ADD"],
     },
     MOD: {
@@ -268,8 +268,8 @@ const LevelsData: Data = {
       out: "b1|b2|(b1%b2) where % is the modulo operator",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "34|5|",
-      ex_out: "34|5|4",
+      ex_in: [34,5],
+      ex_out: [34,5,4],
       requires: ["LEQ", "GEQ", "SUB"],
     },
     DIV: {
@@ -281,8 +281,8 @@ const LevelsData: Data = {
       out: "b1|b2|(b1/b2) where / is the euclidian division",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "34|5|",
-      ex_out: "34|5|6",
+      ex_in: [34,5],
+      ex_out: [34,5,6],
       requires: ["LEQ", "GEQ", "SUB"],
     },
     EXP: {
@@ -293,8 +293,8 @@ const LevelsData: Data = {
       out: "b1|b2|(b1^b2 mod 256)",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "3|4|",
-      ex_out: "3|4|81",
+      ex_in: [3,4],
+      ex_out: [3,4,81],
       requires: ["MUL"],
     },
     IS_PRIME: {
@@ -306,8 +306,8 @@ const LevelsData: Data = {
       out: "b|1 if b is prime, b|0 otherwise",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "121",
-      ex_out: "121|0",
+      ex_in: [121],
+      ex_out: [121,0],
       requires: ["MOD"],
     },
     LEN_SYRACUSE: {
@@ -319,8 +319,8 @@ const LevelsData: Data = {
       out: "b|n where n is the smallest integer such that syracuse(b, n) = 1",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "4",
-      ex_out: "2",
+      ex_in: [4],
+      ex_out: [4,2],
       requires: ["MUL", "MOD", "DIV"],
     },
   },
