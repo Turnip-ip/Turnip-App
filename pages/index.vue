@@ -4,8 +4,8 @@
     <NuxtImg src="/Turnip_Boy_Portrait_sans_background.jpeg" class="turnip" />
     <TurnipText class="titreJeu" />
     <button class="retro-button" id="playButton" @click="openWindow">Play</button>
-    <div v-if="windowOpen">
-      <div class="popup-content"></div>
+    <div v-if="windowOpen" class="popup">
+      <div class="popup-content">rez</div>
     </div>
   </div>
 </template>
@@ -37,13 +37,25 @@ body {
   margin: 0;
 }
 
+.popup {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 1000;
+  right: 480px;
+  top: 0;
+  width: 800px;
+  height: 500px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
 .container {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   overflow: hidden;
   position: relative;
-  /* For positioning child elements */
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -61,13 +73,10 @@ body {
   outline: none;
   transition: all 0.1s ease-in-out;
   position: fixed;
-  /* Fix the button to the screen */
-  bottom: 400px;
-  /* Adjust vertical position from the top */
-  right: 500px;
-  /* Position it 20px from the right edge */
+  bottom: 30%;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 9999;
-  /* Ensure it is on top of everything else */
 }
 
 .retro-button:hover {
@@ -80,7 +89,6 @@ body {
 }
 
 .retro-button::before {
-  /* Play symbol */
   margin-right: 10px;
 }
 
@@ -90,16 +98,16 @@ body {
 
 .titreJeu {
   position: absolute;
-  right: 17%;
-  /* Push image more to the left */
-  bottom: 63%;
-  /* Make the image overflow at the bottom */
+  left: 50%;
+  bottom: 58%;
+  transform: translate(-50%, 10%);
+
+  width: clamp(300px, 50%, 650px);
+  /* Responsive width */
+  max-width: 650px;
   height: auto;
-  width: 650px;
-  /* Make the image larger */
-  transform: translateY(10%);
-  /* Adjust vertical position */
 }
+
 
 .imag {
   position: absolute;
@@ -111,12 +119,14 @@ body {
 }
 
 .turnip {
-  position: absolute;
+  position: relative;
   left: 5%;
-  max-height: 450px;
-  bottom: 17%;
-  width: auto;
+  bottom: -5%;
+  width: 30%;
+  max-width: 450px;
+  height: auto;
 }
+
 
 .title {
   font-family: "Press Start 2P", sans-serif;
