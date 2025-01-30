@@ -244,7 +244,7 @@ const LevelsData: Data = {
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
       ex_in: [5,4,36],
-      ex_out: [5,4,0],
+      ex_out: [5,4,"0"], //the "0" is intentional, otherwise js does its thing...
       requires: [],
     },
     MUL: {

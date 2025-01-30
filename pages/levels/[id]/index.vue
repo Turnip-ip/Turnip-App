@@ -52,7 +52,8 @@ definePageMeta({
 let grammVer=find_group_of_lvl(currentLevelId).grammar_version;
 let initialTextTapeIn=LevelsData.levels[currentLevelId].ex_in;
 let initialTextTapeOut=LevelsData.levels[currentLevelId].ex_out;
-let initialPosTapeIn=0, initialPosTapeOut=5;
+let initialPosTapeIn, initialPosTapeOut;
+// let tapeIn, tapeOut;
 if (grammVer==0) {
   initialPosTapeIn=initialTextTapeIn.lastIndexOf(".");
   initialPosTapeOut=initialTextTapeOut.lastIndexOf(".");
