@@ -36,6 +36,8 @@
 
 import '~/assets/css/cbbl.styl'
 
+import { Tape } from '~/lib/tapes';
+
 const route = useRoute()
 
 import { LevelsData } from '~/lib/levels_data';
@@ -57,8 +59,8 @@ let initialPosTapeIn, initialPosTapeOut;
 if (grammVer==0) {
   initialPosTapeIn=initialTextTapeIn.lastIndexOf(".");
   initialPosTapeOut=initialTextTapeOut.lastIndexOf(".");
-  initialTextTapeIn = initialTextTapeIn.replace(/\./g, ''); //remove "."
-  initialTextTapeOut = initialTextTapeOut.replace(/\./g, ''); //remove "."
+  initialTextTapeIn = initialTextTapeIn.replace(/\./g, ''); //remove the "."
+  initialTextTapeOut = initialTextTapeOut.replace(/\./g, ''); //remove the "."
 }
 function find_group_of_lvl(name: string) {
   //find the group level name belongs to
@@ -66,6 +68,13 @@ function find_group_of_lvl(name: string) {
     if (LevelsData.groups[e].levels.includes(name)) { return LevelsData.groups[e]; }
   }
 }
+
+//simple and ugly way to have access to the tape:
+onMounted(() => {
+  let tape = new Tape(grammVer, document.body.getElementsByTagName("tape_head")[0].parentElement);
+  //console.log(tape.head);
+  //tape.write("hello");
+})
 
 </script>
 

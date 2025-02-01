@@ -6,28 +6,28 @@ export class Tape {
     switch(gramm_ver) {
     case 0:
       this.gramm_v = 0;
-      this.head = elem._value.getElementsByTagName("tape_head")[0];
+      this.head = elem.getElementsByTagName("tape_head")[0];
       this.head_pos = null;
-      this.tape = elem._value.getElementsByTagName("tr")[0];
+      this.tape = elem.getElementsByTagName("tr")[0];
       break;
     case 1:
       this.gramm_v = 1;
-      this.tapeM = elem._value.getElementsByTagName("tr")[0];
-      this.tapeW = elem._value.getElementsByTagName("tr")[1];
+      this.tapeM = elem.getElementsByTagName("tr")[0];
+      this.tapeW = elem.getElementsByTagName("tr")[1];
       this.head_posM = null;
       this.head_posW = null;
-      this.headM = elem._value.getElementsByTagName("tape_head")[0];
-      this.headW = elem._value.getElementsByTagName("tape_head")[1];
+      this.headM = elem.getElementsByTagName("tape_head")[0];
+      this.headW = elem.getElementsByTagName("tape_head")[1];
       break;
     case 2:
       // +++ we need size max...
       this.gramm_v = 2;
-      this.tapeM = elem._value.getElementsByTagName("tr")[0];
-      this.tapeW = elem._value.getElementsByTagName("tr")[1];
+      this.tapeM = elem.getElementsByTagName("tr")[0];
+      this.tapeW = elem.getElementsByTagName("tr")[1];
       this.head_posM = null;
       this.head_posW = null;
-      this.headM = elem._value.getElementsByTagName("tape_head")[0];
-      this.headW = elem._value.getElementsByTagName("tape_head")[1];
+      this.headM = elem.getElementsByTagName("tape_head")[0];
+      this.headW = elem.getElementsByTagName("tape_head")[1];
       break;
     } 
   }

@@ -42,7 +42,7 @@ const props = defineProps<{
 }>();
 
 onMounted(() => {
-  let tape = new Tape(props.grammVer, tapeDiv);
+  let tape = new Tape(props.grammVer, tapeDiv._value);
   if (props.grammVer == 0) {
     tape.write(props.initialText);
     tape.move(props.initialPos);
