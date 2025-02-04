@@ -34,9 +34,11 @@ function openWindow() {
   playVisible.value = false;
 }
 
-function nextMessage() {
+async function nextMessage() {
   if (index.value < popupMessages.length - 1) {
     index.value++;
+  } else {
+    await navigateTo('/levels');
   }
 }
 // Close the modal
