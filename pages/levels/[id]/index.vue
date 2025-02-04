@@ -1,27 +1,23 @@
 <template>
   <div>
     <!-- Centered text content -->
-    <div class="flex h-screen items-center justify-center">
-      <div class="imageBubble">
-        <NuxtImg src="bubble_speech.png"></NuxtImg>
-      </div>
-      <div class="imageTurnip">
-        <NuxtImg src="Turnip_Boy_Portrait_sans_background.jpeg"></NuxtImg>
-      </div>
-      <!-- pour la demo, a modifier quand on fera l'integration de toutes les questions-->
-      <div v-if="questionText" class="questionText">{{ questionText }}</div>
-      <!--<div class="questionText">Given the current position on the tape, write a program to move the cursor to the right.</div>-->
+    <div class="flex h-screen flex-col items-center justify-center gap-2">
+      <div class="press-start">Level {{ currentLevelId }}</div>
 
-      <div class="ConstraintsTitle">Constraints</div>
+      <div class="w-2/3">{{ level.description }}</div>
 
-      <div v-if="input" class="input">intput : {{ input }}</div>
-      <div v-if="output" class="output">output : {{ output }}</div>
-      <div v-if="constraints" class="constraints">constraints : {{ constraints }}</div>
+      <div class="input">Input : {{ level.in }}</div>
+      <div class="output">Output : {{ level.out }}</div>
+      <div class="constraints">constraints : {{ level.constraints }}</div>
 
-      <div class="submitText">
-        Click on
-        <NuxtLink to="/levels/id/Answer" class="answer">Answer</NuxtLink>
-        to submit your code !
+      <div class="submitText flex flex-col items-end justify-end">
+        <div class="cbbl -right press-start">
+          Click on
+          <NuxtLink to="Answer" class="darkslateblue hover:underline">Answer</NuxtLink>
+          to submit your code !
+        </div>
+        <NuxtImg src="Turnip_Boy_Portrait_sans_background.jpeg" class="w-20 -translate-x-40">
+        </NuxtImg>
       </div>
     </div>
   </div>
@@ -29,27 +25,15 @@
 
 
 <script setup lang="ts">
-const route = useRoute()
+import "~/assets/css/cbbl.styl";
 
-import { LevelsData } from '~/lib/levels_data';
-const questionText = ref(""); // Use ref to make it reactive
-const input = ref(""); // Use ref to make it reactive
-const output = ref("");
-const constraints = ref("");
+import { LevelsData } from "~/lib/levels_data";
 
+const route = useRoute();
 
 const currentLevelId: string = route.params.id as string;
 
-//if undefined cest que le niveau n'est pas encore choisi !
-questionText.value = LevelsData.levels[currentLevelId].description; // Update the reactive `questionText`
-input.value = LevelsData.levels[currentLevelId].in; // Update the reactive `questionText`
-output.value = LevelsData.levels[currentLevelId].out; // Update the reactive `questionText`
-constraints.value = LevelsData.levels[currentLevelId].constraints; // Update the reactive `questionText`
-
-
-//au debut que levels
-// puis mettre levels,
-//aura un titre
+const level = LevelsData.levels[currentLevelId];
 
 definePageMeta({
   layout: "level",
