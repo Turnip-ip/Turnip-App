@@ -13,39 +13,38 @@
 </template>
 
 
-<script>
-export default {
-  data() {
-    return {
-      windowOpen: false,
-      playVisible: true,
-      index: 0,
-      popupMessages: ["This is a game in which you will learn how Turing Machines work",
-        "Each level presents you with a problem to solve, along with constraints, examples, and inputs & outputs. Your goal is to solve as many levels as you can!",
-        "Your mission? Solve as many levels as possible and master the art of computation!",
-        "Every function you write becomes a tool for future challenges",
-        "But beware—some levels are locked! To unlock them, you'll need to conquer multiple challenges in a cluster.",
-        "To start playing, click on the Levels button on the top left!"
-      ]
-    };
-  },
-  methods: {
-    openWindow() {
-      this.windowOpen = true;
-      this.playVisible = false;
-    },
-    nextMessage() {
-      if (this.index < this.popupMessages.length - 1) {
-        this.index++;
-      }
-    },
-    // Close the modal
-    closeModal() {
-      this.windowOpen = false;
-      this.playVisible = true;
-    },
+<script setup lang="ts">
+
+const windowOpen = ref(false)
+const playVisible = ref(true)
+
+console.log(playVisible.value)
+const index = ref(0)
+const popupMessages = ["This is a game in which you will learn how Turing Machines work",
+  "Each level presents you with a problem to solve, along with constraints, examples, and inputs & outputs. Your goal is to solve as many levels as you can!",
+  "Your mission? Solve as many levels as possible and master the art of computation!",
+  "Every function you write becomes a tool for future challenges",
+  "But beware—some levels are locked! To unlock them, you'll need to conquer multiple challenges in a cluster.",
+  "To start playing, click on the Levels button on the top left!"
+]
+
+
+function openWindow() {
+  windowOpen.value = true;
+  playVisible.value = false;
+}
+
+function nextMessage() {
+  if (index.value < popupMessages.length - 1) {
+    index.value++;
   }
-};
+}
+// Close the modal
+function closeModal() {
+  windowOpen.value = false;
+  playVisible.value = true;
+}
+
 </script>
 
 <style>
