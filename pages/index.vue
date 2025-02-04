@@ -58,9 +58,10 @@ body {
 
 .imag {
   position: absolute;
-  left: -30%;
-  bottom: -20%;
-  max-width: 90%;
+  left: -14%;
+  bottom: -10%;
+  height: 110%;
+  max-width: 70%;
   transform: translateY(10%);
 }
 
