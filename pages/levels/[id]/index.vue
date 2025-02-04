@@ -1,8 +1,7 @@
 <template>
   <div>
     <!-- Centered text content -->
-    <div class="flex flex-col h-screen items-center justify-center gap-2">
-
+    <div class="flex h-screen flex-col items-center justify-center gap-2">
       <div class="press-start">Level {{ currentLevelId }}</div>
 
       <div class="w-2/3">{{ level.description }}</div>
@@ -12,32 +11,35 @@
       <div class="constraints">constraints : {{ level.constraints }}</div>
 
       <div class="submitText flex flex-col items-end justify-end">
-
         <div class="cbbl -right press-start">
           Click on
-          <NuxtLink to="Answer" class="darkslateblue hover:underline">Answer</NuxtLink>
+          <NuxtLink
+            to="Answer"
+            class="darkslateblue hover:underline"
+            >Answer</NuxtLink
+          >
           to submit your code !
         </div>
-        <NuxtImg src="Turnip_Boy_Portrait_sans_background.jpeg" class="w-20 -translate-x-40">
+        <NuxtImg
+          src="Turnip_Boy_Portrait_sans_background.jpeg"
+          class="w-20 -translate-x-40"
+        >
         </NuxtImg>
       </div>
-
     </div>
   </div>
 </template>
 
-
 <script setup lang="ts">
+import "~/assets/css/cbbl.styl";
 
-import '~/assets/css/cbbl.styl'
+import { LevelsData } from "~/lib/levels_data";
 
-const route = useRoute()
-
-import { LevelsData } from '~/lib/levels_data';
+const route = useRoute();
 
 const currentLevelId: string = route.params.id as string;
 
-const level = LevelsData.levels[currentLevelId]
+const level = LevelsData.levels[currentLevelId];
 
 definePageMeta({
   layout: "level",

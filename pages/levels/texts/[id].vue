@@ -1,6 +1,6 @@
 <template>
   <div class="flex h-screen items-center justify-center">
-    <div class="darkslateblue press-start"> {{ content }}</div>
+    <div class="darkslateblue press-start">{{ content }}</div>
   </div>
 </template>
 
