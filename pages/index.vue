@@ -3,62 +3,72 @@
     <NuxtImg src="/background.jpg" class="imag" />
     <NuxtImg src="/Turnip_Boy_Portrait_sans_background.jpeg" class="turnip" />
     <TurnipText class="titreJeu" />
-    <button class="retro-button" id="playButton" @click="openWindow">Play</button>
+    <button v-if="playVisible" class="retro-button" id="playButton" @click="openWindow">Play</button>
     <div v-if="windowOpen" class="popup">
-      <div class="popup-content">rez</div>
+      <div class="titreMessage">Welcome to TURN'IP!</div>
+      <div class="contentMessage">{{ popupMessages[index] }}</div>
     </div>
+    <button v-if="windowOpen" class="retro-button" @click="nextMessage">Continue</button>
   </div>
 </template>
+
 
 <script>
 export default {
   data() {
     return {
       windowOpen: false,
-      welcomeMessage: ''
+      playVisible: true,
+      index: 0,
+      popupMessages: ["This is a game in which you will learn how Turing Machines work",
+        "Each level presents you with a problem to solve, along with constraints, examples, and inputs & outputs. Your goal is to solve as many levels as you can!",
+        "Your mission? Solve as many levels as possible and master the art of computation!",
+        "Every function you write becomes a tool for future challenges",
+        "But beware—some levels are locked! To unlock them, you'll need to conquer multiple challenges in a cluster.",
+        "To start playing, click on the Levels button on the top left!"
+      ]
     };
   },
   methods: {
     openWindow() {
       this.windowOpen = true;
+      this.playVisible = false;
+    },
+    nextMessage() {
+      if (this.index < this.popupMessages.length - 1) {
+        this.index++;
+      }
     },
     // Close the modal
     closeModal() {
       this.windowOpen = false;
+      this.playVisible = true;
     },
   }
 };
 </script>
 
 <style>
-body {
-  background-color: #ffc0cb;
-  overflow: hidden;
-  margin: 0;
-}
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 .popup {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   position: fixed;
   z-index: 1000;
-  right: 480px;
-  top: 0;
+  right: 28%;
+  top: 13%;
   width: 800px;
-  height: 500px;
-  background-color: rgba(0, 0, 0, 0.5);
-}
-
-.container {
-  display: flex;
-  flex-direction: column;
+  height: 700px;
+  background-color: rgb(240, 223, 201);
+  border: 5px solid black;
+  border-radius: 15px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
   justify-content: flex-start;
-  overflow: hidden;
-  position: relative;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 
 .retro-button {
   font-family: 'Press Start 2P', sans-serif;
@@ -77,6 +87,11 @@ body {
   left: 50%;
   transform: translateX(-50%);
   z-index: 9999;
+}
+
+body {
+  overflow: hidden;
+  /* Prevents scrolling and layout shifts */
 }
 
 .retro-button:hover {
@@ -108,6 +123,21 @@ body {
   height: auto;
 }
 
+.titreMessage {
+  font-family: 'Press Start 2P';
+  font-size: 35px;
+  padding-top: 10%;
+  color: crimson;
+}
+
+.contentMessage {
+  font-family: 'Press Start 2P';
+  font-size: 25px;
+  padding-top: 15%;
+  align-self: center;
+  /* Centers it horizontally */
+  text-align: center;
+}
 
 .imag {
   position: absolute;
@@ -125,10 +155,5 @@ body {
   width: 30%;
   max-width: 450px;
   height: auto;
-}
-
-
-.title {
-  font-family: "Press Start 2P", sans-serif;
 }
 </style>
