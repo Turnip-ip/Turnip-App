@@ -90,6 +90,7 @@ const LevelsData: Data = {
       ex_in: ".10101010",
       ex_out: ".00000000",
       requires: [],
+      unlocks: ["WRITE", "WRITE_M", "WRITE_W"],
     },
     MOVE_R: {
       tooltip: "Moving head Right",
@@ -104,6 +105,7 @@ const LevelsData: Data = {
       ex_in: ".00000000",
       ex_out: "0.0000000",
       requires: ["ZERO"],
+      unlocks: ["MOVE_R", "MOVE_R_M", "MOVE_R_W"],
     },
     MOVE_L: {
       tooltip: "Moving head Left",
@@ -118,6 +120,7 @@ const LevelsData: Data = {
       ex_in: "0000.0000",
       ex_out: "000.00000",
       requires: ["ZERO"],
+      unlocks: ["MOVE_L", "MOVE_L_M", "MOVE_L_W"],
     },
     ZERO_2: {
       tooltip: "Reading and writing with 2 tapes",
@@ -131,6 +134,7 @@ const LevelsData: Data = {
       ex_in: "1010101010101010",
       ex_out: "0000000000000000",
       requires: [],
+      unlocks: [],
     },
     COPY_TO_MAIN: {
       tooltip: "Copy to the Main tape",
@@ -144,6 +148,7 @@ const LevelsData: Data = {
       ex_in: "0000000011100010",
       ex_out: "1110001011100010",
       requires: ["ZERO_2"],
+      unlocks: [],
     },
     COPY_TO_WORK: {
       tooltip: "Copy to the Work tape",
@@ -156,6 +161,7 @@ const LevelsData: Data = {
       ex_in: "1110001000000000",
       ex_out: "1110001011100010",
       requires: ["ZERO_2"],
+      unlocks: [],
     },
     ADD1: {
       tooltip: "Adding 1 to an input modulo 256",
@@ -169,6 +175,7 @@ const LevelsData: Data = {
       ex_in: ".00001011",
       ex_out: ".00001100",
       requires: [],
+      unlocks: ["ADD1", "ADD1_M", "ADD1_W"],
     },
     SUB1: {
       tooltip: "Subtracting 1 to an input modulo 256",
@@ -182,6 +189,7 @@ const LevelsData: Data = {
       ex_in: ".00010100",
       ex_out: ".00010011",
       requires: [],
+      unlocks: ["SUB1", "SUB1_M", "SUB1_W"],
     },
     NEG: {
       tooltip: "Negating an input: -x",
@@ -195,6 +203,7 @@ const LevelsData: Data = {
       ex_in: ".00000010",
       ex_out: ".11111110",
       requires: ["ADD1"],
+      unlocks: ["NEG", "NEG_M", "NEG_W"],
     },
     ADD: {
       tooltip: "Adding two numbers",
@@ -207,6 +216,7 @@ const LevelsData: Data = {
       ex_in: [3, 4, 11],
       ex_out: [3, 4, 7],
       requires: [],
+      unlocks: ["ADD"],
     },
     SUB: {
       tooltip: "Subtracting two numbers",
@@ -220,6 +230,7 @@ const LevelsData: Data = {
       ex_in: [45,26,3],
       ex_out: [45,26,19],
       requires: [],
+      unlocks: ["SUB"],
     },
     GEQ: {
       tooltip: "Comparing two integers",
@@ -233,6 +244,7 @@ const LevelsData: Data = {
       ex_in: [5,4,36],
       ex_out: [5,4,1],
       requires: [],
+      unlocks: ["GEQ"],
     },
     LEQ: {
       tooltip: "Comparing two integers",
@@ -246,6 +258,7 @@ const LevelsData: Data = {
       ex_in: [5,4,36],
       ex_out: [5,4,"0"], //the "0" is intentional, otherwise js does its thing...
       requires: [],
+      unlocks: ["LEQ"],
     },
     MUL: {
       tooltip: "Multiplying two integers",
@@ -258,6 +271,7 @@ const LevelsData: Data = {
       ex_in: [5,7],
       ex_out: [5,7,35],
       requires: ["ADD"],
+      unlocks: ["MUL"],
     },
     MOD: {
       tooltip: "Compute the modulo of two integers",
@@ -271,6 +285,7 @@ const LevelsData: Data = {
       ex_in: [34,5],
       ex_out: [34,5,4],
       requires: ["LEQ", "GEQ", "SUB"],
+      unlocks: ["MOD"],
     },
     DIV: {
       tooltip: "Integer division",
@@ -284,6 +299,7 @@ const LevelsData: Data = {
       ex_in: [34,5],
       ex_out: [34,5,6],
       requires: ["LEQ", "GEQ", "SUB"],
+      unlocks: ["DIV"],
     },
     EXP: {
       tooltip: "Compute the power of an integer",
@@ -296,6 +312,7 @@ const LevelsData: Data = {
       ex_in: [3,4],
       ex_out: [3,4,81],
       requires: ["MUL"],
+      unlocks: ["EXP"],
     },
     IS_PRIME: {
       tooltip: "Deciding wheather an integer is prime or not",
@@ -309,6 +326,7 @@ const LevelsData: Data = {
       ex_in: [121],
       ex_out: [121,0],
       requires: ["MOD"],
+      unlocks: [],
     },
     LEN_SYRACUSE: {
       tooltip: "Computing the time length of a syracuse sequence",
@@ -322,6 +340,7 @@ const LevelsData: Data = {
       ex_in: [4],
       ex_out: [4,2],
       requires: ["MUL", "MOD", "DIV"],
+      unlocks: [],
     },
   },
 };

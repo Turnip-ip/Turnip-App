@@ -35,6 +35,55 @@ q
 | 1 -> (0,L), q
 | 0 -> (1,L), END
 `);
+
+// TAPE
+
+const route = useRoute()
+import { LevelsData } from '~/lib/levels_data';
+const currentLevelId: string = route.params.id as string;
+import { Tape } from '~/lib/tapes';
+
+// grammVer
+let grammVer=find_group_of_lvl(currentLevelId).grammar_version;
+function find_group_of_lvl(name: string) {
+  //find the group level name belongs to
+  for (const e in LevelsData.groups) {
+    if (LevelsData.groups[e].levels.includes(name)) { return LevelsData.groups[e]; }
+  }
+}
+
+//simple and ugly way to have access to the tape:
+onMounted(() => {
+  let tape = new Tape(grammVer, document.body.getElementsByTagName("tape_head")[0].parentElement);
+  tape.write("hello");
+  tape.move(5);
+})
+
+// FCT LEGAL FCTS
+
+function legal_fct() {
+  let completed_lvl = read_completed_lvl();
+  let res = [];
+  for (var i = 0; i < completed_lvl.length; i++) {
+    if (completed_lvl[i] in LevelsData.levels) {
+      res = res.concat(LevelsData.levels[completed_lvl[i]].unlocks)
+    }
+  }
+  return res;
+}
+
+function read_completed_lvl() {
+  // read completed_lvl in localStorage
+  let res = localStorage.getItem("completed_lvl");
+  if (res == null) return [];
+  return JSON.parse(res);
+}
+
+// TESTS
+
+onMounted(() => {
+  console.log(legal_fct());
+})
 </script>
 
 <style scoped>

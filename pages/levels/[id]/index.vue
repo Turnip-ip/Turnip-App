@@ -69,13 +69,6 @@ function find_group_of_lvl(name: string) {
   }
 }
 
-//simple and ugly way to have access to the tape:
-onMounted(() => {
-  let tape = new Tape(grammVer, document.body.getElementsByTagName("tape_head")[0].parentElement);
-  //console.log(tape.head);
-  //tape.write("hello");
-})
-
 </script>
 
 <style scoped>
