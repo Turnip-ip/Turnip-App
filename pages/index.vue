@@ -1,7 +1,10 @@
 <template>
   <div class="flex h-screen flex-col items-center md:flex-row">
     <div class="w-1/3">
-      <NuxtImg src="/Turnip_Boy_Portrait_sans_background.jpeg" class="framed-imag imag" />
+      <NuxtImg
+        src="/Turnip_Boy_Portrait_sans_background.jpeg"
+        class="framed-imag imag"
+      />
     </div>
     <!-- <h1 class="imag w-1/2">
       <NuxtImg src="/Turnip_Boy_Portrait_sans_background.jpeg" class="framed-imag" />
@@ -10,7 +13,11 @@
       <TurnipText />
       <h1 class="title text-center text-2xl">
         Click on
-        <NuxtLink to="/levels" class="niveau">Levels</NuxtLink>
+        <NuxtLink
+          to="/levels"
+          class="niveau"
+          >Levels</NuxtLink
+        >
         to start
       </h1>
     </div>

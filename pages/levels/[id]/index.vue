@@ -9,26 +9,42 @@
         <NuxtImg src="Turnip_Boy_Portrait_sans_background.jpeg"></NuxtImg>
       </div>
       <!-- pour la demo, a modifier quand on fera l'integration de toutes les questions-->
-      <div v-if="questionText" class="questionText">
+      <div
+        v-if="questionText"
+        class="questionText"
+      >
         {{ questionText }}
       </div>
       <!--<div class="questionText">Given the current position on the tape, write a program to move the cursor to the right.</div>-->
 
       <div class="ConstraintsTitle">Constraints</div>
 
-      <div v-if="input" class="input">
+      <div
+        v-if="input"
+        class="input"
+      >
         intput : {{ input }}
       </div>
-      <div v-if="output" class="output">
+      <div
+        v-if="output"
+        class="output"
+      >
         output : {{ output }}
       </div>
-      <div v-if="constraints" class="constraints">
+      <div
+        v-if="constraints"
+        class="constraints"
+      >
         constraints : {{ constraints }}
       </div>
 
       <div class="submitText">
         Click on
-        <NuxtLink to="/levels/id/Answer" class="answer">Answer</NuxtLink>
+        <NuxtLink
+          to="/levels/id/Answer"
+          class="answer"
+          >Answer</NuxtLink
+        >
         to submit your code !
       </div>
     </div>
