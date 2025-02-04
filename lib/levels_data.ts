@@ -90,7 +90,8 @@ const LevelsData: Data = {
       ex_in: ".10101010",
       ex_out: ".00000000",
       requires: [],
-      unlocks: ["WRITE", "WRITE_M", "WRITE_W"],
+      unlocks0: ["WRITE"],
+      unlocks: ["WRITE_M", "WRITE_W"],
     },
     MOVE_R: {
       tooltip: "Moving head Right",
@@ -105,7 +106,8 @@ const LevelsData: Data = {
       ex_in: ".00000000",
       ex_out: "0.0000000",
       requires: ["ZERO"],
-      unlocks: ["MOVE_R", "MOVE_R_M", "MOVE_R_W"],
+      unlocks0: ["MOVE_R"],
+      unlocks: ["MOVE_R_M", "MOVE_R_W"],
     },
     MOVE_L: {
       tooltip: "Moving head Left",
@@ -120,7 +122,8 @@ const LevelsData: Data = {
       ex_in: "0000.0000",
       ex_out: "000.00000",
       requires: ["ZERO"],
-      unlocks: ["MOVE_L", "MOVE_L_M", "MOVE_L_W"],
+      unlocks0: ["MOVE_L"],
+      unlocks: ["MOVE_L_M", "MOVE_L_W"],
     },
     ZERO_2: {
       tooltip: "Reading and writing with 2 tapes",
@@ -134,6 +137,7 @@ const LevelsData: Data = {
       ex_in: "1010101010101010",
       ex_out: "0000000000000000",
       requires: [],
+      unlocks0: [],
       unlocks: [],
     },
     COPY_TO_MAIN: {
@@ -148,6 +152,7 @@ const LevelsData: Data = {
       ex_in: "0000000011100010",
       ex_out: "1110001011100010",
       requires: ["ZERO_2"],
+      unlocks0: [],
       unlocks: [],
     },
     COPY_TO_WORK: {
@@ -161,6 +166,7 @@ const LevelsData: Data = {
       ex_in: "1110001000000000",
       ex_out: "1110001011100010",
       requires: ["ZERO_2"],
+      unlocks0: [],
       unlocks: [],
     },
     ADD1: {
@@ -175,7 +181,8 @@ const LevelsData: Data = {
       ex_in: ".00001011",
       ex_out: ".00001100",
       requires: [],
-      unlocks: ["ADD1", "ADD1_M", "ADD1_W"],
+      unlocks0: ["ADD1"],
+      unlocks: ["ADD1_M", "ADD1_W"],
     },
     SUB1: {
       tooltip: "Subtracting 1 to an input modulo 256",
@@ -189,7 +196,8 @@ const LevelsData: Data = {
       ex_in: ".00010100",
       ex_out: ".00010011",
       requires: [],
-      unlocks: ["SUB1", "SUB1_M", "SUB1_W"],
+      unlocks0: ["SUB1"],
+      unlocks: ["SUB1_M", "SUB1_W"],
     },
     NEG: {
       tooltip: "Negating an input: -x",
@@ -203,7 +211,8 @@ const LevelsData: Data = {
       ex_in: ".00000010",
       ex_out: ".11111110",
       requires: ["ADD1"],
-      unlocks: ["NEG", "NEG_M", "NEG_W"],
+      unlocks0: ["NEG"],
+      unlocks: ["NEG_M", "NEG_W"],
     },
     ADD: {
       tooltip: "Adding two numbers",

@@ -59,9 +59,17 @@ onMounted(() => {
 function legal_fct() {
   const completed_lvl = read_completed_lvl();
   let res = [];
-  for (let i = 0; i < completed_lvl.length; i++) {
-    if (completed_lvl[i] in LevelsData.levels) {
-      res = res.concat(LevelsData.levels[completed_lvl[i]].unlocks)
+  if (grammVer==0) {
+    for (let i = 0; i < completed_lvl.length; i++) {
+      if (completed_lvl[i] in LevelsData.levels) {
+        res = res.concat(LevelsData.levels[completed_lvl[i]].unlocks0)
+      }
+    }
+  } else {
+    for (let i = 0; i < completed_lvl.length; i++) {
+      if (completed_lvl[i] in LevelsData.levels) {
+        res = res.concat(LevelsData.levels[completed_lvl[i]].unlocks)
+      }
     }
   }
   return res;
@@ -74,11 +82,15 @@ function read_completed_lvl() {
   return JSON.parse(res);
 }
 
-// TESTS
+function display_legal_fcts(arr_legal_fcts) {
+  document.body.getElementsByClassName("unlockfcts")[0].title = arr_legal_fcts.join("\n");
+}
 
 onMounted(() => {
-  console.log(legal_fct());
+  let arr_legal_fcts = legal_fct();
+  display_legal_fcts(arr_legal_fcts);
 })
+
 </script>
 
 <style scoped>
