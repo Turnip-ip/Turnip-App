@@ -9,34 +9,56 @@
         <NuxtImg src="Turnip_Boy_Portrait_sans_background.jpeg"></NuxtImg>
       </div>
       <!-- pour la demo, a modifier quand on fera l'integration de toutes les questions-->
-      <div v-if="questionText" class="questionText">{{ questionText }}</div>
+      <div
+        v-if="questionText"
+        class="questionText"
+      >
+        {{ questionText }}
+      </div>
       <!--<div class="questionText">Given the current position on the tape, write a program to move the cursor to the right.</div>-->
 
       <div class="ConstraintsTitle">Constraints</div>
 
-      <div v-if="input" class="input">intput : {{ input }}</div>
-      <div v-if="output" class="output">output : {{ output }}</div>
-      <div v-if="constraints" class="constraints">constraints : {{ constraints }}</div>
+      <div
+        v-if="input"
+        class="input"
+      >
+        intput : {{ input }}
+      </div>
+      <div
+        v-if="output"
+        class="output"
+      >
+        output : {{ output }}
+      </div>
+      <div
+        v-if="constraints"
+        class="constraints"
+      >
+        constraints : {{ constraints }}
+      </div>
 
       <div class="submitText">
         Click on
-        <NuxtLink to="/levels/id/Answer" class="answer">Answer</NuxtLink>
+        <NuxtLink
+          to="/levels/id/Answer"
+          class="answer"
+          >Answer</NuxtLink
+        >
         to submit your code !
       </div>
     </div>
   </div>
 </template>
 
-
 <script setup lang="ts">
-const route = useRoute()
+import { LevelsData } from "~/lib/levels_data";
 
-import { LevelsData } from '~/lib/levels_data';
+const route = useRoute();
 const questionText = ref(""); // Use ref to make it reactive
 const input = ref(""); // Use ref to make it reactive
 const output = ref("");
 const constraints = ref("");
-
 
 const currentLevelId: string = route.params.id as string;
 
@@ -45,7 +67,6 @@ questionText.value = LevelsData.levels[currentLevelId].description; // Update th
 input.value = LevelsData.levels[currentLevelId].in; // Update the reactive `questionText`
 output.value = LevelsData.levels[currentLevelId].out; // Update the reactive `questionText`
 constraints.value = LevelsData.levels[currentLevelId].constraints; // Update the reactive `questionText`
-
 
 //au debut que levels
 // puis mettre levels,
@@ -105,7 +126,6 @@ definePageMeta({
   font-size: 30px;
   text-align: center;
   width: 1500px;
-
 }
 
 .ConstraintsTitle {
@@ -114,7 +134,6 @@ definePageMeta({
   font-size: 30px;
   height: 23%;
 }
-
 
 .submitText {
   position: absolute;
