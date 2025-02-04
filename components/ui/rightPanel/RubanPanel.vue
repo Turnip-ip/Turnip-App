@@ -20,22 +20,18 @@ const props = defineProps({
 
 const route = useRoute()
 import { LevelsData } from '~/lib/levels_data';
+import { find_group_of_lvl } from '~/lib/tools';
 const currentLevelId: string = route.params.id as string;
 
 // add tapes
-let grammVer = find_group_of_lvl(currentLevelId).grammar_version;
+let grammVer = find_group_of_lvl(currentLevelId, LevelsData).grammar_version;
 let initialTextTapeIn = LevelsData.levels[currentLevelId].ex_in;
 let initialPosTapeIn;
 if (grammVer == 0) {
   initialPosTapeIn = initialTextTapeIn.lastIndexOf(".");
   initialTextTapeIn = initialTextTapeIn.replace(/\./g, ''); //remove the "."
 }
-function find_group_of_lvl(name: string) {
-  //find the group level name belongs to
-  for (const e in LevelsData.groups) {
-    if (LevelsData.groups[e].levels.includes(name)) { return LevelsData.groups[e]; }
-  }
-}
+
 </script>
 
 <style scoped>

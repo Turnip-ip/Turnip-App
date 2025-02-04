@@ -18,6 +18,12 @@
         </div>
         <NuxtImg src="Turnip_Boy_Portrait_sans_background.jpeg" class="w-20 -translate-x-40">
         </NuxtImg>
+
+        <div class="examples">Example of an input (at the left) and the expected output (at the right):</div>
+        <div style="display: flex;column-gap: 10px;">
+          <DynTape :gramm-ver="grammVer" :initial-text="initialTextTapeIn" :initial-pos="initialPosTapeIn"></DynTape>
+          <DynTape :gramm-ver="grammVer" :initial-text="initialTextTapeOut" :initial-pos="initialPosTapeOut"></DynTape>
+        </div>
       </div>
     </div>
   </div>
@@ -28,11 +34,11 @@
 
 import '~/assets/css/cbbl.styl'
 
-import { Tape } from '~/lib/tapes';
-
-const route = useRoute()
 
 import { LevelsData } from '~/lib/levels_data';
+import { find_group_of_lvl } from '~/lib/tools';
+
+const route = useRoute()
 
 const currentLevelId: string = route.params.id as string;
 
@@ -43,7 +49,7 @@ definePageMeta({
 });
 
 // add tapes
-let grammVer = find_group_of_lvl(currentLevelId).grammar_version;
+const grammVer = find_group_of_lvl(currentLevelId, LevelsData).grammar_version;
 let initialTextTapeIn = LevelsData.levels[currentLevelId].ex_in;
 let initialTextTapeOut = LevelsData.levels[currentLevelId].ex_out;
 let initialPosTapeIn, initialPosTapeOut;
@@ -54,13 +60,6 @@ if (grammVer == 0) {
   initialTextTapeIn = initialTextTapeIn.replace(/\./g, ''); //remove the "."
   initialTextTapeOut = initialTextTapeOut.replace(/\./g, ''); //remove the "."
 }
-function find_group_of_lvl(name: string) {
-  //find the group level name belongs to
-  for (const e in LevelsData.groups) {
-    if (LevelsData.groups[e].levels.includes(name)) { return LevelsData.groups[e]; }
-  }
-}
-
 </script>
 
 <style scoped>

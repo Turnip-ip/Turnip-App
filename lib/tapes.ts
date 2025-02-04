@@ -2,7 +2,7 @@
 export class Tape {
 
   constructor(gramm_ver, elem) {
-    var i;
+    let i;
     switch(gramm_ver) {
     case 0:
       this.gramm_v = 0;
@@ -34,12 +34,12 @@ export class Tape {
 
   write_tape(str, tape) {
     // write one character per cell
-    var children = tape.children;
+    const children = tape.children;
     if (children.length < str.length) {
       console.log("write with str too long");
       return ;
     }
-    for (var i = 0; i < children.length; i++) {
+    for (let i = 0; i < children.length; i++) {
       if (children[i].textContent != str[i]) {
         this.write_fade(children[i], str[i]);
       }

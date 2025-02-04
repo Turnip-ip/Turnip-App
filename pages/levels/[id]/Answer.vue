@@ -22,6 +22,9 @@
 import { ref } from "vue";
 import LeftHalfPanel from "../../../components/ui/leftPanel/leftHalfPanel.vue";
 import RightHalfPanel from "../../../components/ui/rightPanel/RightHalfPanel.vue";
+import { LevelsData } from '~/lib/levels_data';
+import { Tape } from '~/lib/tapes';
+import { find_group_of_lvl } from "~/lib/tools";
 
 definePageMeta({
   layout: "level",
@@ -39,22 +42,14 @@ q
 // TAPE
 
 const route = useRoute()
-import { LevelsData } from '~/lib/levels_data';
 const currentLevelId: string = route.params.id as string;
-import { Tape } from '~/lib/tapes';
 
 // grammVer
-let grammVer=find_group_of_lvl(currentLevelId).grammar_version;
-function find_group_of_lvl(name: string) {
-  //find the group level name belongs to
-  for (const e in LevelsData.groups) {
-    if (LevelsData.groups[e].levels.includes(name)) { return LevelsData.groups[e]; }
-  }
-}
+const grammVer = find_group_of_lvl(currentLevelId, LevelsData).grammar_version;
 
 //simple and ugly way to have access to the tape:
 onMounted(() => {
-  let tape = new Tape(grammVer, document.body.getElementsByTagName("tape_head")[0].parentElement);
+  const tape = new Tape(grammVer, document.body.getElementsByTagName("tape_head")[0].parentElement);
   tape.write("hello");
   tape.move(5);
 })
@@ -62,9 +57,9 @@ onMounted(() => {
 // FCT LEGAL FCTS
 
 function legal_fct() {
-  let completed_lvl = read_completed_lvl();
+  const completed_lvl = read_completed_lvl();
   let res = [];
-  for (var i = 0; i < completed_lvl.length; i++) {
+  for (let i = 0; i < completed_lvl.length; i++) {
     if (completed_lvl[i] in LevelsData.levels) {
       res = res.concat(LevelsData.levels[completed_lvl[i]].unlocks)
     }
@@ -74,7 +69,7 @@ function legal_fct() {
 
 function read_completed_lvl() {
   // read completed_lvl in localStorage
-  let res = localStorage.getItem("completed_lvl");
+  const res = localStorage.getItem("completed_lvl");
   if (res == null) return [];
   return JSON.parse(res);
 }
