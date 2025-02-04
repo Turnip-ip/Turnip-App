@@ -9,7 +9,7 @@
 
     <NuxtLink
       v-if="showButtons"
-      to="/levels/id/"
+      to="."
       class="rounded p-2 hover:bg-gray-300"
     >
       Question
@@ -17,7 +17,7 @@
 
     <NuxtLink
       v-if="showButtons"
-      to="/levels/id/answer"
+      to="answer"
       class="rounded p-2 hover:bg-gray-300"
     >
       Answer
@@ -36,6 +36,7 @@ button {
   font-family: "Press Start 2P", sans-serif;
   color: darkslateblue;
 }
+
 .nuxt-link {
   font-family: "Press Start 2P", sans-serif;
   color: darkslateblue;

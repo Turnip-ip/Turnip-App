@@ -2,7 +2,7 @@
   <GraphView
     :dot="dot"
     class="h-82 m-4 w-72"
-    @click="handleBodyClick"
+    @click="handleLevelGraphClick"
   />
 </template>
 
@@ -21,7 +21,7 @@ const dot = build_lvl_graph();
  * @param n numbers of colors to generate.
  * @returns An array of n colors.
  */
-function rainbowInterpolation(n: number): string[] {
+function rainbowInterpolation(n: number) {
   return ["#d1cfe2", "#9cadce", "#7ec4cf", "#daeaf6"].slice(0, n);
 }
 
@@ -48,7 +48,7 @@ function build_lvl_graph(): string {
     // Create the cluster
     clusters_ids[group_name] = cluster_i;
     dot_levels += `subgraph cluster_${cluster_i.toString()} {`;
-    dot_levels += `style=filled;color="${colors[cluster_i].toString()}";node [style=filled color=grey]`;
+    dot_levels += `style=filled;color="${colors[cluster_i]}";node [style=filled color=grey]`;
 
     // Get the nodes in the group
     const group: Group = groups[group_name];
@@ -95,26 +95,26 @@ function build_lvl_graph(): string {
   return dot_levels;
 }
 
-async function handleBodyClick(event: Event) {
+// Click and links
+
+async function handleLevelGraphClick(event: Event) {
   const target = event.target as HTMLInputElement;
   if (
     target.tagName === "text" &&
-    target.parentNode &&
-    target.parentElement?.tagName === "a"
+    target.parentElement &&
+    target.parentElement.tagName === "a"
   ) {
     await start_level(target.textContent);
   } else if (
     target.tagName === "polygon" &&
     target.nextElementSibling &&
     target.nextElementSibling.tagName === "text" &&
-    target.parentNode &&
-    target.parentElement?.tagName === "a"
+    target.parentElement &&
+    target.parentElement.tagName === "a"
   ) {
     await start_level(target.nextElementSibling.textContent);
   }
 }
-
-// Click and links
 
 async function start_level(name: string) {
   // check list of levels: is this one accessible?
@@ -188,11 +188,11 @@ function find_group_of_lvl(name: string) {
   }
 }
 
-function read_completed_lvl(): string[] {
+function read_completed_lvl() {
   // read completed_lvl in localStorage
   const res = localStorage.getItem("completed_lvl");
-  if (res == null) return [];
-  return JSON.parse(res) as string[];
+
+  return res != null ? (JSON.parse(res) as string[]) : [];
 }
 </script>
 
