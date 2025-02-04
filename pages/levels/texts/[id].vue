@@ -18,10 +18,11 @@ add_completed_lvl(currentTextId);
 
 function add_completed_lvl(textId: string) {
   // read completed_lvl in localStorage
-  let arr_compl;
-  let res = localStorage.getItem("completed_lvl");
-  if (res == null) arr_compl = [];
-  else arr_compl = JSON.parse(res);
+
+  const res = localStorage.getItem("completed_lvl");
+
+  const arr_compl = res != null ? (JSON.parse(res) as string[]) : [];
+
   // add and save
   if (!arr_compl.includes(textId)) arr_compl.push(textId);
   localStorage.setItem("completed_lvl", JSON.stringify(arr_compl));

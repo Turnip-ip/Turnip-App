@@ -1,8 +1,7 @@
 <template>
   <div>
     <!-- Centered text content -->
-    <div class="flex flex-col h-screen items-center justify-center gap-2">
-
+    <div class="flex h-screen flex-col items-center justify-center gap-2">
       <div class="press-start">Level {{ currentLevelId }}</div>
 
       <div class="w-2/3">{{ level.description }}</div>
@@ -12,7 +11,6 @@
       <div class="constraints">constraints : {{ level.constraints }}</div>
 
       <div class="submitText flex flex-col items-end justify-end">
-
         <div class="cbbl -right press-start">
           Click on
           <NuxtLink to="Answer" class="darkslateblue hover:underline">Answer</NuxtLink>
@@ -21,12 +19,6 @@
         <NuxtImg src="Turnip_Boy_Portrait_sans_background.jpeg" class="w-20 -translate-x-40">
         </NuxtImg>
       </div>
-      <div class="examples">Example of an input (at the left) and the expected output (at the right):</div>
-      <div style="display: flex;column-gap: 10px;">
-        <DynTape :grammVer="grammVer" :initialText="initialTextTapeIn" :initialPos="initialPosTapeIn"></DynTape>
-        <DynTape :grammVer="grammVer" :initialText="initialTextTapeOut" :initialPos="initialPosTapeOut"></DynTape>
-      </div>
-
     </div>
   </div>
 </template>
@@ -51,14 +43,14 @@ definePageMeta({
 });
 
 // add tapes
-let grammVer=find_group_of_lvl(currentLevelId).grammar_version;
-let initialTextTapeIn=LevelsData.levels[currentLevelId].ex_in;
-let initialTextTapeOut=LevelsData.levels[currentLevelId].ex_out;
+let grammVer = find_group_of_lvl(currentLevelId).grammar_version;
+let initialTextTapeIn = LevelsData.levels[currentLevelId].ex_in;
+let initialTextTapeOut = LevelsData.levels[currentLevelId].ex_out;
 let initialPosTapeIn, initialPosTapeOut;
 // let tapeIn, tapeOut;
-if (grammVer==0) {
-  initialPosTapeIn=initialTextTapeIn.lastIndexOf(".");
-  initialPosTapeOut=initialTextTapeOut.lastIndexOf(".");
+if (grammVer == 0) {
+  initialPosTapeIn = initialTextTapeIn.lastIndexOf(".");
+  initialPosTapeOut = initialTextTapeOut.lastIndexOf(".");
   initialTextTapeIn = initialTextTapeIn.replace(/\./g, ''); //remove the "."
   initialTextTapeOut = initialTextTapeOut.replace(/\./g, ''); //remove the "."
 }

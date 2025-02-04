@@ -23,11 +23,11 @@ import { LevelsData } from '~/lib/levels_data';
 const currentLevelId: string = route.params.id as string;
 
 // add tapes
-let grammVer=find_group_of_lvl(currentLevelId).grammar_version;
-let initialTextTapeIn=LevelsData.levels[currentLevelId].ex_in;
+let grammVer = find_group_of_lvl(currentLevelId).grammar_version;
+let initialTextTapeIn = LevelsData.levels[currentLevelId].ex_in;
 let initialPosTapeIn;
-if (grammVer==0) {
-  initialPosTapeIn=initialTextTapeIn.lastIndexOf(".");
+if (grammVer == 0) {
+  initialPosTapeIn = initialTextTapeIn.lastIndexOf(".");
   initialTextTapeIn = initialTextTapeIn.replace(/\./g, ''); //remove the "."
 }
 function find_group_of_lvl(name: string) {
@@ -39,22 +39,24 @@ function find_group_of_lvl(name: string) {
 </script>
 
 <style scoped>
-.TapeComingSoon{
+.TapeComingSoon {
   position: absolute;
   font-family: "Press Start 2P", sans-serif;
   right: 560px;
-  top:446px
+  top: 446px
 }
-.imgTurnip{
-    position: absolute;
-    width: 80px;
-    top: 440px;
-    right: 850px;
-  }
-  .bubbleImg{
-    position: absolute;
-    width: 300px;
-    top: 39.5%;
-    right: 30%;
-  }
+
+.imgTurnip {
+  position: absolute;
+  width: 80px;
+  top: 440px;
+  right: 850px;
+}
+
+.bubbleImg {
+  position: absolute;
+  width: 300px;
+  top: 39.5%;
+  right: 30%;
+}
 </style>

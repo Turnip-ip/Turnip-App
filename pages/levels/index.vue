@@ -1,14 +1,12 @@
 <template>
-  <GraphView :dot="dot" class="h-82 m-4 w-72" />
+  <GraphView :dot="dot" class="h-82 m-4 w-72" @click="handleLevelGraphClick" />
 </template>
 
 <script setup lang="ts">
-import { hsl, type HSLColor, select } from "d3";
 import { navigateTo } from "nuxt/app";
 
-import { onMounted } from 'vue';
 import { LevelsData } from "~/lib/levels_data";
-import { PageType, type Data, type Group, type TextPage } from "~/lib/types";
+import type { Group, Level, TextPage } from "~/lib/types";
 
 const dot = build_lvl_graph();
 
@@ -21,27 +19,13 @@ const dot = build_lvl_graph();
  */
 function rainbowInterpolation(n: number) {
   return ["#d1cfe2", "#9cadce", "#7ec4cf", "#daeaf6"].slice(0, n);
-
-
-  const colors = [];
-  colors.push(hsl(246, 24.7, 84.9, 1));
-  colors.push(hsl(220, 33.8, 71, 1));
-  colors.push(hsl(188, 45.8, 65.3, 1));
-  colors.push(hsl(206, 60.9, 91, 1));
-
-
-  //for (let i: number = 0; i < n; ++i)
-  // colors.push(hsl((360 / n) * i, 100, 80, 1));
-  return colors;
 }
 
-
-/** 
- * Function to build the lvl graph 
+/**
+ * Function to build the lvl graph
  * Return the corresponding dot graph
  */
 function build_lvl_graph(): string {
-
   const texts = LevelsData.texts;
   const groups = LevelsData.groups;
   const levels = LevelsData.levels;
@@ -55,11 +39,11 @@ function build_lvl_graph(): string {
   // Create clusters corresponding to a group
   let cluster_i: number = 0;
   const clusters_ids: { [key: string]: number } = {};
-  const colors: HSLColor[] = rainbowInterpolation(Object.entries(groups).length);
+  const colors: string[] = rainbowInterpolation(Object.entries(groups).length);
   for (const group_name in groups) {
     // Create the cluster
     clusters_ids[group_name] = cluster_i;
-    dot_levels += `subgraph cluster_${cluster_i} {`;
+    dot_levels += `subgraph cluster_${cluster_i.toString()} {`;
     dot_levels += `style=filled;color="${colors[cluster_i]}";node [style=filled color=grey]`;
 
     // Get the nodes in the group
@@ -107,38 +91,41 @@ function build_lvl_graph(): string {
   return dot_levels;
 }
 
-
-
 // Click and links
 
-onMounted(() => {
-  if (import.meta.client) {
-    function handleBodyClick(event) {
-      if (event.target.tagName === "text" && event.target.parentNode && event.target.parentNode.tagName === 'a') {
-        start_level(event.target.textContent);
-      }
-      else if (event.target.tagName === 'polygon'
-        && event.target.nextElementSibling && event.target.nextElementSibling.tagName === "text"
-        && event.target.parentNode && event.target.parentNode.tagName === 'a') {
-        start_level(event.target.nextElementSibling.textContent);
-      }
-    }
-    document.body.addEventListener('click', handleBodyClick);
+async function handleLevelGraphClick(event: Event) {
+  const target = event.target as HTMLInputElement;
+  if (
+    target.tagName === "text" &&
+    target.parentElement &&
+    target.parentElement.tagName === "a"
+  ) {
+    await start_level(target.textContent);
+  } else if (
+    target.tagName === "polygon" &&
+    target.nextElementSibling &&
+    target.nextElementSibling.tagName === "text" &&
+    target.parentElement &&
+    target.parentElement.tagName === "a"
+  ) {
+    await start_level(target.nextElementSibling.textContent);
   }
-});
+}
 
 async function start_level(name: string) {
   // check list of levels: is this one accessible?
-  let { level, text } = search_in_levels(name);
+  const { level, text } = search_in_levels(name);
   if (text) {
     //text: check from
     if (text.from != null) {
-      let required = LevelsData.groups[text.from].levels;
-      let passed = read_completed_lvl();
+      const required = LevelsData.groups[text.from].levels;
+      const passed = read_completed_lvl();
       let res = "";
 
       for (const e of required) {
-        if (!(passed.includes(e))) { res += e + ", " }
+        if (!passed.includes(e)) {
+          res += e + ", ";
+        }
       }
       if (res.length > 0) {
         alert("You must before pass " + res.slice(0, -2));
@@ -146,16 +133,17 @@ async function start_level(name: string) {
       }
     }
     // follow link
-    await navigateTo(`/levels/texts/${name}`)
-
+    await navigateTo(`/levels/texts/${name}`);
   } else if (level) {
     //level: group where i am is unblock && check requires
-    let group = find_group_of_lvl(name);
+    const group = find_group_of_lvl(name);
     let required = group["requires"];
-    let passed = read_completed_lvl();
+    const passed = read_completed_lvl();
     let res = "";
     for (const e of required) {
-      if (!(passed.includes(e))) { res += e + ", " }
+      if (!passed.includes(e)) {
+        res += e + ", ";
+      }
     }
     if (res.length > 0) {
       alert("You must before pass " + res.slice(0, -2));
@@ -164,38 +152,44 @@ async function start_level(name: string) {
 
     required = level.requires;
     for (const e of required) {
-      if (!(passed.includes(e))) { res += e + ", " }
+      if (!passed.includes(e)) {
+        res += e + ", ";
+      }
     }
     if (res.length > 0) {
       alert("You must before pass " + res.slice(0, -2));
       return;
     }
-    await navigateTo(`/levels/${name}/`)
+    await navigateTo(`/levels/${name}/`);
   }
 }
 
-function search_in_levels(name: string) {
+function search_in_levels(name: string): {
+  level?: Level;
+  text?: TextPage;
+} {
   // find a level or a text in levels_data
   return {
     level: LevelsData.levels[name],
-    text: LevelsData.texts[name]
-  }
+    text: LevelsData.texts[name],
+  };
 }
 
 function find_group_of_lvl(name: string) {
   //find the group level name belongs to
   for (const e in LevelsData.groups) {
-    if (LevelsData.groups[e].levels.includes(name)) { return LevelsData.groups[e]; }
+    if (LevelsData.groups[e].levels.includes(name)) {
+      return LevelsData.groups[e];
+    }
   }
 }
 
 function read_completed_lvl() {
   // read completed_lvl in localStorage
-  let res = localStorage.getItem("completed_lvl");
-  if (res == null) return [];
-  return JSON.parse(res);
-}
+  const res = localStorage.getItem("completed_lvl");
 
+  return res != null ? (JSON.parse(res) as string[]) : [];
+}
 </script>
 
 <style>
