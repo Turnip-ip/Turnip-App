@@ -1,15 +1,25 @@
 <template>
   <div class="">
     <!-- Resizable Panels -->
-    <ResizablePanelGroup direction="horizontal" class="h-full">
+    <ResizablePanelGroup
+      direction="horizontal"
+      class="h-full"
+    >
       <ResizablePanel class="bg-[#8391A3]">
-        <TextEditor v-model="dotArea" class="m-10" height="100%" />
+        <TextEditor
+          v-model="dotArea"
+          class="m-10"
+          height="100%"
+        />
       </ResizablePanel>
 
       <ResizableHandle with-handle />
 
       <ResizablePanel>
-        <AnswerGraphPanel :dot-area="dotArea" class="h-1/2" />
+        <AnswerGraphPanel
+          :dot-area="dotArea"
+          class="h-1/2"
+        />
 
         <div class="h-[5px] bg-black" />
 
