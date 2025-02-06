@@ -4,13 +4,7 @@
   <div
     :style="{ backgroundColor: bgColor, padding: '30px', boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', height: '340px' }">
     <slot>
-      <div class="bubbleImg">
-        <NuxtImg src="bubble_speech.png"></NuxtImg>
-      </div>
-      <div class="TapeComingSoon">Graph here !</div>
-      <div class="imgTurnip">
-        <NuxtImg src="Turnip_Boy_Portrait_sans_background.jpeg"></NuxtImg>
-      </div>
+
 
       <TuringGraphView class="p-4 h-50" :code="dotArea" />
     </slot>
