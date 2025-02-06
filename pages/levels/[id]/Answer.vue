@@ -1,9 +1,9 @@
 <template>
-  <div class="">
+  <div class="h-full">
     <!-- Resizable Panels -->
     <ResizablePanelGroup
       direction="horizontal"
-      class="h-full"
+      class="h-max"
     >
       <ResizablePanel class="bg-[#8391A3]">
         <TextEditor
@@ -27,7 +27,7 @@
 
         <div class="h-[5px] bg-black" />
 
-        <AnswerOutputPanel class="h-full" />
+        <AnswerOutputPanel class="h-1/4" />
       </ResizablePanel>
     </ResizablePanelGroup>
   </div>
