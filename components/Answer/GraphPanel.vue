@@ -2,12 +2,10 @@
 <!-- n'est pas ajouté au index.vue car bug quand on rajoute le graphview dedans -->
 <template>
   <div class="bg-[#D0D9E2]">
-    <slot>
-      <TuringGraphView
-        class="h-50 p-4"
-        :code="dotArea"
-      />
-    </slot>
+    <TuringGraphView
+      class="h-full p-4"
+      :code="dotArea"
+    />
   </div>
 </template>
 
