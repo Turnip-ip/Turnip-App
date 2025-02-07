@@ -10,6 +10,8 @@
     :basic-setup="false"
     :indent-with-tab="false"
     :height="height"
+    :min-height="height"
+    class="h-full"
   />
   <!-- @on-change="handleChange"
     @statistics="handleStatistics"
