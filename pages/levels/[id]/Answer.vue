@@ -83,7 +83,8 @@ function read_completed_lvl() {
 }
 
 function display_legal_fcts(arr_legal_fcts) {
-  document.body.getElementsByClassName("unlockfcts")[0].title = arr_legal_fcts.join("\n");
+  if (arr_legal_fcts.length!=0) {document.getElementsByClassName("unlockfcts_list")[0].innerHTML = arr_legal_fcts.join("<br/>");}
+  else {document.getElementsByClassName("unlockfcts_list")[0].innerHTML = "No authorized<br/>function yet";}
 }
 
 onMounted(() => {
