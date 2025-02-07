@@ -35,17 +35,35 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { LevelsData } from "~/lib/levels_data";
 
 definePageMeta({
   layout: "level",
 });
 
-const dotArea = ref<string>(`START
+const route = useRoute();
+
+const currentLevelId: string = route.params.id as string;
+
+const level = LevelsData.levels[currentLevelId];
+
+const dotArea = ref<string>("");
+
+const defaultCode = `START
 | b -> (b,R), START
 | _ -> (_,L), q
 
 q
 | 1 -> (0,L), q
 | 0 -> (1,L), END
-`);
+`;
+
+onMounted(() => {
+  const existingCode = localStorage.getItem(`level-${currentLevelId}`);
+  dotArea.value = existingCode || level.initial_code || defaultCode;
+});
+
+watch(dotArea, (newCode) => {
+  localStorage.setItem(`level-${currentLevelId}`, newCode);
+});
 </script>
