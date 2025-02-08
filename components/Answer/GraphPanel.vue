@@ -25,13 +25,17 @@
         <RotateCcw class="w-4 h-4" />
       </Button>
 
+      <Button variant="secondary" :disabled="running" @click="check">
+        <MonitorCheck class="w-4 h-4" />
+      </Button>
+
     </div>
     <TuringGraphView class="h-full p-4" :code="dotArea" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ChevronLast, ChevronLeft, ChevronRight, LoaderCircle, OctagonX, RotateCcw } from 'lucide-vue-next';
+import { ChevronLast, ChevronLeft, ChevronRight, LoaderCircle, OctagonX, RotateCcw, MonitorCheck } from 'lucide-vue-next';
 
 const start = ref(true);
 const end = ref(false);
@@ -85,11 +89,27 @@ function reset() {
   end.value = false;
 }
 
+function check () {
+  console.log('check');
+  // TODO: test the TM on all input using rust
+  // add current j=level to completed_lvl
+  add_completed_lvl(_props.currentLvlId);
+}
+
+function add_completed_lvl(currentLvlId: string) {
+  // read completed_lvl in localStorage
+  const res = localStorage.getItem("completed_lvl");
+  const arr_compl = res != null ? (JSON.parse(res) as string[]) : [];
+  // add and save
+  if (!arr_compl.includes(currentLvlId)) arr_compl.push(currentLvlId);
+  localStorage.setItem("completed_lvl", JSON.stringify(arr_compl));
+}
 
 const _props = defineProps({
   dotArea: {
     type: String,
     default: "",
   },
+  currentLvlId: String,
 });
 </script>
