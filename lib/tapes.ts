@@ -1,8 +1,13 @@
 
 export class Tape {
+  head: HTMLDivElement
+  tape: HTMLDivElement
+  headM: HTMLDivElement
+  tapeM: HTMLDivElement
+  headW: HTMLDivElement
+  tapeW: HTMLDivElement
 
-  constructor(gramm_ver, elem) {
-    let i;
+  constructor(gramm_ver: number, elem: HTMLDivElement) {
     switch(gramm_ver) {
     case 0:
       this.gramm_v = 0;
@@ -32,7 +37,7 @@ export class Tape {
     } 
   }
 
-  write_tape(str, tape) {
+  write_tape(str: string, tape: HTMLDivElement) {
     // write one character per cell
     const children = tape.children;
     if (children.length < str.length) {
@@ -46,7 +51,7 @@ export class Tape {
     }
   }
 
-  write_fade(div, cont) {
+  write_fade(div: HTMLDivElement, cont: string) {
     div.style.opacity = 0;
     setTimeout(() => {
       div.textContent = cont;
@@ -54,40 +59,40 @@ export class Tape {
     }, 100);
   }
 
-  write(str) {
+  write(str: string) {
     if (this.gramm_v == 0) this.write_tape(str, this.tape);
     else console.log('write called with grammar version > 0');
   }
-  writeM(str) {
+  writeM(str: string) {
     if (this.gramm_v != 0) this.write_tape(str, this.tapeM);
     else console.log('writeM called with grammar version 0');
   }
-  writeW(str) {
+  writeW(str: string) {
     if (this.gramm_v != 0) this.write_tape(str, this.tapeW);
     else console.log('writeW called with grammar version 0');
   }
 
-  move_tape(pos, tape, head_pos, head) {
-    head.style.marginLeft = 50*pos+"px";
+  move_tape(pos: number, head: HTMLDivElement) {
+    head.style.marginLeft = (50*pos).toString()+"px";
   }
 
-  move(pos) {
+  move(pos: number) {
     if (this.gramm_v == 0) {
-      this.move_tape(pos, this.tape, this.head_pos, this.head);
+      this.move_tape(pos, this.head);
       this.head_pos = pos;
     }
     else console.log('move called with grammar version > 0');
   }
-  moveM(pos) {
+  moveM(pos: number) {
     if (this.gramm_v != 0) {
-      this.move_tape(pos, this.tapeM, this.head_posM, this.headM);
+      this.move_tape(pos, this.headM);
       this.head_posM = pos;
     }
     else console.log('moveM called with grammar version 0');
   }
-  moveW(pos) {
+  moveW(pos: number) {
     if (this.gramm_v != 0) {
-      this.move_tape(pos, this.tapeW, this.head_posW, this.headW);
+      this.move_tape(pos, this.headW);
       this.head_posW = pos;
     }
     else console.log('moveW called with grammar version 0');

@@ -58,17 +58,19 @@ onMounted(() => {
 
 function legal_fct() {
   const completed_lvl = read_completed_lvl();
-  let res = [];
+  let res: string[] = [];
   if (grammVer==0) {
     for (let i = 0; i < completed_lvl.length; i++) {
       if (completed_lvl[i] in LevelsData.levels) {
-        res = res.concat(LevelsData.levels[completed_lvl[i]].unlocks0)
+        const tab = LevelsData.levels[completed_lvl[i]].unlocks0 as string[];
+        res = res.concat(tab);
       }
     }
   } else {
     for (let i = 0; i < completed_lvl.length; i++) {
       if (completed_lvl[i] in LevelsData.levels) {
-        res = res.concat(LevelsData.levels[completed_lvl[i]].unlocks)
+        const tab = LevelsData.levels[completed_lvl[i]].unlocks as string[];
+        res = res.concat(tab);
       }
     }
   }
@@ -79,16 +81,16 @@ function read_completed_lvl() {
   // read completed_lvl in localStorage
   const res = localStorage.getItem("completed_lvl");
   if (res == null) return [];
-  return JSON.parse(res);
+  return JSON.parse(res) as string[];
 }
 
-function display_legal_fcts(arr_legal_fcts) {
+function display_legal_fcts(arr_legal_fcts: string[]) {
   if (arr_legal_fcts.length!=0) {document.getElementsByClassName("unlockfcts_list")[0].innerHTML = arr_legal_fcts.join("<br/>");}
   else {document.getElementsByClassName("unlockfcts_list")[0].innerHTML = "No authorized<br/>function yet";}
 }
 
 onMounted(() => {
-  let arr_legal_fcts = legal_fct();
+  const arr_legal_fcts: string[] = legal_fct();
   display_legal_fcts(arr_legal_fcts);
 })
 
