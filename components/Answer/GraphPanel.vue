@@ -55,7 +55,10 @@
         <MonitorCheck class="h-4 w-4" />
       </Button>
     </div>
-    <TuringGraphView class="h-full p-4" :code="dotArea" />
+    <TuringGraphView
+      class="h-full p-4"
+      :code="dotArea"
+    />
   </div>
 </template>
 
