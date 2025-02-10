@@ -19,6 +19,7 @@
         <AnswerGraphPanel
           :dot-area="dotArea"
           class="h-1/2"
+          :current-lvl-id="currentLevelId"
         />
 
         <div class="h-[5px] bg-black" />
