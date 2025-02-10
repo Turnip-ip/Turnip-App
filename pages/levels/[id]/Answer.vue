@@ -1,22 +1,34 @@
 <template>
-  <div class="answerpage">
+  <div class="h-full">
     <!-- Resizable Panels -->
-    <ResizablePanelGroup direction="horizontal">
-      <ResizablePanel>
-        <LeftHalfPanel>
-          <TextEditor
-            v-model="dotArea"
-            class="m-4"
-            height="931px"
-          />
-          <!-- 931 parce que 1000 - 4 rem, 1 rem = 16 px et il faut considerer le padding donc un peu moins de 1000-4*16 -->
-        </LeftHalfPanel>
+    <ResizablePanelGroup
+      direction="horizontal"
+      class="h-max"
+    >
+      <ResizablePanel class="bg-[#8391A3]">
+        <TextEditor
+          v-model="dotArea"
+          class="m-10"
+          height="100%"
+        />
       </ResizablePanel>
 
       <ResizableHandle with-handle />
 
       <ResizablePanel>
-        <RightHalfPanel :dot-area="dotArea" />
+        <AnswerGraphPanel
+          :dot-area="dotArea"
+          class="h-1/2"
+          :current-lvl-id="currentLevelId"
+        />
+
+        <div class="h-[5px] bg-black" />
+
+        <AnswerRubanPanel class="h-1/4" />
+
+        <div class="h-[5px] bg-black" />
+
+        <AnswerOutputPanel class="h-1/4" />
       </ResizablePanel>
     </ResizablePanelGroup>
   </div>
@@ -24,26 +36,35 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import LeftHalfPanel from "../../../components/ui/leftPanel/leftHalfPanel.vue";
-import RightHalfPanel from "../../../components/ui/rightPanel/RightHalfPanel.vue";
+import { LevelsData } from "~/lib/levels_data";
 
 definePageMeta({
   layout: "level",
 });
 
-const dotArea = ref<string>(`START
+const route = useRoute();
+
+const currentLevelId: string = route.params.id as string;
+
+const level = LevelsData.levels[currentLevelId];
+
+const dotArea = ref<string>("");
+
+const defaultCode = `START
 | b -> (b,R), START
 | _ -> (_,L), q
 
 q
 | 1 -> (0,L), q
 | 0 -> (1,L), END
-`);
-</script>
+`;
 
-<style scoped>
-.answerpage {
-  display: flex;
-  flex-direction: column;
-}
-</style>
+onMounted(() => {
+  const existingCode = localStorage.getItem(`level-${currentLevelId}`);
+  dotArea.value = existingCode || level.initial_code || defaultCode;
+});
+
+watch(dotArea, (newCode) => {
+  localStorage.setItem(`level-${currentLevelId}`, newCode);
+});
+</script>
