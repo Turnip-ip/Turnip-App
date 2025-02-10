@@ -2,40 +2,73 @@
 <!-- n'est pas ajouté au index.vue car bug quand on rajoute le graphview dedans -->
 <template>
   <div class="bg-[#D0D9E2]">
-    <div class="flex flex-row gap-2 mt-2 ml-2">
-
-
-      <Button variant="secondary" :disabled="start || running" @click="previousStep">
-        <ChevronLeft class="w-4 h-4" />
+    <div class="ml-2 mt-2 flex flex-row gap-2">
+      <Button
+        variant="secondary"
+        :disabled="start || running"
+        @click="previousStep"
+      >
+        <ChevronLeft class="h-4 w-4" />
       </Button>
-      <Button variant="secondary" :disabled="end || running" @click="nextStep">
-        <ChevronRight class="w-4 h-4" />
-      </Button>
-
-      <Button :disabled="end || running" @click="allSteps">
-        <LoaderCircle v-if="running" class="w-4 h-4 animate-spin " />
-        <ChevronLast v-else class="w-4 h-4" />
-      </Button>
-
-      <Button :disabled="!running" @click="stop">
-        <OctagonX class="w-4 h-4" />
+      <Button
+        variant="secondary"
+        :disabled="end || running"
+        @click="nextStep"
+      >
+        <ChevronRight class="h-4 w-4" />
       </Button>
 
-      <Button variant="destructive" :disabled="start || running" @click="reset">
-        <RotateCcw class="w-4 h-4" />
+      <Button
+        :disabled="end || running"
+        @click="allSteps"
+      >
+        <LoaderCircle
+          v-if="running"
+          class="h-4 w-4 animate-spin"
+        />
+        <ChevronLast
+          v-else
+          class="h-4 w-4"
+        />
       </Button>
 
-      <Button variant="secondary" :disabled="running" @click="check">
-        <MonitorCheck class="w-4 h-4" />
+      <Button
+        :disabled="!running"
+        @click="stop"
+      >
+        <OctagonX class="h-4 w-4" />
       </Button>
 
+      <Button
+        variant="destructive"
+        :disabled="start || running"
+        @click="reset"
+      >
+        <RotateCcw class="h-4 w-4" />
+      </Button>
+
+      <Button
+        variant="secondary"
+        :disabled="running"
+        @click="check"
+      >
+        <MonitorCheck class="h-4 w-4" />
+      </Button>
     </div>
     <TuringGraphView class="h-full p-4" :code="dotArea" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ChevronLast, ChevronLeft, ChevronRight, LoaderCircle, OctagonX, RotateCcw, MonitorCheck } from 'lucide-vue-next';
+import {
+  ChevronLast,
+  ChevronLeft,
+  ChevronRight,
+  LoaderCircle,
+  OctagonX,
+  RotateCcw,
+  MonitorCheck,
+} from "lucide-vue-next";
 
 const start = ref(true);
 const end = ref(false);
@@ -44,7 +77,7 @@ const running = ref(false);
 let step = 0;
 
 function previousStep() {
-  console.log('previousStep');
+  console.log("previousStep");
   step -= 1;
   if (step === 0) {
     start.value = true;
@@ -53,7 +86,7 @@ function previousStep() {
 }
 
 function nextStep() {
-  console.log('nextStep');
+  console.log("nextStep");
   step += 1;
   if (step === 10) {
     end.value = true;
@@ -62,13 +95,13 @@ function nextStep() {
 }
 
 function delay(delay: number) {
-  return new Promise(r => {
+  return new Promise((r) => {
     setTimeout(r, delay);
-  })
+  });
 }
 
 async function allSteps() {
-  console.log('run');
+  console.log("run");
   running.value = true;
   await delay(5000);
   start.value = false;
@@ -78,22 +111,22 @@ async function allSteps() {
 }
 
 function stop() {
-  console.log('stop');
+  console.log("stop");
   running.value = false;
 }
 
 function reset() {
-  console.log('reset');
+  console.log("reset");
   step = 0;
   start.value = true;
   end.value = false;
 }
 
-function check () {
-  console.log('check');
+function check() {
+  console.log("check");
   // TODO: test the TM on all input using rust
   // add current j=level to completed_lvl
-  add_completed_lvl(_props.currentLvlId);
+  add_completed_lvl(props.currentLvlId);
 }
 
 function add_completed_lvl(currentLvlId: string) {
@@ -105,11 +138,10 @@ function add_completed_lvl(currentLvlId: string) {
   localStorage.setItem("completed_lvl", JSON.stringify(arr_compl));
 }
 
-const _props = defineProps({
-  dotArea: {
-    type: String,
-    default: "",
-  },
-  currentLvlId: String,
-});
+interface Props {
+  dotArea: string;
+  currentLvlId: string;
+}
+
+const props = withDefaults(defineProps<Props>(), { dotArea: "" });
 </script>
