@@ -3,12 +3,13 @@
     <NuxtImg src="/background.jpg" class="imag" />
     <NuxtImg src="/Turnip_Boy_Portrait_sans_background.jpeg" class="turnip" />
     <TurnipText class="titreJeu" />
-    <button v-if="playVisible" class="retro-button" id="playButton" @click="openWindow">Play</button>
-    <div v-if="windowOpen" class="popup">
-      <div class="titreMessage">Welcome to TURN'IP!</div>
-      <div class="contentMessage">{{ popupMessages[index] }}</div>
+    <button v-if="playVisible" id="playButton" class="retro-button ml-56" @click="openWindow">Play</button>
+
+    <div v-if="windowOpen" class="popup h-full flex flex-col justify-around items-center py-10 px-4">
+      <div class="titreMessage h-1/4">Welcome to TURN'IP!</div>
+      <div class="contentMessage h-1/2">{{ popupMessages[index] }}</div>
+      <button class="retro-button h-1/4 ml-10" @click="nextMessage">Continue</button>
     </div>
-    <button v-if="windowOpen" class="retro-button" @click="nextMessage">Continue</button>
   </div>
 </template>
 
@@ -38,6 +39,8 @@ async function nextMessage() {
   if (index.value < popupMessages.length - 1) {
     index.value++;
   } else {
+    windowOpen.value = false;
+    playVisible.value = true;
     await navigateTo('/levels');
   }
 }
@@ -53,8 +56,6 @@ function closeModal() {
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 .popup {
-  display: flex;
-  flex-direction: column;
   align-items: center;
   position: fixed;
   z-index: 1000;
@@ -66,7 +67,6 @@ function closeModal() {
   border: 5px solid black;
   border-radius: 15px;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
-  justify-content: flex-start;
 }
 
 
@@ -83,11 +83,7 @@ function closeModal() {
   box-shadow: 4px 4px 0px #000;
   outline: none;
   transition: all 0.1s ease-in-out;
-  position: fixed;
-  bottom: 30%;
-  left: 50%;
   transform: translateX(-50%);
-  z-index: 9999;
 }
 
 body {
@@ -127,17 +123,12 @@ body {
 .titreMessage {
   font-family: 'Press Start 2P';
   font-size: 35px;
-  padding-top: 10%;
   color: crimson;
 }
 
 .contentMessage {
   font-family: 'Press Start 2P';
   font-size: 25px;
-  padding-top: 15%;
-  align-self: center;
-  /* Centers it horizontally */
-  text-align: center;
 }
 
 .imag {
