@@ -1,5 +1,5 @@
 <template>
-  <div ref="tapeDiv">
+  <div ref="tapeDiv" class="tape_cont">
     <tape_head>
       <stick></stick>
       <arrow></arrow>
@@ -74,6 +74,11 @@ onMounted(() => {
 </script>
 
 <style>
+.tape_cont{
+margin: 0 auto;
+}
+
+
 .tape {
   border-collapse: collapse;
 }
