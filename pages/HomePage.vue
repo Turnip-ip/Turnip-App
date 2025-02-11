@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <h1 class="imag">
-      <NuxtImg src="/logo.jpg" class="framed-imag" />
+      <NuxtImg
+        src="/logo.jpg"
+        class="framed-imag"
+      />
     </h1>
     <h1 class="title">Please click on Levels to start</h1>
   </div>

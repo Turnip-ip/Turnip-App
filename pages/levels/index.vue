@@ -1,9 +1,12 @@
 <template>
   <div class="graph-container">
-    <GraphView :dot="dot" class="h-82 m-4 w-72" @click="handleLevelGraphClick" />
+    <GraphView
+      :dot="dot"
+      class="h-82 m-4 w-72"
+      @click="handleLevelGraphClick"
+    />
   </div>
 </template>
-
 
 <script setup lang="ts">
 import { navigateTo } from "nuxt/app";
@@ -204,7 +207,7 @@ function read_completed_lvl() {
 .graph-container {
   width: 100%;
   height: 100%;
-  background-image: url('/background.jpg');
+  background-image: url("/background.jpg");
   /* Correct path */
   background-size: cover;
   background-position: center;
