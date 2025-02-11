@@ -14,7 +14,10 @@
         <td></td>
         <td></td>
         <td></td>
-        <td v-if="props.grammVer === 2" class="last"></td>
+        <td
+          v-if="props.grammVer === 2"
+          class="last"
+        ></td>
       </tr>
     </table>
     <br v-if="props.grammVer >= 1" />
@@ -22,7 +25,10 @@
       <stick></stick>
       <arrow></arrow>
     </tape_head>
-    <table v-if="props.grammVer >= 1" class="tape">
+    <table
+      v-if="props.grammVer >= 1"
+      class="tape"
+    >
       <tr>
         <td></td>
         <td></td>
@@ -32,15 +38,17 @@
         <td></td>
         <td></td>
         <td></td>
-        <td v-if="props.grammVer === 2" class="last"></td>
+        <td
+          v-if="props.grammVer === 2"
+          class="last"
+        ></td>
       </tr>
     </table>
   </div>
 </template>
 
 <script setup lang="ts">
-
-import { Tape } from '~/lib/tapes';
+import { Tape } from "~/lib/tapes";
 
 const tapeDiv = ref();
 
@@ -62,8 +70,7 @@ onMounted(() => {
     // +++ we need size max...
     tape.writeM(props.initialText);
   }
-})
-
+});
 </script>
 
 <style>

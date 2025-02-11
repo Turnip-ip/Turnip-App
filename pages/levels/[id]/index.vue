@@ -13,36 +13,51 @@
       <div class="submitText flex flex-col items-end justify-end">
         <div class="cbbl -right press-start">
           Click on
-          <NuxtLink to="Answer" class="darkslateblue hover:underline">Answer</NuxtLink>
+          <NuxtLink
+            to="Answer"
+            class="darkslateblue hover:underline"
+            >Answer</NuxtLink
+          >
           to submit your code !
         </div>
-        <NuxtImg src="Turnip_Boy_Portrait_sans_background.jpeg" class="w-20 -translate-x-40">
+        <NuxtImg
+          src="Turnip_Boy_Portrait_sans_background.jpeg"
+          class="w-20 -translate-x-40"
+        >
         </NuxtImg>
 
-        <div class="examples">Example of an input (at the left) and the expected output (at the right):</div>
-        <div style="display: flex;column-gap: 10px;">
-          <DynTape :gramm-ver="grammVer" :initial-text="initialTextTapeIn" :initial-pos="initialPosTapeIn"></DynTape>
-          <DynTape :gramm-ver="grammVer" :initial-text="initialTextTapeOut" :initial-pos="initialPosTapeOut"></DynTape>
+        <div class="examples">
+          Example of an input (at the left) and the expected output (at the
+          right):
+        </div>
+        <div style="display: flex; column-gap: 10px">
+          <DynTape
+            :gramm-ver="grammVer"
+            :initial-text="initialTextTapeIn"
+            :initial-pos="initialPosTapeIn"
+          ></DynTape>
+          <DynTape
+            :gramm-ver="grammVer"
+            :initial-text="initialTextTapeOut"
+            :initial-pos="initialPosTapeOut"
+          ></DynTape>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-
 <script setup lang="ts">
+import "~/assets/css/cbbl.styl";
 
-import '~/assets/css/cbbl.styl'
+import { LevelsData } from "~/lib/levels_data";
+import { find_group_of_lvl } from "~/lib/tools";
 
-
-import { LevelsData } from '~/lib/levels_data';
-import { find_group_of_lvl } from '~/lib/tools';
-
-const route = useRoute()
+const route = useRoute();
 
 const currentLevelId: string = route.params.id as string;
 
-const level = LevelsData.levels[currentLevelId]
+const level = LevelsData.levels[currentLevelId];
 
 definePageMeta({
   layout: "level",
@@ -57,8 +72,8 @@ let initialPosTapeIn, initialPosTapeOut;
 if (grammVer == 0) {
   initialPosTapeIn = initialTextTapeIn.lastIndexOf(".");
   initialPosTapeOut = initialTextTapeOut.lastIndexOf(".");
-  initialTextTapeIn = initialTextTapeIn.replace(/\./g, ''); //remove the "."
-  initialTextTapeOut = initialTextTapeOut.replace(/\./g, ''); //remove the "."
+  initialTextTapeIn = initialTextTapeIn.replace(/\./g, ""); //remove the "."
+  initialTextTapeOut = initialTextTapeOut.replace(/\./g, ""); //remove the "."
 }
 </script>
 

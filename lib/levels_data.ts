@@ -236,8 +236,8 @@ const LevelsData: Data = {
       out: "b1|b2|(b1-b2 mod 256)",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: [45,26,3],
-      ex_out: [45,26,19],
+      ex_in: [45, 26, 3],
+      ex_out: [45, 26, 19],
       requires: [],
       unlocks: ["SUB"],
     },
@@ -250,8 +250,8 @@ const LevelsData: Data = {
       out: "b1|b2|1 if b1 >= b2 and b1|b2|0 otherwise",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: [5,4,36],
-      ex_out: [5,4,1],
+      ex_in: [5, 4, 36],
+      ex_out: [5, 4, 1],
       requires: [],
       unlocks: ["GEQ"],
     },
@@ -264,8 +264,8 @@ const LevelsData: Data = {
       out: "b1|b2|1 if b1 <= b2 and b1|b2|0 otherwise",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: [5,4,36],
-      ex_out: [5,4,"0"], //the "0" is intentional, otherwise js does its thing...
+      ex_in: [5, 4, 36],
+      ex_out: [5, 4, "0"], //the "0" is intentional, otherwise js does its thing...
       requires: [],
       unlocks: ["LEQ"],
     },
@@ -277,8 +277,8 @@ const LevelsData: Data = {
       out: "b1|b2|(b1*b2 mod 256)",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: [5,7],
-      ex_out: [5,7,35],
+      ex_in: [5, 7],
+      ex_out: [5, 7, 35],
       requires: ["ADD"],
       unlocks: ["MUL"],
     },
@@ -291,8 +291,8 @@ const LevelsData: Data = {
       out: "b1|b2|(b1%b2) where % is the modulo operator",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: [34,5],
-      ex_out: [34,5,4],
+      ex_in: [34, 5],
+      ex_out: [34, 5, 4],
       requires: ["LEQ", "GEQ", "SUB"],
       unlocks: ["MOD"],
     },
@@ -305,8 +305,8 @@ const LevelsData: Data = {
       out: "b1|b2|(b1/b2) where / is the euclidian division",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: [34,5],
-      ex_out: [34,5,6],
+      ex_in: [34, 5],
+      ex_out: [34, 5, 6],
       requires: ["LEQ", "GEQ", "SUB"],
       unlocks: ["DIV"],
     },
@@ -318,8 +318,8 @@ const LevelsData: Data = {
       out: "b1|b2|(b1^b2 mod 256)",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: [3,4],
-      ex_out: [3,4,81],
+      ex_in: [3, 4],
+      ex_out: [3, 4, 81],
       requires: ["MUL"],
       unlocks: ["EXP"],
     },
@@ -333,7 +333,7 @@ const LevelsData: Data = {
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
       ex_in: [121],
-      ex_out: [121,0],
+      ex_out: [121, 0],
       requires: ["MOD"],
       unlocks: [],
     },
@@ -347,7 +347,7 @@ const LevelsData: Data = {
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
       ex_in: [4],
-      ex_out: [4,2],
+      ex_out: [4, 2],
       requires: ["MUL", "MOD", "DIV"],
       unlocks: [],
     },

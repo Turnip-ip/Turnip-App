@@ -1,5 +1,9 @@
 <template>
-  <GraphView :dot="dot" class="h-82 m-4 w-72" @click="handleLevelGraphClick" />
+  <GraphView
+    :dot="dot"
+    class="h-82 m-4 w-72"
+    @click="handleLevelGraphClick"
+  />
 </template>
 
 <script setup lang="ts">
@@ -175,8 +179,6 @@ function search_in_levels(name: string): {
     text: LevelsData.texts[name],
   };
 }
-
-
 
 function read_completed_lvl() {
   // read completed_lvl in localStorage

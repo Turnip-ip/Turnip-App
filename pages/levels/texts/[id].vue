@@ -5,9 +5,9 @@
 </template>
 
 <script setup lang="ts">
-import { LevelsData } from '~/lib/levels_data';
+import { LevelsData } from "~/lib/levels_data";
 
-const route = useRoute()
+const route = useRoute();
 
 const currentTextId: string = route.params.id as string;
 

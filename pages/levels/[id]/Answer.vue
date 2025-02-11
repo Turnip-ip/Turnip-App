@@ -6,7 +6,8 @@
       class="h-max"
     >
       <ResizablePanel class="bg-[#8391A3]">
-        <div class="unlockfcts_hover">authorized functions &darr;
+        <div class="unlockfcts_hover">
+          authorized functions &darr;
           <div class="unlockfcts_list"></div>
         </div>
         <TextEditor
@@ -39,8 +40,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import { LevelsData } from '~/lib/levels_data';
-import { Tape } from '~/lib/tapes';
+import { LevelsData } from "~/lib/levels_data";
+import { Tape } from "~/lib/tapes";
 import { find_group_of_lvl } from "~/lib/tools";
 
 definePageMeta({
@@ -69,17 +70,20 @@ q
 
 //simple and ugly way to have access to the tape:
 onMounted(() => {
-  const tape = new Tape(grammVer, document.body.getElementsByTagName("tape_head")[0].parentElement);
+  const tape = new Tape(
+    grammVer,
+    document.body.getElementsByTagName("tape_head")[0].parentElement,
+  );
   tape.write("hello");
   tape.move(5);
-})
+});
 
 // FCT LEGAL FCTS
 
 function legal_fct() {
   const completed_lvl = read_completed_lvl();
   let res: string[] = [];
-  if (grammVer==0) {
+  if (grammVer == 0) {
     for (let i = 0; i < completed_lvl.length; i++) {
       if (completed_lvl[i] in LevelsData.levels) {
         const tab = LevelsData.levels[completed_lvl[i]].unlocks0 as string[];
@@ -106,39 +110,44 @@ function read_completed_lvl() {
 
 // print list functions: events
 onMounted(() => {
-  const button: HTMLDivElement = document.getElementsByClassName("unlockfcts_hover")[0];
-  const menu: HTMLDivElement = document.getElementsByClassName("unlockfcts_list")[0];
+  const button: HTMLDivElement =
+    document.getElementsByClassName("unlockfcts_hover")[0];
+  const menu: HTMLDivElement =
+    document.getElementsByClassName("unlockfcts_list")[0];
 
-  button.addEventListener('mouseover', () => {
+  button.addEventListener("mouseover", () => {
     menu.style.height = "auto"; // Set the desired height here
     menu.style.padding = "10px";
   });
-  menu.addEventListener('mouseover', () => {
+  menu.addEventListener("mouseover", () => {
     menu.style.height = "auto"; // Set the desired height here
     menu.style.padding = "10px";
   });
 
-  button.addEventListener('mouseout', () => {
+  button.addEventListener("mouseout", () => {
     menu.style.height = "0";
     menu.style.padding = "0 10px";
   });
-  menu.addEventListener('mouseout', () => {
+  menu.addEventListener("mouseout", () => {
     menu.style.height = "0";
     menu.style.padding = "0 10px";
   });
-})
+});
 
 function display_legal_fcts(arr_legal_fcts: string[]) {
-  if (arr_legal_fcts.length!=0) {document.getElementsByClassName("unlockfcts_list")[0].innerHTML = arr_legal_fcts.join("<br/>");}
-  else {document.getElementsByClassName("unlockfcts_list")[0].innerHTML = "No authorized<br/>function yet";}
+  if (arr_legal_fcts.length != 0) {
+    document.getElementsByClassName("unlockfcts_list")[0].innerHTML =
+      arr_legal_fcts.join("<br/>");
+  } else {
+    document.getElementsByClassName("unlockfcts_list")[0].innerHTML =
+      "No authorized<br/>function yet";
+  }
 }
 
 onMounted(() => {
   const arr_legal_fcts: string[] = legal_fct();
   display_legal_fcts(arr_legal_fcts);
-})
-
-
+});
 
 onMounted(() => {
   const existingCode = localStorage.getItem(`level-${currentLevelId}`);
@@ -178,4 +187,3 @@ watch(dotArea, (newCode) => {
   border-radius: 10px;
 }
 </style>
-
