@@ -161,10 +161,10 @@ watch(dotArea, (newCode) => {
   border-radius: 5px;
   background: silver;
   position: absolute;
-  top: 85px;
-  left: 55px;
-  font-size: 20px;
-  color: white;
+  top: 80px;
+  left: 40px;
+  font-size: 15px;
+  color: black;
   z-index: 2;
 }
 .unlockfcts_list {
@@ -173,6 +173,7 @@ watch(dotArea, (newCode) => {
   padding: 0 10px;
   overflow: hidden;
   transition: 0.5s ease-out;
+  color: white;
   background: gray;
   border-radius: 10px;
 }
