@@ -1,33 +1,16 @@
 <template>
   <div class="flex h-screen flex-col items-center md:flex-row">
-    <NuxtImg
-      src="/background.jpg"
-      class="imag"
-    />
-    <NuxtImg
-      src="/Turnip_Boy_Portrait_sans_background.jpeg"
-      class="turnip"
-    />
+    <NuxtImg src="/background.jpg" class="imag" />
+    <NuxtImg src="/Turnip_Boy_Portrait_sans_background.jpeg" class="turnip" />
     <TurnipText class="titreJeu" />
-    <button
-      v-if="playVisible"
-      id="playButton"
-      class="retro-button ml-56"
-      @click="openWindow"
-    >
+    <button v-if="playVisible" id="playButton" class="retro-button ml-56" @click="openWindow">
       Play
     </button>
 
-    <div
-      v-if="windowOpen"
-      class="popup flex h-full flex-col items-center justify-around px-4 py-10"
-    >
+    <div v-if="windowOpen" class="popup flex h-full flex-col items-center justify-around px-4 py-10">
       <div class="titreMessage h-1/4">Welcome to TURN'IP!</div>
       <div class="contentMessage h-1/2">{{ popupMessages[index] }}</div>
-      <button
-        class="retro-button ml-10 h-1/4"
-        @click="nextMessage"
-      >
+      <button class="retro-button ml-10 h-1/4" @click="nextMessage">
         Continue
       </button>
     </div>
@@ -108,7 +91,6 @@ body {
 
 .retro-button:active {
   box-shadow: 2px 2px 0px #000;
-  transform: translate(2px, 2px);
 }
 
 .retro-button::before {
