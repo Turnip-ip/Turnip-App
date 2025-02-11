@@ -50,7 +50,10 @@ function build_lvl_graph(): string {
     // Create the cluster
     clusters_ids[group_name] = cluster_i;
     dot_levels += `subgraph cluster_${cluster_i.toString()} {`;
+    dot_levels += `style=filled; color="${colors[cluster_i]}";`;
     dot_levels += `style=filled;color="${colors[cluster_i]}";node [style=filled color=grey]`;
+
+    dot_levels += `invisibleNode [style=invisible];`;
 
     // Get the nodes in the group
     const group: Group = groups[group_name];
@@ -70,6 +73,7 @@ function build_lvl_graph(): string {
     dot_levels += `label="${group.label}"`;
 
     dot_levels += "}";
+
     ++cluster_i;
   }
 
@@ -205,7 +209,7 @@ function read_completed_lvl() {
 }
 
 .graph-container {
-  width: 100%;
+
   height: 100%;
   background-image: url("/background.jpg");
   /* Correct path */
