@@ -1,34 +1,53 @@
 <template>
   <div class="flex h-screen flex-col items-center md:flex-row">
-    <NuxtImg src="/background.jpg" class="imag" />
-    <NuxtImg src="/Turnip_Boy_Portrait_sans_background.jpeg" class="turnip" />
+    <NuxtImg
+      src="/background.jpg"
+      class="imag"
+    />
+    <NuxtImg
+      src="/Turnip_Boy_Portrait_sans_background.jpeg"
+      class="turnip"
+    />
     <TurnipText class="titreJeu" />
-    <button v-if="playVisible" id="playButton" class="retro-button ml-56" @click="openWindow">Play</button>
+    <button
+      v-if="playVisible"
+      id="playButton"
+      class="retro-button ml-56"
+      @click="openWindow"
+    >
+      Play
+    </button>
 
-    <div v-if="windowOpen" class="popup h-full flex flex-col justify-around items-center py-10 px-4">
+    <div
+      v-if="windowOpen"
+      class="popup flex h-full flex-col items-center justify-around px-4 py-10"
+    >
       <div class="titreMessage h-1/4">Welcome to TURN'IP!</div>
       <div class="contentMessage h-1/2">{{ popupMessages[index] }}</div>
-      <button class="retro-button h-1/4 ml-10" @click="nextMessage">Continue</button>
+      <button
+        class="retro-button ml-10 h-1/4"
+        @click="nextMessage"
+      >
+        Continue
+      </button>
     </div>
   </div>
 </template>
 
-
 <script setup lang="ts">
+const windowOpen = ref(false);
+const playVisible = ref(true);
 
-const windowOpen = ref(false)
-const playVisible = ref(true)
-
-console.log(playVisible.value)
-const index = ref(0)
-const popupMessages = ["This is a game in which you will learn how Turing Machines work",
+console.log(playVisible.value);
+const index = ref(0);
+const popupMessages = [
+  "This is a game in which you will learn how Turing Machines work",
   "Each level presents you with a problem to solve, along with constraints, examples, and inputs & outputs. Your goal is to solve as many levels as you can!",
   "Your mission? Solve as many levels as possible and master the art of computation!",
   "Every function you write becomes a tool for future challenges",
   "But beware—some levels are locked! To unlock them, you'll need to conquer multiple challenges in a cluster.",
-  "To start playing, click on the Levels button on the top left!"
-]
-
+  "To start playing, click on the Levels button on the top left!",
+];
 
 function openWindow() {
   windowOpen.value = true;
@@ -41,19 +60,13 @@ async function nextMessage() {
   } else {
     windowOpen.value = false;
     playVisible.value = true;
-    await navigateTo('/levels');
+    await navigateTo("/levels");
   }
 }
-// Close the modal
-function closeModal() {
-  windowOpen.value = false;
-  playVisible.value = true;
-}
-
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap");
 
 .popup {
   align-items: center;
@@ -69,10 +82,8 @@ function closeModal() {
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
 }
 
-
-
 .retro-button {
-  font-family: 'Press Start 2P', sans-serif;
+  font-family: "Press Start 2P", sans-serif;
   font-size: 25px;
   background: #e49ce4;
   color: #644606;
@@ -121,13 +132,13 @@ body {
 }
 
 .titreMessage {
-  font-family: 'Press Start 2P';
+  font-family: "Press Start 2P";
   font-size: 35px;
   color: crimson;
 }
 
 .contentMessage {
-  font-family: 'Press Start 2P';
+  font-family: "Press Start 2P";
   font-size: 25px;
 }
 
