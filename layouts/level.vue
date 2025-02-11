@@ -1,16 +1,6 @@
 <template>
-  <div class="page-container">
+  <div class="mb-0 h-screen bg-[#ffc0cb]">
     <MenuBar :show-buttons="true" />
-    <div class="content-container">
-      <slot />
-    </div>
+    <slot />
   </div>
 </template>
-
-<style>
-body {
-  background-color: #ffc0cb;
-  overflow: hidden;
-  margin: 0;
-}
-</style>

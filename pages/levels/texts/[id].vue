@@ -1,6 +1,6 @@
 <template>
-  <div class="flex h-screen items-center justify-center">
-    <div class="darkslateblue press-start"> {{ content }}</div>
+  <div class="flex items-center justify-center p-10">
+    <div class="darkslateblue press-start">{{ content }}</div>
   </div>
 </template>
 
@@ -28,10 +28,3 @@ function add_completed_lvl(textId: string) {
   localStorage.setItem("completed_lvl", JSON.stringify(arr_compl));
 }
 </script>
-
-<style scoped>
-/* Ensures the text is centered vertically and horizontally */
-.h-screen {
-  height: 100vh;
-}
-</style>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Centered text content -->
-    <div class="flex h-screen flex-col items-center justify-center gap-2">
+    <div class="mt-10 flex flex-col items-center justify-center gap-2">
       <div class="press-start">Level {{ currentLevelId }}</div>
 
       <div class="w-2/3">{{ level.description }}</div>

@@ -1,18 +1,37 @@
 <template>
-  <div class="answerpage">
+  <div class="h-full">
     <!-- Resizable Panels -->
-    <ResizablePanelGroup direction="horizontal">
-      <ResizablePanel>
-        <LeftHalfPanel>
-          <TextEditor v-model="dotArea" class="m-4" height="931px" />
-          <!-- 931 parce que 1000 - 4 rem, 1 rem = 16 px et il faut considerer le padding donc un peu moins de 1000-4*16 -->
-        </LeftHalfPanel>
+    <ResizablePanelGroup
+      direction="horizontal"
+      class="h-max"
+    >
+      <ResizablePanel class="bg-[#8391A3]">
+        <div class="unlockfcts_hover">authorized functions &darr;
+          <div class="unlockfcts_list"></div>
+        </div>
+        <TextEditor
+          v-model="dotArea"
+          class="m-10"
+          height="100%"
+        />
       </ResizablePanel>
 
       <ResizableHandle with-handle />
 
       <ResizablePanel>
-        <RightHalfPanel :dot-area="dotArea" />
+        <AnswerGraphPanel
+          :dot-area="dotArea"
+          class="h-1/2"
+          :current-lvl-id="currentLevelId"
+        />
+
+        <div class="h-[5px] bg-black" />
+
+        <AnswerRubanPanel class="h-1/4" />
+
+        <div class="h-[5px] bg-black" />
+
+        <AnswerOutputPanel class="h-1/4" />
       </ResizablePanel>
     </ResizablePanelGroup>
   </div>
@@ -20,8 +39,6 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
-import LeftHalfPanel from "../../../components/ui/leftPanel/leftHalfPanel.vue";
-import RightHalfPanel from "../../../components/ui/rightPanel/RightHalfPanel.vue";
 import { LevelsData } from '~/lib/levels_data';
 import { Tape } from '~/lib/tapes';
 import { find_group_of_lvl } from "~/lib/tools";
@@ -30,22 +47,25 @@ definePageMeta({
   layout: "level",
 });
 
-const dotArea = ref<string>(`START
+const route = useRoute();
+
+const currentLevelId: string = route.params.id as string;
+
+const grammVer = find_group_of_lvl(currentLevelId, LevelsData).grammar_version;
+
+const level = LevelsData.levels[currentLevelId];
+
+const dotArea = ref<string>("");
+
+const defaultCode = `START
 | b -> (b,R), START
 | _ -> (_,L), q
 
 q
 | 1 -> (0,L), q
-| 0 -> (1,L), END
-`);
+| 0 -> (1,L), END`;
 
 // TAPE
-
-const route = useRoute()
-const currentLevelId: string = route.params.id as string;
-
-// grammVer
-const grammVer = find_group_of_lvl(currentLevelId, LevelsData).grammar_version;
 
 //simple and ugly way to have access to the tape:
 onMounted(() => {
@@ -84,6 +104,30 @@ function read_completed_lvl() {
   return JSON.parse(res) as string[];
 }
 
+// print list functions: events
+onMounted(() => {
+  const button = document.getElementsByClassName("unlockfcts_hover")[0];
+  const menu = document.getElementsByClassName("unlockfcts_list")[0];
+
+  button.addEventListener('mouseover', () => {
+    menu.style.height = "auto"; // Set the desired height here
+    menu.style.padding = "10px";
+  });
+  menu.addEventListener('mouseover', () => {
+    menu.style.height = "auto"; // Set the desired height here
+    menu.style.padding = "10px";
+  });
+
+  button.addEventListener('mouseout', () => {
+    menu.style.height = "0";
+    menu.style.padding = "0 10px";
+  });
+  menu.addEventListener('mouseout', () => {
+    menu.style.height = "0";
+    menu.style.padding = "0 10px";
+  });
+})
+
 function display_legal_fcts(arr_legal_fcts: string[]) {
   if (arr_legal_fcts.length!=0) {document.getElementsByClassName("unlockfcts_list")[0].innerHTML = arr_legal_fcts.join("<br/>");}
   else {document.getElementsByClassName("unlockfcts_list")[0].innerHTML = "No authorized<br/>function yet";}
@@ -94,11 +138,43 @@ onMounted(() => {
   display_legal_fcts(arr_legal_fcts);
 })
 
+
+
+onMounted(() => {
+  const existingCode = localStorage.getItem(`level-${currentLevelId}`);
+  dotArea.value = existingCode || level.initial_code || defaultCode;
+});
+
+watch(dotArea, (newCode) => {
+  localStorage.setItem(`level-${currentLevelId}`, newCode);
+});
 </script>
 
 <style scoped>
-.answerpage {
-  display: flex;
-  flex-direction: column;
+.text {
+  height: 1005px;
+}
+
+.unlockfcts_hover {
+  border: 2px solid black;
+  padding: 3px;
+  border-radius: 5px;
+  background: silver;
+  position: absolute;
+  top: 85px;
+  left: 55px;
+  font-size: 20px;
+  color: white;
+  z-index: 2;
+}
+.unlockfcts_list {
+  width: 150px;
+  height: 0;
+  padding: 0 10px;
+  overflow: hidden;
+  transition: 0.5s ease-out;
+  background: gray;
+  border-radius: 10px;
 }
 </style>
+
