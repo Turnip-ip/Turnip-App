@@ -106,8 +106,8 @@ function read_completed_lvl() {
 
 // print list functions: events
 onMounted(() => {
-  const button = document.getElementsByClassName("unlockfcts_hover")[0];
-  const menu = document.getElementsByClassName("unlockfcts_list")[0];
+  const button: HTMLDivElement = document.getElementsByClassName("unlockfcts_hover")[0];
+  const menu: HTMLDivElement = document.getElementsByClassName("unlockfcts_list")[0];
 
   button.addEventListener('mouseover', () => {
     menu.style.height = "auto"; // Set the desired height here
