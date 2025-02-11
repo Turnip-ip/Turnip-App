@@ -87,9 +87,11 @@ const LevelsData: Data = {
       out: "0: a byte with value 0",
       constraints:
         "no overflow allowed, at the end the cursor must return to its initial position",
-      ex_in: "1.0101010",
-      ex_out: "0.0000000",
+      ex_in: ".10101010",
+      ex_out: ".00000000",
       requires: [],
+      unlocks0: ["WRITE"],
+      unlocks: ["WRITE_M", "WRITE_W"],
     },
     MOVE_R: {
       tooltip: "Moving head Right",
@@ -101,9 +103,11 @@ const LevelsData: Data = {
       out: "*: the same byte (unchanged)",
       constraints:
         "no overflow allowed, at the end the cursor must has been moved to the right",
-      ex_in: "0.0000000",
-      ex_out: "00.000000",
+      ex_in: ".00000000",
+      ex_out: "0.0000000",
       requires: ["ZERO"],
+      unlocks0: ["MOVE_R"],
+      unlocks: ["MOVE_R_M", "MOVE_R_W"],
     },
     MOVE_L: {
       tooltip: "Moving head Left",
@@ -115,9 +119,11 @@ const LevelsData: Data = {
       out: "*: the same byte (unchanged)",
       constraints:
         "no overflow allowed, at the end the cursor must has been moved to the left",
-      ex_in: "00000.000",
-      ex_out: "0000.0000",
+      ex_in: "0000.0000",
+      ex_out: "000.00000",
       requires: ["ZERO"],
+      unlocks0: ["MOVE_L"],
+      unlocks: ["MOVE_L_M", "MOVE_L_W"],
     },
     ZERO_2: {
       tooltip: "Reading and writing with 2 tapes",
@@ -128,9 +134,11 @@ const LevelsData: Data = {
       out: "0, 0",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "1.0101010, 1.0101010",
-      ex_out: "0.0000000, 0.0000000",
+      ex_in: "1010101010101010",
+      ex_out: "0000000000000000",
       requires: [],
+      unlocks0: [],
+      unlocks: [],
     },
     COPY_TO_MAIN: {
       tooltip: "Copy to the Main tape",
@@ -141,9 +149,11 @@ const LevelsData: Data = {
       out: "b, b",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "0.0000000, 1.1100010",
-      ex_out: "1.1100010, 1.1100010",
+      ex_in: "0000000011100010",
+      ex_out: "1110001011100010",
       requires: ["ZERO_2"],
+      unlocks0: [],
+      unlocks: [],
     },
     COPY_TO_WORK: {
       tooltip: "Copy to the Work tape",
@@ -153,9 +163,11 @@ const LevelsData: Data = {
       out: "b, b",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "1.1100010, 0.0000000",
-      ex_out: "1.1100010, 1.1100010",
+      ex_in: "1110001000000000",
+      ex_out: "1110001011100010",
       requires: ["ZERO_2"],
+      unlocks0: [],
+      unlocks: [],
     },
     ADD1: {
       tooltip: "Adding 1 to an input modulo 256",
@@ -166,9 +178,11 @@ const LevelsData: Data = {
       out: "b+1: mod 256",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "00001011",
-      ex_out: "00001100",
+      ex_in: ".00001011",
+      ex_out: ".00001100",
       requires: [],
+      unlocks0: ["ADD1"],
+      unlocks: ["ADD1_M", "ADD1_W"],
     },
     SUB1: {
       tooltip: "Subtracting 1 to an input modulo 256",
@@ -179,9 +193,11 @@ const LevelsData: Data = {
       out: "b-1: mod 256",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "00010100",
-      ex_out: "00010011",
+      ex_in: ".00010100",
+      ex_out: ".00010011",
       requires: [],
+      unlocks0: ["SUB1"],
+      unlocks: ["SUB1_M", "SUB1_W"],
     },
     NEG: {
       tooltip: "Negating an input: -x",
@@ -192,9 +208,11 @@ const LevelsData: Data = {
       out: "-b: mod 256 (Two's complement)",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "00000010",
-      ex_out: "11111110",
+      ex_in: ".00000010",
+      ex_out: ".11111110",
       requires: ["ADD1"],
+      unlocks0: ["NEG"],
+      unlocks: ["NEG_M", "NEG_W"],
     },
     ADD: {
       tooltip: "Adding two numbers",
@@ -204,9 +222,10 @@ const LevelsData: Data = {
       out: "b1|b2|(b1+b2 mod 256)",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "3|4|11",
-      ex_out: "3|4|7",
+      ex_in: [3, 4, 11],
+      ex_out: [3, 4, 7],
       requires: [],
+      unlocks: ["ADD"],
     },
     SUB: {
       tooltip: "Subtracting two numbers",
@@ -217,9 +236,10 @@ const LevelsData: Data = {
       out: "b1|b2|(b1-b2 mod 256)",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "45|26|3",
-      ex_out: "45|26|19",
+      ex_in: [45, 26, 3],
+      ex_out: [45, 26, 19],
       requires: [],
+      unlocks: ["SUB"],
     },
     GEQ: {
       tooltip: "Comparing two integers",
@@ -230,9 +250,10 @@ const LevelsData: Data = {
       out: "b1|b2|1 if b1 >= b2 and b1|b2|0 otherwise",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "5|4|36",
-      ex_out: "5|4|1",
+      ex_in: [5, 4, 36],
+      ex_out: [5, 4, 1],
       requires: [],
+      unlocks: ["GEQ"],
     },
     LEQ: {
       tooltip: "Comparing two integers",
@@ -243,9 +264,10 @@ const LevelsData: Data = {
       out: "b1|b2|1 if b1 <= b2 and b1|b2|0 otherwise",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "5|4|36",
-      ex_out: "5|4|0",
+      ex_in: [5, 4, 36],
+      ex_out: [5, 4, "0"], //the "0" is intentional, otherwise js does its thing...
       requires: [],
+      unlocks: ["LEQ"],
     },
     MUL: {
       tooltip: "Multiplying two integers",
@@ -255,9 +277,10 @@ const LevelsData: Data = {
       out: "b1|b2|(b1*b2 mod 256)",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "5|7|",
-      ex_out: "5|7|35",
+      ex_in: [5, 7],
+      ex_out: [5, 7, 35],
       requires: ["ADD"],
+      unlocks: ["MUL"],
     },
     MOD: {
       tooltip: "Compute the modulo of two integers",
@@ -268,9 +291,10 @@ const LevelsData: Data = {
       out: "b1|b2|(b1%b2) where % is the modulo operator",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "34|5|",
-      ex_out: "34|5|4",
+      ex_in: [34, 5],
+      ex_out: [34, 5, 4],
       requires: ["LEQ", "GEQ", "SUB"],
+      unlocks: ["MOD"],
     },
     DIV: {
       tooltip: "Integer division",
@@ -281,9 +305,10 @@ const LevelsData: Data = {
       out: "b1|b2|(b1/b2) where / is the euclidian division",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "34|5|",
-      ex_out: "34|5|6",
+      ex_in: [34, 5],
+      ex_out: [34, 5, 6],
       requires: ["LEQ", "GEQ", "SUB"],
+      unlocks: ["DIV"],
     },
     EXP: {
       tooltip: "Compute the power of an integer",
@@ -293,9 +318,10 @@ const LevelsData: Data = {
       out: "b1|b2|(b1^b2 mod 256)",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "3|4|",
-      ex_out: "3|4|81",
+      ex_in: [3, 4],
+      ex_out: [3, 4, 81],
       requires: ["MUL"],
+      unlocks: ["EXP"],
     },
     IS_PRIME: {
       tooltip: "Deciding wheather an integer is prime or not",
@@ -306,9 +332,10 @@ const LevelsData: Data = {
       out: "b|1 if b is prime, b|0 otherwise",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "121",
-      ex_out: "121|0",
+      ex_in: [121],
+      ex_out: [121, 0],
       requires: ["MOD"],
+      unlocks: [],
     },
     LEN_SYRACUSE: {
       tooltip: "Computing the time length of a syracuse sequence",
@@ -319,9 +346,10 @@ const LevelsData: Data = {
       out: "b|n where n is the smallest integer such that syracuse(b, n) = 1",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "4",
-      ex_out: "2",
+      ex_in: [4],
+      ex_out: [4, 2],
       requires: ["MUL", "MOD", "DIV"],
+      unlocks: [],
     },
   },
 };

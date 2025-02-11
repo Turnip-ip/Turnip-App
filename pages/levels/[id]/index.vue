@@ -25,6 +25,23 @@
           class="w-20 -translate-x-40"
         >
         </NuxtImg>
+
+        <div class="examples">
+          Example of an input (at the left) and the expected output (at the
+          right):
+        </div>
+        <div style="display: flex; column-gap: 10px">
+          <DynTape
+            :gramm-ver="grammVer"
+            :initial-text="initialTextTapeIn"
+            :initial-pos="initialPosTapeIn"
+          ></DynTape>
+          <DynTape
+            :gramm-ver="grammVer"
+            :initial-text="initialTextTapeOut"
+            :initial-pos="initialPosTapeOut"
+          ></DynTape>
+        </div>
       </div>
     </div>
   </div>
@@ -34,6 +51,7 @@
 import "~/assets/css/cbbl.styl";
 
 import { LevelsData } from "~/lib/levels_data";
+import { find_group_of_lvl } from "~/lib/tools";
 
 const route = useRoute();
 
@@ -44,6 +62,19 @@ const level = LevelsData.levels[currentLevelId];
 definePageMeta({
   layout: "level",
 });
+
+// add tapes
+const grammVer = find_group_of_lvl(currentLevelId, LevelsData).grammar_version;
+let initialTextTapeIn = LevelsData.levels[currentLevelId].ex_in;
+let initialTextTapeOut = LevelsData.levels[currentLevelId].ex_out;
+let initialPosTapeIn, initialPosTapeOut;
+// let tapeIn, tapeOut;
+if (grammVer == 0) {
+  initialPosTapeIn = initialTextTapeIn.lastIndexOf(".");
+  initialPosTapeOut = initialTextTapeOut.lastIndexOf(".");
+  initialTextTapeIn = initialTextTapeIn.replace(/\./g, ""); //remove the "."
+  initialTextTapeOut = initialTextTapeOut.replace(/\./g, ""); //remove the "."
+}
 </script>
 
 <style scoped>
