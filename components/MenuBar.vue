@@ -1,26 +1,15 @@
 <template>
   <nav class="nuxt-link flex space-x-4 bg-gray-200 p-4">
-    <NuxtLink
-      to="/levels"
-      class="rounded p-2 hover:bg-gray-300"
-    >
+    <NuxtLink to="/levels" class="rounded p-2 hover:bg-gray-300">
       Levels
     </NuxtLink>
 
-    <NuxtLink
-      v-if="showButtons"
-      to="."
-      class="rounded p-2 hover:bg-gray-300"
-    >
+    <NuxtLink v-if="showButtons" to="." class="rounded p-2 hover:bg-gray-300">
       Question
     </NuxtLink>
 
-    <NuxtLink
-      v-if="showButtons"
-      to="answer"
-      class="rounded p-2 hover:bg-gray-300"
-    >
-      Answer
+    <NuxtLink v-if="showButtons" to="answer" class="rounded p-2 hover:bg-gray-300">
+      Submit
     </NuxtLink>
   </nav>
 </template>
@@ -36,6 +25,7 @@ button {
   font-family: "Press Start 2P", sans-serif;
   color: darkslateblue;
 }
+
 .nuxt-link {
   font-family: "Press Start 2P", sans-serif;
   color: darkslateblue;
