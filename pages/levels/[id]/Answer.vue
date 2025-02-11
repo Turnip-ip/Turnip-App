@@ -8,7 +8,7 @@
       <ResizablePanel class="bg-[#8391A3]">
         <TextEditor
           v-model="dotArea"
-          class="m-10"
+          class="p-10"
           height="100%"
         />
       </ResizablePanel>

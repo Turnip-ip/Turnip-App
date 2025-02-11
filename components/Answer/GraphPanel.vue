@@ -2,63 +2,110 @@
 <!-- n'est pas ajouté au index.vue car bug quand on rajoute le graphview dedans -->
 <template>
   <div class="bg-[#D0D9E2]">
-    <div class="ml-2 mt-2 flex flex-row gap-2">
-      <Button
-        variant="secondary"
-        :disabled="start || running"
-        @click="previousStep"
-      >
-        <ChevronLeft class="h-4 w-4" />
-      </Button>
-      <Button
-        variant="secondary"
-        :disabled="end || running"
-        @click="nextStep"
-      >
-        <ChevronRight class="h-4 w-4" />
-      </Button>
+    <div class="ml-2 flex h-auto flex-row gap-1 pt-1">
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              variant="secondary"
+              :disabled="start || running"
+              @click="previousStep"
+            >
+              <ChevronLeft class="h-4 w-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Run previous step</p>
+          </TooltipContent>
+        </Tooltip>
 
-      <Button
-        :disabled="end || running"
-        @click="allSteps"
-      >
-        <LoaderCircle
-          v-if="running"
-          class="h-4 w-4 animate-spin"
-        />
-        <ChevronLast
-          v-else
-          class="h-4 w-4"
-        />
-      </Button>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              variant="secondary"
+              :disabled="end || running"
+              @click="nextStep"
+            >
+              <ChevronRight class="h-4 w-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Run next step</p>
+          </TooltipContent>
+        </Tooltip>
 
-      <Button
-        :disabled="!running"
-        @click="stop"
-      >
-        <OctagonX class="h-4 w-4" />
-      </Button>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              :disabled="end || running"
+              @click="allSteps"
+            >
+              <LoaderCircle
+                v-if="running"
+                class="h-4 w-4 animate-spin"
+              />
+              <ChevronLast
+                v-else
+                class="h-4 w-4"
+              />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Run all step</p>
+          </TooltipContent>
+        </Tooltip>
 
-      <Button
-        variant="destructive"
-        :disabled="start || running"
-        @click="reset"
-      >
-        <RotateCcw class="h-4 w-4" />
-      </Button>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              :disabled="!running"
+              @click="stop"
+            >
+              <OctagonX class="h-4 w-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Abort simulation</p>
+          </TooltipContent>
+        </Tooltip>
 
-      <Button
-        variant="secondary"
-        :disabled="running"
-        @click="check"
-      >
-        <MonitorCheck class="h-4 w-4" />
-      </Button>
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              variant="destructive"
+              :disabled="start || running"
+              @click="reset"
+            >
+              <RotateCcw class="h-4 w-4" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Reset machine to initial state</p>
+          </TooltipContent>
+        </Tooltip>
+
+        <Tooltip>
+          <TooltipTrigger>
+            <Button
+              variant="secondary"
+              :disabled="running"
+              @click="check"
+            >
+              <MonitorCheck class="h-4 w-4" /> Run tests
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Run tests</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </div>
-    <TuringGraphView
-      class="h-full p-4"
-      :code="dotArea"
-    />
+    <div class="h-full pb-6">
+      <TuringGraphView
+        class="h-full pb-4"
+        :code="dotArea"
+      />
+    </div>
   </div>
 </template>
 
