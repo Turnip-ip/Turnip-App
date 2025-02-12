@@ -42,19 +42,16 @@ const LevelsData: Data = {
     Tutorial: {
       label: "Tutorial",
       levels: ["ZERO", "MOVE_L", "MOVE_R"],
-      grammar_version: 0,
       requires: [],
     },
     Tapes: {
       label: "Working with 2 tapes",
       levels: ["ZERO_2", "COPY_TO_MAIN", "COPY_TO_WORK"],
-      grammar_version: 1,
       requires: ["text1"],
     },
     Basics: {
       label: "Basic Operations",
       levels: ["ADD1", "SUB1", "NEG"],
-      grammar_version: 0,
       requires: ["text2"],
     },
     Medium: {
@@ -71,7 +68,6 @@ const LevelsData: Data = {
         "IS_PRIME",
         "LEN_SYRACUSE",
       ],
-      grammar_version: 2,
       requires: ["text3", "text4"],
     },
   },
@@ -90,6 +86,7 @@ const LevelsData: Data = {
       ex_in: "1.0101010",
       ex_out: "0.0000000",
       requires: [],
+      grammar_version: 0,
     },
     MOVE_R: {
       tooltip: "Moving head Right",
@@ -104,6 +101,7 @@ const LevelsData: Data = {
       ex_in: "0.0000000",
       ex_out: "00.000000",
       requires: ["ZERO"],
+      grammar_version: 0,
     },
     MOVE_L: {
       tooltip: "Moving head Left",
@@ -118,6 +116,7 @@ const LevelsData: Data = {
       ex_in: "00000.000",
       ex_out: "0000.0000",
       requires: ["ZERO"],
+      grammar_version: 0,
     },
     ZERO_2: {
       tooltip: "Reading and writing with 2 tapes",
@@ -131,6 +130,7 @@ const LevelsData: Data = {
       ex_in: "1.0101010, 1.0101010",
       ex_out: "0.0000000, 0.0000000",
       requires: [],
+      grammar_version: 1,
     },
     COPY_TO_MAIN: {
       tooltip: "Copy to the Main tape",
@@ -144,6 +144,7 @@ const LevelsData: Data = {
       ex_in: "0.0000000, 1.1100010",
       ex_out: "1.1100010, 1.1100010",
       requires: ["ZERO_2"],
+      grammar_version: 1,
     },
     COPY_TO_WORK: {
       tooltip: "Copy to the Work tape",
@@ -156,6 +157,7 @@ const LevelsData: Data = {
       ex_in: "1.1100010, 0.0000000",
       ex_out: "1.1100010, 1.1100010",
       requires: ["ZERO_2"],
+      grammar_version: 1,
     },
     ADD1: {
       tooltip: "Adding 1 to an input modulo 256",
@@ -169,6 +171,7 @@ const LevelsData: Data = {
       ex_in: "00001011",
       ex_out: "00001100",
       requires: [],
+      grammar_version: 0,
     },
     SUB1: {
       tooltip: "Subtracting 1 to an input modulo 256",
@@ -182,6 +185,7 @@ const LevelsData: Data = {
       ex_in: "00010100",
       ex_out: "00010011",
       requires: [],
+      grammar_version: 0,
     },
     NEG: {
       tooltip: "Negating an input: -x",
@@ -195,6 +199,7 @@ const LevelsData: Data = {
       ex_in: "00000010",
       ex_out: "11111110",
       requires: ["ADD1"],
+      grammar_version: 0,
     },
     ADD: {
       tooltip: "Adding two numbers",
@@ -207,6 +212,7 @@ const LevelsData: Data = {
       ex_in: "3|4|11",
       ex_out: "3|4|7",
       requires: [],
+      grammar_version: 2,
     },
     SUB: {
       tooltip: "Subtracting two numbers",
@@ -220,6 +226,7 @@ const LevelsData: Data = {
       ex_in: "45|26|3",
       ex_out: "45|26|19",
       requires: [],
+      grammar_version: 2,
     },
     GEQ: {
       tooltip: "Comparing two integers",
@@ -233,6 +240,7 @@ const LevelsData: Data = {
       ex_in: "5|4|36",
       ex_out: "5|4|1",
       requires: [],
+      grammar_version: 2,
     },
     LEQ: {
       tooltip: "Comparing two integers",
@@ -246,6 +254,7 @@ const LevelsData: Data = {
       ex_in: "5|4|36",
       ex_out: "5|4|0",
       requires: [],
+      grammar_version: 2,
     },
     MUL: {
       tooltip: "Multiplying two integers",
@@ -258,6 +267,7 @@ const LevelsData: Data = {
       ex_in: "5|7|",
       ex_out: "5|7|35",
       requires: ["ADD"],
+      grammar_version: 2,
     },
     MOD: {
       tooltip: "Compute the modulo of two integers",
@@ -271,6 +281,7 @@ const LevelsData: Data = {
       ex_in: "34|5|",
       ex_out: "34|5|4",
       requires: ["LEQ", "GEQ", "SUB"],
+      grammar_version: 2,
     },
     DIV: {
       tooltip: "Integer division",
@@ -284,6 +295,7 @@ const LevelsData: Data = {
       ex_in: "34|5|",
       ex_out: "34|5|6",
       requires: ["LEQ", "GEQ", "SUB"],
+      grammar_version: 2,
     },
     EXP: {
       tooltip: "Compute the power of an integer",
@@ -296,6 +308,7 @@ const LevelsData: Data = {
       ex_in: "3|4|",
       ex_out: "3|4|81",
       requires: ["MUL"],
+      grammar_version: 2,
     },
     IS_PRIME: {
       tooltip: "Deciding wheather an integer is prime or not",
@@ -309,6 +322,7 @@ const LevelsData: Data = {
       ex_in: "121",
       ex_out: "121|0",
       requires: ["MOD"],
+      grammar_version: 2,
     },
     LEN_SYRACUSE: {
       tooltip: "Computing the time length of a syracuse sequence",
@@ -322,6 +336,7 @@ const LevelsData: Data = {
       ex_in: "4",
       ex_out: "2",
       requires: ["MUL", "MOD", "DIV"],
+      grammar_version: 2,
     },
   },
 };
