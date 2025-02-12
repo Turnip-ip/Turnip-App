@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <!-- 
+  <NuxtImg src="/background.jpg" class="imag" /> -->
+  <div class="texte">
     <!-- Centered text content -->
     <div class="mt-10 flex flex-col items-center justify-center gap-2">
       <div class="press-start">Level {{ currentLevelId }}</div>
@@ -41,7 +43,15 @@ definePageMeta({
 
 <style scoped>
 /* Ensures the text is centered vertically and horizontally */
-.h-screen {
-  height: 100vh;
+.imag {
+  z-index: 0;
+}
+
+.input {
+  z-index: 30;
+}
+
+.texte {
+  z-index: 100;
 }
 </style>
