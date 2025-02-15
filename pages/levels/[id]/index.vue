@@ -79,11 +79,6 @@ if (grammVer == 0) {
 </script>
 
 <style scoped>
-/* Ensures the text is centered vertically and horizontally */
-.h-screen {
-  height: 100vh;
-}
-
 .imag {
   z-index: 0;
 }
