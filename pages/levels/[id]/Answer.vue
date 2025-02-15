@@ -12,7 +12,7 @@
         </div>
         <TextEditor
           v-model="dotArea"
-          class="m-10"
+          class="p-10"
           height="100%"
         />
       </ResizablePanel>

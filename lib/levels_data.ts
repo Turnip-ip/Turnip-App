@@ -5,7 +5,7 @@ const LevelsData: Data = {
     text0: {
       content: "[present the grammar on an example: code writing 10101010 eg]",
       tooltip: "Presentation of the grammar",
-      from: null,
+      from: undefined,
       to: "Tutorial",
     },
     text1: {
@@ -24,7 +24,7 @@ const LevelsData: Data = {
     },
     text3: {
       content:
-        "[present matchinng on 1 byte / explai spirit of working tape, which is always initialised at * in the following]",
+        "[present matching on 1 byte / explain spirit of working tape, which is always initialized at * in the following]",
       tooltip: "Presentation of matching on one byte",
       from: "Tapes",
       to: "Medium",
