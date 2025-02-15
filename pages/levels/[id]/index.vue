@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <!-- 
+  <NuxtImg src="/background.jpg" class="imag" /> -->
+  <div class="texte">
     <!-- Centered text content -->
     <div class="mt-10 flex flex-col items-center justify-center gap-2">
       <div class="press-start">Level {{ currentLevelId }}</div>
@@ -13,17 +15,10 @@
       <div class="submitText flex flex-col items-end justify-end">
         <div class="cbbl -right press-start">
           Click on
-          <NuxtLink
-            to="Answer"
-            class="darkslateblue hover:underline"
-            >Answer</NuxtLink
-          >
+          <NuxtLink to="Answer" class="darkslateblue hover:underline">Submit</NuxtLink>
           to submit your code !
         </div>
-        <NuxtImg
-          src="Turnip_Boy_Portrait_sans_background.jpeg"
-          class="w-20 -translate-x-40"
-        >
+        <NuxtImg src="Turnip_Boy_Portrait_sans_background.jpeg" class="w-20 -translate-x-40">
         </NuxtImg>
       </div>
     </div>
@@ -48,7 +43,15 @@ definePageMeta({
 
 <style scoped>
 /* Ensures the text is centered vertically and horizontally */
-.h-screen {
-  height: 100vh;
+.imag {
+  z-index: 0;
+}
+
+.input {
+  z-index: 30;
+}
+
+.texte {
+  z-index: 100;
 }
 </style>
