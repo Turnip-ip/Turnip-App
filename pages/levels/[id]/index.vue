@@ -87,5 +87,6 @@ if (grammVer == 0) {
 }
 .texte {
   z-index: 100;
+  background: #ffc0cb;
 }
 </style>
