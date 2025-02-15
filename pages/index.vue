@@ -10,7 +10,7 @@
     <div v-if="windowOpen" class="popup flex h-full flex-col items-center justify-around px-4 py-10">
       <div class="titreMessage h-1/4">Welcome to TURN'IP!</div>
       <div class="contentMessage h-1/2">{{ popupMessages[index] }}</div>
-      <button class="retro-button ml-10 h-1/4" @click="nextMessage">
+      <button class="retro-button ml-56 h-1/4" @click="nextMessage">
         Continue
       </button>
     </div>
@@ -106,9 +106,7 @@ body {
   left: 50%;
   bottom: 58%;
   transform: translate(-50%, 10%);
-
   width: clamp(300px, 50%, 650px);
-  /* Responsive width */
   max-width: 650px;
   height: auto;
 }
@@ -122,6 +120,7 @@ body {
 .contentMessage {
   font-family: "Press Start 2P";
   font-size: 25px;
+  text-align: center;
 }
 
 .imag {
