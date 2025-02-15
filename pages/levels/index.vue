@@ -209,7 +209,6 @@ function read_completed_lvl() {
 }
 
 .graph-container {
-
   height: 100%;
   background-image: url("/background.jpg");
   /* Correct path */

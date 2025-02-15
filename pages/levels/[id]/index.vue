@@ -15,10 +15,17 @@
       <div class="submitText flex flex-col items-end justify-end">
         <div class="cbbl -right press-start">
           Click on
-          <NuxtLink to="Answer" class="darkslateblue hover:underline">Submit</NuxtLink>
+          <NuxtLink
+            to="Answer"
+            class="darkslateblue hover:underline"
+            >Submit</NuxtLink
+          >
           to submit your code !
         </div>
-        <NuxtImg src="Turnip_Boy_Portrait_sans_background.jpeg" class="w-20 -translate-x-40">
+        <NuxtImg
+          src="Turnip_Boy_Portrait_sans_background.jpeg"
+          class="w-20 -translate-x-40"
+        >
         </NuxtImg>
       </div>
     </div>
