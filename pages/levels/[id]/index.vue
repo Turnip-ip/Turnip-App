@@ -1,5 +1,7 @@
 <template>
-  <div>
+  <!-- 
+  <NuxtImg src="/background.jpg" class="imag" /> -->
+  <div class="texte">
     <!-- Centered text content -->
     <div class="mt-10 flex flex-col items-center justify-center gap-2">
       <div class="press-start">Level {{ currentLevelId }}</div>
@@ -16,7 +18,7 @@
           <NuxtLink
             to="Answer"
             class="darkslateblue hover:underline"
-            >Answer</NuxtLink
+            >Submit</NuxtLink
           >
           to submit your code !
         </div>
@@ -25,7 +27,6 @@
           class="w-20 -translate-x-40"
         >
         </NuxtImg>
-
         <div class="examples">
           Example of an input (at the left) and the expected output (at the
           right):
@@ -81,5 +82,14 @@ if (grammVer == 0) {
 /* Ensures the text is centered vertically and horizontally */
 .h-screen {
   height: 100vh;
+  
+.imag {
+  z-index: 0;
+}
+.input {
+  z-index: 30;
+}
+.texte {
+  z-index: 100;
 }
 </style>

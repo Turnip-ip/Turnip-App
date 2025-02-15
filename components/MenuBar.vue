@@ -20,7 +20,7 @@
       to="answer"
       class="rounded p-2 hover:bg-gray-300"
     >
-      Answer
+      Submit
     </NuxtLink>
   </nav>
 </template>
