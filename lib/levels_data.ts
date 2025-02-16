@@ -30,14 +30,32 @@ After the declaration of a state, we specify the transitions out of this states,
       to: "Tutorial",
     },
     text1: {
-      content:
-        "[explain why 1 tape is equivalent to 2 tapes: countable number of cell (actually, I think uncountable is also fine) and longuer transitions (here we don't care about efficiency)]",
+      content: `## Two tapes Turing machine
+
+In the following levels, we will use two tapes: a main tape and a work tape (as it is well known that a machine with a finite number of tapes can be simulated by a TM with one tape in O(n**2); these models are equivalent). They are both assumed semi-infinite on the right.
+
+Here is an example of a code that exchenge the first two bytes of the main and work tape:
+
+\`\`\`
+START
+  |0, 1 -> (1, R), (0, R), q1
+  |1, 0 -> (0, R), (1, R), q1
+  |a, b -> (a, R), (a, R), q1
+q1
+  |0, 1 -> (1, R), (0, R), END
+  |1, 0 -> (0, R), (1, R), END
+  |a, b -> (a, R), (a, R), END
+\`\`\`
+
+here we juste duplicate the actions on the tapes (read, write, move): the first one is for the main tape and the second one for the work tape.`,
       tooltip: "Introduction of 2 tapes",
       from: "Tutorial",
       to: "Tapes",
     },
     text2: {
-      content: `Now we will extend our grammar, by adding functions (\`MOVE_L\`, \`MOVE_R\`, \`WRITE\`).
+      content: `## Adding function call
+
+Now we will extend our grammar, by adding functions (\`MOVE_L\`, \`MOVE_R\`, \`WRITE\`).
 
 The general idea of functions here is that we re-use the TM defined in the above levels.
 
@@ -59,15 +77,55 @@ For now we have three functions: \`MOVE_L(n)\` moves to the left n times, \`MOVE
       to: "Basics",
     },
     text3: {
-      content:
-        "[present matching on 1 byte / explain spirit of working tape, which is always initialized at * in the following]",
+      content: `## Working on bytes
+
+Until now, we worked bit per bit, but we can work byte per byte (it is equivalent to extend our alphabet: we read 8 cell at once and then decide which transition to perform: as we read a constant number of cell at each time, this model is equivalent to the previous one).
+
+We will be working on two tapes, and we will have access to the bitwise functions defined in the previous levels. This way, we sill have the expressivity of the previous levels throught these funtions, but we also abstract to have more powerfull expressions.
+
+Here, the work tape can be used to perform operations. At the beggening on the level, the content of the work tape is arbitrary (\`_\`).
+
+Here we will have two types of funtions:
+- the functions named \`FCT_M\` or \`FCT_W\` which respectively acts on the main tape and work tape in place
+- the functions named \`FCT\` which read its argument on the main tape, computes using the work tape, and write the result on the main tape. As these functions uses the work tape, after calling them, the content of the work tape on the right of the initial position of the head will be corrupted, so keep that in mind. Moreover, the result of the funtion will be written after the arguments, so this cell will be changed. And the cell after could be corrupted, so put your arguments at the end of the main tape before calling a function.
+
+Here, the main tape must not be used for computation in order not to corrupt it. The main tape is only here to store the arguments of the funtions and the result they return. The main tape and the work tape can be seen as the stack and the head in a real computer.
+
+Here is a simple example of the new syntax:
+\`\`\`
+START
+  |a, _ -> [MOVE_BYTE_M(2), WRITE_M(a), MOVE_BYTE_M(-1)], q
+q
+  |b, _ -> [MOVE_BYTE_M(1), ADD1_M(b), MOVE_BYTE_M(-2)], END
+\`\`\`
+It is very similar to the syntax in the previous levels, it is a "merge" of the two syntaxes of the levels above. The main difference is that now the matching is extended on bytes, ie on \`0..255\``,
       tooltip: "Presentation of matching on one byte",
       from: "Tapes",
       to: "Medium",
     },
     text4: {
-      content:
-        "[same as text3... validate both at the same time?? or say other things?combine 2 tapes and extended matching]",
+      content: `## Working on bytes
+
+Until now, we worked bit per bit, but we can work byte per byte (it is equivalent to extend our alphabet: we read 8 cell at once and then decide which transition to perform: as we read a constant number of cell at each time, this model is equivalent to the previous one).
+
+We will be working on two tapes, and we will have access to the bitwise functions defined in the previous levels. This way, we sill have the expressivity of the previous levels throught these funtions, but we also abstract to have more powerfull expressions.
+
+Here, the work tape can be used to perform operations. At the beggening on the level, the content of the work tape is arbitrary (\`_\`).
+
+Here we will have two types of funtions:
+- the functions named \`FCT_M\` or \`FCT_W\` which respectively acts on the main tape and work tape in place
+- the functions named \`FCT\` which read its argument on the main tape, computes using the work tape, and write the result on the main tape. As these functions uses the work tape, after calling them, the content of the work tape on the right of the initial position of the head will be corrupted, so keep that in mind. Moreover, the result of the funtion will be written after the arguments, so this cell will be changed. And the cell after could be corrupted, so put your arguments at the end of the main tape before calling a function.
+
+Here, the main tape must not be used for computation in order not to corrupt it. The main tape is only here to store the arguments of the funtions and the result they return. The main tape and the work tape can be seen as the stack and the head in a real computer.
+
+Here is a simple example of the new syntax:
+\`\`\`
+START
+  |a, _ -> [MOVE_BYTE_M(2), WRITE_M(a), MOVE_BYTE_M(-1)], q
+q
+  |b, _ -> [MOVE_BYTE_M(1), ADD1_M(b), MOVE_BYTE_M(-2)], END
+\`\`\`
+It is very similar to the syntax in the previous levels, it is a "merge" of the two syntaxes of the levels above. The main difference is that now the matching is extended on bytes, ie on \`0..255\``,
       tooltip: "Presentation of matching on one byte",
       from: "Basics",
       to: "Medium",
@@ -116,7 +174,7 @@ For now we have three functions: \`MOVE_L(n)\` moves to the left n times, \`MOVE
     ZERO: {
       tooltip: "Writing a 0 on the tape",
       description:
-        "An example Turing Machine (TM) to get you started\nHere, you have a TM that writes 0 on one bit and moves right.\n\nWe would rather want to write 0 on a whole byte and return in our initial position. Add states and/or state rules to perform this",
+        "An example Turing Machine (TM) to get you started. By default, in the code editor you have a TM that writes 0 on one bit and moves right. We would rather want to write 0 on a whole byte and return in our initial position (for the head). Add states and/or state rules to perform this",
       initial_code:
         "// We start by declaring the START State\nSTART\n// Then we declare a rule that reads any bit b and writes a 0 at that same spot,\n// Then moves right (R) and goes to the state END to end the execution of the Turing Machine\n| 0 -> (0, R), END\n| 1 -> (0, R), END\n",
       in: "*: an arbitrary byte",

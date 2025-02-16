@@ -1,6 +1,6 @@
 <template>
   <div class="flex items-center justify-center p-10">
-    <div class="darkslateblue press-start">
+    <div class="darkslateblue mainContent">
       <MarkdownRender :source="content" />
     </div>
   </div>
@@ -33,3 +33,19 @@ function add_completed_lvl(textId: string) {
   localStorage.setItem("completed_lvl", JSON.stringify(arr_compl));
 }
 </script>
+
+<style>
+.mainContent h2 {
+  font: bold normal 30px/40px serif;
+  text-decoration-line: underline;
+}
+.mainContent * {
+  font-size: 20px;
+}
+.mainContent code {
+  background-color: #777a;
+  padding: 0 5px;
+  border-radius: 5px;
+  display: inline-block;
+}
+</style>
