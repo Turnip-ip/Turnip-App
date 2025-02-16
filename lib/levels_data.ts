@@ -37,8 +37,7 @@ After the declaration of a state, we specify the transitions out of this states,
       to: "Tapes",
     },
     text2: {
-      content:
-`Now we will extend our grammar, by adding functions (\`MOVE_L\`, \`MOVE_R\`, \`WRITE\`).
+      content: `Now we will extend our grammar, by adding functions (\`MOVE_L\`, \`MOVE_R\`, \`WRITE\`).
 
 The general idea of functions here is that we re-use the TM defined in the above levels.
 
