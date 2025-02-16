@@ -1,51 +1,52 @@
 <template>
-  <!-- 
-  <NuxtImg src="/background.jpg" class="imag" /> -->
-  <div class="texte">
-    <!-- Centered text content -->
-    <div class="mt-10 flex flex-col items-center justify-center gap-2">
-      <div class="press-start">Level {{ currentLevelId }}</div>
+  <NuxtImg src="/background.jpg" class="imag" />
 
-      <div class="w-2/3">{{ level.description }}</div>
-
-      <div class="input">Input : {{ level.in }}</div>
-      <div class="output">Output : {{ level.out }}</div>
-      <div class="constraints">constraints : {{ level.constraints }}</div>
-
-      <div class="submitText flex flex-col items-end justify-end">
-        <div class="cbbl -right press-start">
-          Click on
-          <NuxtLink
-            to="Answer"
-            class="darkslateblue hover:underline"
-            >Submit</NuxtLink
-          >
-          to submit your code !
+  <div class="questionPopups">
+    <div class="questionPopup question">
+      <div class="title">Question</div>
+      <div class="questionContent">{{ level.description }}</div>
+    </div>
+    <div class="questionPopup constraints">
+      <div class="title">Constraints</div>
+      <div class="io">
+        <div class="TitleAndContent">
+          <div class="iotitle">Input</div>
+          <div class="description">{{ level.in }}</div>
         </div>
-        <NuxtImg
-          src="Turnip_Boy_Portrait_sans_background.jpeg"
-          class="w-20 -translate-x-40"
-        >
-        </NuxtImg>
-        <div class="examples">
-          Example of an input (at the left) and the expected output (at the
-          right):
+        <div class="arrow">→</div>
+
+        <div class="TitleAndContent">
+          <div class="iotitle">Output</div>
+          <div class="description">{{ level.out }}</div>
         </div>
-        <div style="display: flex; column-gap: 10px">
-          <DynTape
-            :gramm-ver="grammVer"
-            :initial-text="initialTextTapeIn"
-            :initial-pos="initialPosTapeIn"
-          ></DynTape>
-          <DynTape
-            :gramm-ver="grammVer"
-            :initial-text="initialTextTapeOut"
-            :initial-pos="initialPosTapeOut"
-          ></DynTape>
+
+      </div>
+
+      <div class="constraintsTitleAndContent">
+        <div class="warning">⚠️</div>
+        <div class="constraintDesc">{{ level.constraints }}</div>
+      </div>
+
+
+
+    </div>
+    <div class="questionPopup example">
+      <div class="title">Example</div>
+      <div class="tapes" style="display: flex; column-gap: 10px">
+        <div class="inputTape">
+          <div class="iotitle">Input</div>
+          <DynTape :gramm-ver="grammVer" :initial-text="initialTextTapeIn" :initial-pos="initialPosTapeIn"></DynTape>
+        </div>
+        <div class="outputTape">
+          <div class="iotitle">Output</div>
+          <DynTape :gramm-ver="grammVer" :initial-text="initialTextTapeOut" :initial-pos="initialPosTapeOut"></DynTape>
         </div>
       </div>
     </div>
   </div>
+
+
+
 </template>
 
 <script setup lang="ts">
@@ -74,17 +75,147 @@ if (grammVer == 0) {
   initialPosTapeIn = initialTextTapeIn.lastIndexOf(".");
   initialPosTapeOut = initialTextTapeOut.lastIndexOf(".");
   initialTextTapeIn = initialTextTapeIn.replace(/\./g, ""); //remove the "."
-  initialTextTapeOut = initialTextTapeOut.replace(/\./g, ""); //remove the "."
+  initialTextTapeOut = initialTextTapeOut.replace(/\./g, ""); //remove the "."  25
 }
 </script>
 
 <style scoped>
 .imag {
-  z-index: 0;
+  position: absolute;
+  top: 77px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 78px);
+  overflow: hidden;
 }
+
+.warning {
+  font-size: clamp(20px, 4vw, 40px);
+}
+
+.iotitle {
+  font-family: 'Montserrat';
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: clamp(15px, 2vw, 25px);
+}
+
+.description {
+  font-family: 'Montserrat';
+  font-size: clamp(13px, 2vw, 20px);
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
+.io {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.arrow {
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  font-size: 60px;
+  font-family: 'Montserrat';
+
+}
+
+.constraintsTitleAndContent {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 2vh;
+  padding-bottom: 1vw;
+  justify-content: flex-start;
+  gap: clamp(2px, 5vw, 50px);
+  padding-left: clamp(10px, 4vw, 40px);
+  font-family: 'Montserrat';
+  flex-wrap: wrap;
+  width: 100%;
+  overflow: hidden;
+
+}
+
+.constraintDesc {
+  font-size: clamp(5px, 2vw, 20px);
+  max-width: 80%;
+  word-wrap: break-word;
+  min-width: 0;
+  flex-shrink: 1;
+}
+
+
+.TitleAndContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+}
+
+.questionPopups {
+  position: fixed;
+  right: 0;
+  top: 78px;
+  width: 60vw;
+  height: calc(90vh - 178px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.questionPopup {
+  width: 55vw;
+  height: calc((90vh - 200px)/3);
+  background-color: rgb(240, 223, 201);
+  border: 5px solid black;
+  border-radius: 15px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 10px;
+
+}
+
+.title {
+  font-family: 'Press Start 2P', sans-serif;
+  font-size: clamp(13px, 2vw, 35px);
+}
+
+.question {
+  background-color: rgb(201, 221, 240);
+}
+
+.constraints {
+  background-color: rgb(240, 201, 201);
+  overflow: auto;
+}
+
+.example {
+  background-color: rgb(201, 240, 207);
+  overflow-x: auto;
+}
+
 .input {
-  z-index: 30;
+  width: 80%;
+  font-size: 16px;
 }
+
+.questionContent {
+  font-size: clamp(12px, 2vh, 25px);
+  font-family: 'Montserrat';
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: 70%;
+  word-wrap: break-word;
+  padding-right: 10px;
+}
+
+
 .texte {
   z-index: 100;
   background: #ffc0cb;
