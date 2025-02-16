@@ -53,7 +53,7 @@ q
   |_ -> [MOVE_R(8), WRITE_M(255), MOVE_L(8)], END
 \`\`\`
 
-for now we have three functions: \`MOVE_L(n)\` moves to the left n times, \`MOVE_R(n)\` moves to the right n times, \`WRITE(n)\` writes n, considered as a byte (write on 8 cells).`,
+For now we have three functions: \`MOVE_L(n)\` moves to the left n times, \`MOVE_R(n)\` moves to the right n times, \`WRITE(n)\` writes n, considered as a byte (write on 8 cells).`,
       tooltip: "Presentation of functions",
       from: "Tutorial",
       to: "Basics",

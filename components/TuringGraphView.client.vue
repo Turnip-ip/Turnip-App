@@ -14,8 +14,12 @@ const props = withDefaults(defineProps<Props>(), { code: `` });
 await init();
 
 const dot = computed(() => {
-  const dotCode = tm_string_to_dot(props.code, "", 0);
-  console.log(dotCode);
-  return dotCode;
+  try {
+    const dotCode = tm_string_to_dot(props.code, "", 0);
+    console.log(dotCode);
+    return dotCode;
+  } catch (e) {
+    console.log(e);
+  }
 });
 </script>
