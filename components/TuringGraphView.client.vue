@@ -21,5 +21,6 @@ const dot = computed(() => {
   } catch (e) {
     console.log(e);
   }
+  return "digraph  {bgcolor='transparent';}";
 });
 </script>

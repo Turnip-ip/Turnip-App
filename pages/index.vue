@@ -1,22 +1,40 @@
 <template>
-  <NuxtImg src="/background.jpg" class="imag" />
+  <div>
+    <NuxtImg
+      src="/background.jpg"
+      class="imag"
+    />
 
-  <div class="background">
-    <TurnipText class="titreJeu" />
-    <NuxtImg src="/Turnip_Boy_Portrait_sans_background.jpeg" class="turnip" />
-    <button v-if="playVisible" id="playButton" class="retro-button" @click="openWindow">
-      Play
-    </button>
+    <div class="background">
+      <TurnipText class="titreJeu" />
+      <NuxtImg
+        src="/Turnip_Boy_Portrait_sans_background.jpeg"
+        class="turnip"
+      />
+      <button
+        v-if="playVisible"
+        id="playButton"
+        class="retro-button"
+        @click="openWindow"
+      >
+        Play
+      </button>
+    </div>
+
+    <div
+      v-if="windowOpen"
+      class="popup"
+    >
+      <div class="titreMessage h-1/4">Welcome to TURN'IP!</div>
+      <div class="contentMessage h-1/2">{{ popupMessages[index] }}</div>
+      <button
+        class="retro-button continue-button"
+        @click="nextMessage"
+      >
+        Continue
+      </button>
+    </div>
   </div>
-
-  <div v-if="windowOpen" class="popup">
-    <div class="titreMessage h-1/4">Welcome to TURN'IP!</div>
-    <div class="contentMessage h-1/2">{{ popupMessages[index] }}</div>
-    <button class="retro-button continue-button " @click="nextMessage">
-      Continue
-    </button>
-  </div>
-
 </template>
 
 <script setup lang="ts">
@@ -77,7 +95,7 @@ async function nextMessage() {
 }
 
 .retro-button {
-  font-family: 'Press Start 2P', sans-serif;
+  font-family: "Press Start 2P", sans-serif;
   font-size: 20px;
   background: #e49ce4;
   color: #644606;
@@ -101,7 +119,6 @@ async function nextMessage() {
   bottom: 25px;
   left: 50%;
   transform: translateX(-50%);
-
 }
 
 body {
@@ -116,7 +133,6 @@ body {
 .retro-button:active {
   box-shadow: 2px 2px 0px #000;
 }
-
 
 .titreJeu {
   position: absolute;
