@@ -3,7 +3,28 @@ import type { Data } from "./types";
 const LevelsData: Data = {
   texts: {
     text0: {
-      content: "[present the grammar on an example: code writing 10101010 eg]",
+      content: `## Presentation of the grammar of Turing machine
+
+We will present the basics of the grammar chosen here to represent TM with the following example, encoding a TM that writes 01 on all input.
+
+Here Our alphabet is \`{0, 1}\` and the head can move left (\`L\`), right (\`R\`) or can stay still (\`S\`).
+
+\`\`\`
+// We start by declaring the START State
+START
+// Then we declare a rule that reads any bit b and writes a 0 at that same spot,
+// Then moves right (R) and goes to the state END to end the execution of the Turing Machine
+| 0 -> (0, R), q1
+| 1 -> (0, R), q1
+
+q1
+|1 -> (1, R), END
+|0 -> (1, R), END
+\`\`\`
+
+On the above examples, the states are \`START\`, \`END\`, \`ERROR\` (those states always exist, by default) and \`q1\`.
+
+After the declaration of a state, we specify the transitions out of this states, of the form \`read -> (write, move), next_state\``,
       tooltip: "Presentation of the grammar",
       from: undefined,
       to: "Tutorial",
@@ -17,7 +38,23 @@ const LevelsData: Data = {
     },
     text2: {
       content:
-        "[present functions WRITE and MOVE and explain why we can use them and how]",
+`Now we will extend our grammar, by adding functions (\`MOVE_L\`, \`MOVE_R\`, \`WRITE\`).
+
+The general idea of functions here is that we re-use the TM defined in the above levels.
+
+Calling a function is equivalent to "branch" the TM defined in a previous level in out TM. We can branch sevral TM by merging the \`END\` state of one with the \`START\` state of another one.
+
+It enable us to write TM like this (a transition is either a basic transition, or a sequence a function, ie of TM):
+
+\`\`\`
+START
+  | 0 -> (1, S), q
+  | 1 -> (0, S), q
+q
+  |_ -> [MOVE_R(8), WRITE_M(255), MOVE_L(8)], END
+\`\`\`
+
+for now we have three functions: \`MOVE_L(n)\` moves to the left n times, \`MOVE_R(n)\` moves to the right n times, \`WRITE(n)\` writes n, considered as a byte (write on 8 cells).`,
       tooltip: "Presentation of functions",
       from: "Tutorial",
       to: "Basics",
