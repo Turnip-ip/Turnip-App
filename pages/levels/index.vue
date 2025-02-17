@@ -1,10 +1,16 @@
 <template>
-  <div class="graph-container">
-    <GraphView
-      :dot="dot"
-      class="h-82 m-4 w-72"
-      @click="handleLevelGraphClick"
-    />
+  <div>
+    <NuxtImg
+      src="/background.jpg"
+      class="background"
+    ></NuxtImg>
+    <div class="graph-container">
+      <GraphView
+        :dot="dot"
+        class="h-82 m-4 w-72"
+        @click="handleLevelGraphClick"
+      />
+    </div>
   </div>
 </template>
 
@@ -198,12 +204,22 @@ function read_completed_lvl() {
 .graph {
   width: 100%;
   margin: 0;
+  z-index: 1001;
+}
+
+.background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
 }
 
 .graph-container {
   height: 100%;
-  background-image: url("/background.jpg");
-  /* Correct path */
+  z-index: 1000;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
