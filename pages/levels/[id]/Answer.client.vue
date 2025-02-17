@@ -21,17 +21,21 @@
 
       <ResizablePanel>
         <div class="h-1/2 bg-[#D0D9E2]">
-          <ButtonsBar
-            :start="start"
-            :running="running"
-            :end="end"
-            :previous-step="previousStep"
-            :next-step="nextStep"
-            :all-steps="allSteps"
-            :stop="stop"
-            :reset="reset"
-            :check="check"
-          />
+          <div class="titleButtons">
+            <div class="graphTitle">GRAPH</div>
+            <ButtonsBar
+              :start="start"
+              :running="running"
+              :end="end"
+              :previous-step="previousStep"
+              :next-step="nextStep"
+              :all-steps="allSteps"
+              :stop="stop"
+              :reset="reset"
+              :check="check"
+            />
+          </div>
+
           <div class="h-full pb-6">
             <TuringGraphView
               class="h-full pb-4"
@@ -58,6 +62,7 @@ import { LevelsData } from "~/lib/levels_data";
 
 import init, { tm_string_to_dot, Simu } from "tm_parser?init";
 import { Tape } from "~/lib/tapes";
+import { AnswerOutputPanel } from "#components";
 
 await init();
 
@@ -286,6 +291,26 @@ onMounted(() => {
 <style scoped>
 .text {
   height: 1005px;
+}
+
+.titleButtons {
+  display: flex;
+  /* Enables flexbox */
+  align-items: center;
+  /* Aligns items vertically in the center */
+  justify-content: space-between;
+  /* Distributes space evenly */
+  gap: 10px;
+  /* Adds spacing between elements */
+  width: 100%;
+}
+
+.graphTitle {
+  position: relative;
+  font-family: "Press Start 2P", sans-serif;
+  left: 3%;
+  color: rgb(8, 8, 10);
+  font-size: clamp(10px, 2vw, 25px);
 }
 
 .unlockfcts_hover {
