@@ -107,9 +107,14 @@ onMounted(() => {
 watch(dotArea, (newCode) => {
   localStorage.setItem(`level-${currentLevelId}`, newCode);
 
-  // TODO: try/catch ?
-  const dotCode = tm_string_to_dot(newCode, "", 0);
-  dot.value = dotCode;
+  try {
+    const dotCode = tm_string_to_dot(newCode, "", 0);
+    dot.value = dotCode;
+    // TODO -> effacer les potentielles erreurs dans AnswerOutputPanel
+  } catch (e) {
+    dot.value = "digraph  {bgcolor='transparent';}";
+    console.log(e); // TODO -> ecrire e dans AnswerOutputPanel
+  }
 });
 
 let currentSimulator: Simu | null = null;
