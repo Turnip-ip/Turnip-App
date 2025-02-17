@@ -156,7 +156,7 @@ if (grammVer == 0) {
   font-family: "Montserrat";
   flex-wrap: wrap;
   width: 100%;
-  overflow: hidden;
+
 }
 
 .constraintDesc {
@@ -164,7 +164,6 @@ if (grammVer == 0) {
   max-width: 80%;
   word-wrap: break-word;
   min-width: 0;
-  flex-shrink: 1;
 }
 
 .TitleAndContent {
@@ -198,6 +197,7 @@ if (grammVer == 0) {
   align-items: flex-start;
   justify-content: flex-start;
   padding: 10px;
+
 }
 
 .title {
@@ -207,6 +207,7 @@ if (grammVer == 0) {
 
 .question {
   background-color: rgb(201, 221, 240);
+  overflow: auto;
 }
 
 .constraints {
@@ -228,14 +229,15 @@ if (grammVer == 0) {
   font-size: clamp(12px, 2vh, 25px);
   font-family: "Montserrat";
   flex-grow: 1;
-  overflow-y: auto;
   max-height: 70%;
   word-wrap: break-word;
   padding-right: 10px;
+
 }
 
 .texte {
   z-index: 100;
   background: #ffc0cb;
+  overflow: auto;
 }
 </style>
