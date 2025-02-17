@@ -1,9 +1,17 @@
 <template>
   <div>
-    <NuxtImg
-      src="/background.jpg"
-      class="imag"
-    />
+    <NuxtImg src="/background.jpg" class="imag" />
+
+    <!--<NuxtImg src="/bubble_speech.png" class="bubblespeech" />-->
+
+    <NuxtImg src="/Turnip_Boy_Portrait_sans_background.jpeg" class="turnip" />
+
+    <div class="cbbl -right press-start">
+      Click on
+      <NuxtLink to="Answer" class="darkslateblue hover:underline">Submit</NuxtLink>
+      to submit your code !
+    </div>
+
 
     <div class="questionPopups">
       <div class="questionPopup question">
@@ -32,25 +40,15 @@
       </div>
       <div class="questionPopup example">
         <div class="title">Example</div>
-        <div
-          class="tapes"
-          style="display: flex; column-gap: 10px"
-        >
+        <div class="tapes" style="display: flex; column-gap: 10px">
           <div class="inputTape">
             <div class="iotitle">Input</div>
-            <DynTape
-              :gramm-ver="grammVer"
-              :initial-text="initialTextTapeIn"
-              :initial-pos="initialPosTapeIn"
-            ></DynTape>
+            <DynTape :gramm-ver="grammVer" :initial-text="initialTextTapeIn" :initial-pos="initialPosTapeIn"></DynTape>
           </div>
           <div class="outputTape">
             <div class="iotitle">Output</div>
-            <DynTape
-              :gramm-ver="grammVer"
-              :initial-text="initialTextTapeOut"
-              :initial-pos="initialPosTapeOut"
-            ></DynTape>
+            <DynTape :gramm-ver="grammVer" :initial-text="initialTextTapeOut" :initial-pos="initialPosTapeOut">
+            </DynTape>
           </div>
         </div>
       </div>
@@ -96,6 +94,22 @@ if (grammVer == 0) {
   width: 100%;
   height: calc(100vh - 78px);
   overflow: hidden;
+}
+
+.turnip {
+  position: absolute;
+  bottom: clamp(60px, 16vh, 160px);
+  left: 1.5%;
+  width: clamp(150px, 20vw, 400px);
+  height: auto;
+}
+
+.cbbl {
+  position: absolute;
+  bottom: calc(10vh + 200px);
+  left: 18%;
+  width: clamp(100px, 16vw, 400px);
+  height: auto;
 }
 
 .warning {
