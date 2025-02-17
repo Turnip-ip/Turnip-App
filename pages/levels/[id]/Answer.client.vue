@@ -26,6 +26,28 @@
 
         <div class="h-1/4 bg-[#EAE2DD] flex flex-col items-center justify-center gap-4">
 
+          <Popover>
+            <PopoverTrigger>
+              Edit tapes
+            </PopoverTrigger>
+            <PopoverContent>
+              <div class="flex flex-col gap-2">
+                <div class="flex w-full max-w-sm items-center gap-1.5">
+                  <Input id="email" placeholder="0, 0, 0, 0" v-model="newMainTape" />
+                  <Button @click="setMainTape()">
+                    Save
+                  </Button>
+                </div>
+                <div v-if="level.grammar_version == 1" class="flex w-full max-w-sm items-center gap-1.5">
+                  <Input id="email" placeholder="0, 0, 0, 0" v-model="newWorkTape" />
+                  <Button @click="setWorkTape()">
+                    Save
+                  </Button>
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
+
           <DynTape :gramm-ver="level.grammar_version" initial-text="00001" :initial-pos="0"></DynTape>
 
         </div>
@@ -69,8 +91,6 @@ const dot = ref<string>("");
 const main_tape = ref<Uint8Array>(new Uint8Array(10));
 const work_tape = ref<Uint8Array>(new Uint8Array(10));
 
-const editTapes = ref(false);
-
 const pos_main_tape = ref(0);
 const pos_work_tape = ref(0);
 
@@ -82,6 +102,28 @@ const running = ref(false);
 const codeValid = ref(true);
 
 const logs: string[] = [];
+
+const newMainTape = ref<string>("");
+const newWorkTape = ref<string>("");
+
+function setMainTape() {
+  main_tape.value = new Uint8Array(newMainTape.value.split(",").map((x) => parseInt(x)));
+  if (level.grammar_version == 0) {
+    tape_object.write(main_tape.value);
+  } else {
+    tape_object.writeM(main_tape.value);
+  }
+  resetSimulation();
+}
+
+function setWorkTape() {
+  work_tape.value = new Uint8Array(newWorkTape.value.split(",").map((x) => parseInt(x)));
+  if (level.grammar_version == 1) {
+    tape_object.writeM(work_tape.value);
+  }
+  resetSimulation();
+}
+
 
 const defaultCode = `START
 | b -> (b,R), START
@@ -127,9 +169,13 @@ let codeOfCurrentSimulator: string | null = null;
 let currentState = "START";
 
 function resetSimulation() {
-  currentSimulator = null;
-  codeOfCurrentSimulator = null;
+  if (currentSimulator !== null) {
+    currentSimulator.reset(main_tape.value, work_tape.value);
+  }
+
+  colorCurrentState(currentState, 'black');
   currentState = "START";
+  colorCurrentState(currentState, 'red');
 
   main_tape.value = new Uint8Array(10);
   work_tape.value = new Uint8Array(10);
@@ -142,9 +188,12 @@ function resetSimulation() {
 
   if (level.grammar_version == 0) {
     tape_object.write(main_tape.value);
+    tape_object.move(0);
   } else {
     tape_object.writeM(main_tape.value);
     tape_object.writeW(work_tape.value);
+    tape_object.moveM(0);
+    tape_object.moveW(0);
   }
 }
 

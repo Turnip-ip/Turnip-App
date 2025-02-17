@@ -14,7 +14,7 @@
   "dependencies": {
     "@nuxt/image": "^1.9.0",
     "@viz-js/lang-dot": "^1.0.4",
-    "@vueuse/core": "^11.1.0",
+    "@vueuse/core": "^11.3.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "codemirror": "^6.0.1",
