@@ -35,7 +35,7 @@
             </tr>
           </table>
 
-          <table>
+          <table v-if="level.grammar_version == 2">
             <tr>
               <td v-for="(char, index) in work_tape" :key="index"
                 :class="'border-2 border-black w-10 h-10 text-center' + (index == pos_work_tape ? ' bg-red-500' : '')">
@@ -83,6 +83,8 @@ const dot = ref<string>("");
 const main_tape = ref<Uint8Array>(new Uint8Array(10));
 const work_tape = ref<Uint8Array>(new Uint8Array(10));
 
+const editTapes = ref(false);
+
 const pos_main_tape = ref(0);
 const pos_work_tape = ref(0);
 
@@ -124,6 +126,21 @@ watch(dotArea, (newCode) => {
 let currentSimulator: Simu | null = null;
 let codeOfCurrentSimulator: string | null = null;
 let currentState = "START";
+
+function resetSimulation() {
+  currentSimulator = null;
+  codeOfCurrentSimulator = null;
+  currentState = "START";
+
+  main_tape.value = new Uint8Array(10);
+  work_tape.value = new Uint8Array(10);
+  pos_main_tape.value = 0;
+  pos_work_tape.value = 0;
+
+  start.value = true;
+  end.value = false;
+  running.value = false;
+}
 
 function getSimulator(): Simu {
   if (currentSimulator === null || codeOfCurrentSimulator !== dotArea.value) {
@@ -218,9 +235,7 @@ function stop() {
 
 function reset() {
   console.log("reset");
-  step = 0;
-  start.value = true;
-  end.value = false;
+  resetSimulation()
 }
 
 function add_completed_lvl(currentLvlId: string) {
