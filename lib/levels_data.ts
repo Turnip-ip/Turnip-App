@@ -136,19 +136,16 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
     Tutorial: {
       label: "Tutorial",
       levels: ["ZERO", "MOVE_L", "MOVE_R"],
-      grammar_version: 0,
       requires: [],
     },
     Tapes: {
       label: "Working with 2 tapes",
       levels: ["ZERO_2", "COPY_TO_MAIN", "COPY_TO_WORK"],
-      grammar_version: 1,
       requires: ["text1"],
     },
     Basics: {
       label: "Basic Operations",
       levels: ["ADD1", "SUB1", "NEG"],
-      grammar_version: 0,
       requires: ["text2"],
     },
     Medium: {
@@ -165,7 +162,6 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
         "IS_PRIME",
         "LEN_SYRACUSE",
       ],
-      grammar_version: 2,
       requires: ["text3", "text4"],
     },
   },
@@ -186,6 +182,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       requires: [],
       unlocks0: ["WRITE"],
       unlocks: ["WRITE_M", "WRITE_W"],
+      grammar_version: 0,
     },
     MOVE_R: {
       tooltip: "Moving head Right",
@@ -202,6 +199,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       requires: ["ZERO"],
       unlocks0: ["MOVE_R"],
       unlocks: ["MOVE_R_M", "MOVE_R_W"],
+      grammar_version: 0,
     },
     MOVE_L: {
       tooltip: "Moving head Left",
@@ -218,6 +216,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       requires: ["ZERO"],
       unlocks0: ["MOVE_L"],
       unlocks: ["MOVE_L_M", "MOVE_L_W"],
+      grammar_version: 0,
     },
     ZERO_2: {
       tooltip: "Reading and writing with 2 tapes",
@@ -233,6 +232,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       requires: [],
       unlocks0: [],
       unlocks: [],
+      grammar_version: 1,
     },
     COPY_TO_MAIN: {
       tooltip: "Copy to the Main tape",
@@ -248,6 +248,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       requires: ["ZERO_2"],
       unlocks0: [],
       unlocks: [],
+      grammar_version: 1,
     },
     COPY_TO_WORK: {
       tooltip: "Copy to the Work tape",
@@ -262,6 +263,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       requires: ["ZERO_2"],
       unlocks0: [],
       unlocks: [],
+      grammar_version: 1,
     },
     ADD1: {
       tooltip: "Adding 1 to an input modulo 256",
@@ -277,6 +279,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       requires: [],
       unlocks0: ["ADD1"],
       unlocks: ["ADD1_M", "ADD1_W"],
+      grammar_version: 0,
     },
     SUB1: {
       tooltip: "Subtracting 1 to an input modulo 256",
@@ -292,6 +295,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       requires: [],
       unlocks0: ["SUB1"],
       unlocks: ["SUB1_M", "SUB1_W"],
+      grammar_version: 0,
     },
     NEG: {
       tooltip: "Negating an input: -x",
@@ -307,6 +311,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       requires: ["ADD1"],
       unlocks0: ["NEG"],
       unlocks: ["NEG_M", "NEG_W"],
+      grammar_version: 0,
     },
     ADD: {
       tooltip: "Adding two numbers",
@@ -320,6 +325,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       ex_out: [3, 4, 7],
       requires: [],
       unlocks: ["ADD"],
+      grammar_version: 2,
     },
     SUB: {
       tooltip: "Subtracting two numbers",
@@ -334,6 +340,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       ex_out: [45, 26, 19],
       requires: [],
       unlocks: ["SUB"],
+      grammar_version: 2,
     },
     GEQ: {
       tooltip: "Comparing two integers",
@@ -348,6 +355,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       ex_out: [5, 4, 1],
       requires: [],
       unlocks: ["GEQ"],
+      grammar_version: 2,
     },
     LEQ: {
       tooltip: "Comparing two integers",
@@ -362,6 +370,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       ex_out: [5, 4, "0"], //the "0" is intentional, otherwise js does its thing...
       requires: [],
       unlocks: ["LEQ"],
+      grammar_version: 2,
     },
     MUL: {
       tooltip: "Multiplying two integers",
@@ -375,6 +384,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       ex_out: [5, 7, 35],
       requires: ["ADD"],
       unlocks: ["MUL"],
+      grammar_version: 2,
     },
     MOD: {
       tooltip: "Compute the modulo of two integers",
@@ -389,6 +399,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       ex_out: [34, 5, 4],
       requires: ["LEQ", "GEQ", "SUB"],
       unlocks: ["MOD"],
+      grammar_version: 2,
     },
     DIV: {
       tooltip: "Integer division",
@@ -403,6 +414,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       ex_out: [34, 5, 6],
       requires: ["LEQ", "GEQ", "SUB"],
       unlocks: ["DIV"],
+      grammar_version: 2,
     },
     EXP: {
       tooltip: "Compute the power of an integer",
@@ -416,6 +428,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       ex_out: [3, 4, 81],
       requires: ["MUL"],
       unlocks: ["EXP"],
+      grammar_version: 2,
     },
     IS_PRIME: {
       tooltip: "Deciding wheather an integer is prime or not",
@@ -430,6 +443,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       ex_out: [121, 0],
       requires: ["MOD"],
       unlocks: [],
+      grammar_version: 2,
     },
     LEN_SYRACUSE: {
       tooltip: "Computing the time length of a syracuse sequence",
@@ -444,6 +458,7 @@ It is very similar to the syntax in the previous levels, it is a "merge" of the 
       ex_out: [4, 2],
       requires: ["MUL", "MOD", "DIV"],
       unlocks: [],
+      grammar_version: 2,
     },
   },
 };

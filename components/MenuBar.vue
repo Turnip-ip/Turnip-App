@@ -42,6 +42,11 @@ button {
   color: darkslateblue;
 }
 
+.nuxt-link {
+  font-family: "Press Start 2P", sans-serif;
+  color: darkslateblue;
+}
+
 nav {
   display: flex;
   justify-content: flex-start;
