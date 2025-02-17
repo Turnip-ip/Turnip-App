@@ -24,6 +24,7 @@
             :stop="stop"
             :reset="reset"
             :check="check"
+            :code-valid="codeValid"
           />
           <div class="h-full pb-6">
             <TuringGraphView class="h-full pb-4" :dot="dot" />
@@ -37,6 +38,8 @@
         <AnswerRubanPanel class="h-1/4" />
 
         <div class="h-[5px] bg-black" />
+
+        {{ logs }}
 
         <AnswerOutputPanel class="h-1/4" />
       </ResizablePanel>
@@ -65,12 +68,17 @@ const dotArea = ref<string>("");
 const dot = ref<string>("");
 
 // TODO: use level start tape
-let main_tape = ref<Uint8Array>(new Uint8Array(10));
-let work_tape = ref<Uint8Array>(new Uint8Array(10));
+const main_tape = ref<Uint8Array>(new Uint8Array(10));
+const work_tape = ref<Uint8Array>(new Uint8Array(10));
 
 const start = ref(true);
 const end = ref(false);
 const running = ref(false);
+
+// If the code is not valid, we can not display, nor run the TM
+const codeValid = ref(true);
+
+const logs: string[] = [];
 
 let step = 0;
 
@@ -131,9 +139,12 @@ function getSimulator(): Simu {
         work_tape.value,
         legal_fct(),
       );
+
     } catch (e) {
-      console.log(e);
-      // TODO throw
+      console.error(e);
+      codeValid.value = false;
+      logs.push(e.toString());
+      throw e;
     }
   }
   return currentSimulator;
@@ -154,8 +165,8 @@ function handleNewStep(simu: Simu) {
   colorCurrentState(currentState, 'black');
   currentState = simu.get_current_state();
   colorCurrentState(currentState, 'red');
-  main_tape = simu.get_main_tape();
-  work_tape = simu.get_work_tape();
+  main_tape.value = simu.get_main_tape();
+  work_tape.value = simu.get_work_tape();
 }
 
 function previousStep() {
