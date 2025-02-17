@@ -137,6 +137,7 @@ body {
   font-size: clamp(15px, 2vw, 25px);
   text-align: center;
   top: 25%;
+  overflow: auto;
 }
 
 .imag {
