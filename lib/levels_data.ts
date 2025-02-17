@@ -32,7 +32,7 @@ After the declaration of a state, we specify the transitions out of this states,
     text1: {
       content: `## Two tapes Turing machine
 
-In the following levels, we will use two tapes: a main tape and a work tape (as it is well known that a machine with a finite number of tapes can be simulated by a TM with one tape in O(n**2); these models are equivalent). They are both assumed semi-infinite on the right.
+In the following levels, we will use two tapes: a main tape and a work tape (as it is well known that a machine with a finite number of tapes can be simulated by a TM with one tape in quadratic time; these models are equivalent). They are both assumed semi-infinite on the right.
 
 Here is an example of a code that exchenge the first two bytes of the main and work tape:
 
