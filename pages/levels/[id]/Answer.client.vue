@@ -158,7 +158,7 @@ watch(dotArea, (newCode) => {
     const dotCode = tm_string_to_dot(newCode, "", 0);
     dot.value = dotCode;
   } catch (e) {
-    console.log(e);
+    console.error(e);
     logs.push(e.toString());
     dot.value = "digraph  {bgcolor='transparent';}";
   }
@@ -223,9 +223,7 @@ function getSimulator(): Simu {
 function colorCurrentState(state: string, color: string) {
   const node = document.getElementById(state)
   for (const child of node?.children ?? []) {
-    console.log(child, child.tagName, child.className);
     if (child.tagName === 'ellipse' || child.tagName === 'polygon') {
-      console.log(child.getAttribute('stroke'));
       child.setAttribute('stroke', color);
     }
   }
@@ -258,7 +256,7 @@ function previousStep() {
     simu.prev_step();
     handleNewStep(simu);
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
   end.value = simu.is_end();
   start.value = simu.is_start();
@@ -272,7 +270,7 @@ function nextStep() {
     simu.next_step();
     handleNewStep(simu);
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
   end.value = simu.is_end();
   start.value = simu.is_start();
@@ -286,7 +284,7 @@ function allSteps() {
     simu.all_steps();
     handleNewStep(simu);
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
   end.value = simu.is_end();
   start.value = simu.is_start();
