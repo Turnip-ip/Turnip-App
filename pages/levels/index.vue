@@ -1,7 +1,7 @@
 <template>
   <div>
     <NuxtImg
-      src="\background.jpg"
+      src="/background.jpg"
       class="background"
     ></NuxtImg>
     <div class="graph-container">
