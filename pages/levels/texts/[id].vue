@@ -1,8 +1,13 @@
 <template>
-  <NuxtImg src="\background.jpg" class="background"></NuxtImg>
-  <div class="popup">
-    <div class="darkslateblue mainContent">
-      <MarkdownRender :source="content" />
+  <div>
+    <NuxtImg
+      src="\background.jpg"
+      class="background"
+    ></NuxtImg>
+    <div class="popup">
+      <div class="darkslateblue mainContent">
+        <MarkdownRender :source="content" />
+      </div>
     </div>
   </div>
 </template>
@@ -61,7 +66,6 @@ body {
   background: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
 }
-
 
 .popup {
   position: fixed;

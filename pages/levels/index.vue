@@ -1,7 +1,16 @@
 <template>
-  <NuxtImg src="\background.jpg" class="background"></NuxtImg>
-  <div class="graph-container">
-    <GraphView :dot="dot" class="h-82 m-4 w-72" @click="handleLevelGraphClick" />
+  <div>
+    <NuxtImg
+      src="\background.jpg"
+      class="background"
+    ></NuxtImg>
+    <div class="graph-container">
+      <GraphView
+        :dot="dot"
+        class="h-82 m-4 w-72"
+        @click="handleLevelGraphClick"
+      />
+    </div>
   </div>
 </template>
 
