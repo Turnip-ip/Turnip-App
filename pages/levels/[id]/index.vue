@@ -1,17 +1,26 @@
 <template>
   <div>
-    <NuxtImg src="/background.jpg" class="imag" />
+    <NuxtImg
+      src="/background.jpg"
+      class="imag"
+    />
 
     <!--<NuxtImg src="/bubble_speech.png" class="bubblespeech" />-->
 
-    <NuxtImg src="/Turnip_Boy_Portrait_sans_background.jpeg" class="turnip" />
+    <NuxtImg
+      src="/Turnip_Boy_Portrait_sans_background.jpeg"
+      class="turnip"
+    />
 
     <div class="cbbl -right press-start">
       Click on
-      <NuxtLink to="Answer" class="darkslateblue hover:underline">Submit</NuxtLink>
+      <NuxtLink
+        to="Answer"
+        class="darkslateblue hover:underline"
+        >Submit</NuxtLink
+      >
       to submit your code !
     </div>
-
 
     <div class="questionPopups">
       <div class="questionPopup question">
@@ -40,14 +49,25 @@
       </div>
       <div class="questionPopup example">
         <div class="title">Example</div>
-        <div class="tapes" style="display: flex; column-gap: 10px">
+        <div
+          class="tapes"
+          style="display: flex; column-gap: 10px"
+        >
           <div class="inputTape">
             <div class="iotitle">Input</div>
-            <DynTape :gramm-ver="grammVer" :initial-text="initialTextTapeIn" :initial-pos="initialPosTapeIn"></DynTape>
+            <DynTape
+              :gramm-ver="grammVer"
+              :initial-text="initialTextTapeIn"
+              :initial-pos="initialPosTapeIn"
+            ></DynTape>
           </div>
           <div class="outputTape">
             <div class="iotitle">Output</div>
-            <DynTape :gramm-ver="grammVer" :initial-text="initialTextTapeOut" :initial-pos="initialPosTapeOut">
+            <DynTape
+              :gramm-ver="grammVer"
+              :initial-text="initialTextTapeOut"
+              :initial-pos="initialPosTapeOut"
+            >
             </DynTape>
           </div>
         </div>
@@ -60,7 +80,6 @@
 import "~/assets/css/cbbl.styl";
 
 import { LevelsData } from "~/lib/levels_data";
-import { find_group_of_lvl } from "~/lib/tools";
 
 const route = useRoute();
 
@@ -73,12 +92,11 @@ definePageMeta({
 });
 
 // add tapes
-const grammVer = find_group_of_lvl(currentLevelId, LevelsData).grammar_version;
 let initialTextTapeIn = LevelsData.levels[currentLevelId].ex_in;
 let initialTextTapeOut = LevelsData.levels[currentLevelId].ex_out;
-let initialPosTapeIn, initialPosTapeOut;
+let initialPosTapeIn: number, initialPosTapeOut: number;
 // let tapeIn, tapeOut;
-if (grammVer == 0) {
+if (level.grammar_version == 0) {
   initialPosTapeIn = initialTextTapeIn.lastIndexOf(".");
   initialPosTapeOut = initialTextTapeOut.lastIndexOf(".");
   initialTextTapeIn = initialTextTapeIn.replace(/\./g, ""); //remove the "."
@@ -156,7 +174,6 @@ if (grammVer == 0) {
   font-family: "Montserrat";
   flex-wrap: wrap;
   width: 100%;
-
 }
 
 .constraintDesc {
@@ -197,7 +214,6 @@ if (grammVer == 0) {
   align-items: flex-start;
   justify-content: flex-start;
   padding: 10px;
-
 }
 
 .title {
@@ -232,7 +248,6 @@ if (grammVer == 0) {
   max-height: 70%;
   word-wrap: break-word;
   padding-right: 10px;
-
 }
 
 .texte {

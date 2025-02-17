@@ -1,23 +1,42 @@
 <template>
   <div class="h-full">
     <!-- Resizable Panels -->
-    <ResizablePanelGroup direction="horizontal" class="h-max">
+    <ResizablePanelGroup
+      direction="horizontal"
+      class="h-max"
+    >
       <ResizablePanel class="bg-[#8391A3]">
         <div class="unlockfcts_hover">
           authorized functions &darr;
           <div class="unlockfcts_list"></div>
         </div>
-        <TextEditor v-model="dotArea" class="p-10" height="100%" />
+        <TextEditor
+          v-model="dotArea"
+          class="p-10"
+          height="100%"
+        />
       </ResizablePanel>
 
       <ResizableHandle with-handle />
 
       <ResizablePanel>
         <div class="bg-[#D0D9E2]">
-          <ButtonsBar :start="start" :running="running" :end="end" :previous-step="previousStep" :next-step="nextStep"
-            :all-steps="allSteps" :stop="stop" :reset="reset" :check="check" />
+          <ButtonsBar
+            :start="start"
+            :running="running"
+            :end="end"
+            :previous-step="previousStep"
+            :next-step="nextStep"
+            :all-steps="allSteps"
+            :stop="stop"
+            :reset="reset"
+            :check="check"
+          />
           <div class="h-full pb-6">
-            <TuringGraphView class="h-full pb-4" :dot="dot" />
+            <TuringGraphView
+              class="h-full pb-4"
+              :dot="dot"
+            />
           </div>
         </div>
 
@@ -38,6 +57,7 @@ import { ref } from "vue";
 import { LevelsData } from "~/lib/levels_data";
 
 import init, { tm_string_to_dot, Simu } from "tm_parser?init";
+import { Tape } from "~/lib/tapes";
 
 await init();
 
@@ -76,8 +96,9 @@ onMounted(() => {
   dotArea.value = existingCode || level.initial_code || defaultCode;
 
   const tape = new Tape(
-    grammVer,
-    document.body.getElementsByTagName("tape_head")[0].parentElement,
+    level.grammar_version,
+    document.body.getElementsByTagName("tape_head")[0]
+      .parentElement as HTMLDivElement,
   );
   tape.write("hello");
   tape.move(5);
@@ -185,23 +206,22 @@ function check() {
   add_completed_lvl(currentLevelId);
 }
 
-
 // FCT LEGAL FCTS
 
 function legal_fct() {
   const completed_lvl = read_completed_lvl();
   let res: string[] = [];
-  if (grammVer == 0) {
+  if (level.grammar_version == 0) {
     for (let i = 0; i < completed_lvl.length; i++) {
       if (completed_lvl[i] in LevelsData.levels) {
-        const tab = LevelsData.levels[completed_lvl[i]].unlocks0 as string[];
+        const tab = LevelsData.levels[completed_lvl[i]].unlocks0;
         res = res.concat(tab);
       }
     }
   } else {
     for (let i = 0; i < completed_lvl.length; i++) {
       if (completed_lvl[i] in LevelsData.levels) {
-        const tab = LevelsData.levels[completed_lvl[i]].unlocks as string[];
+        const tab = LevelsData.levels[completed_lvl[i]].unlocks;
         res = res.concat(tab);
       }
     }
@@ -257,8 +277,6 @@ onMounted(() => {
   display_legal_fcts(arr_legal_fcts);
 });
 </script>
-
-
 
 <style scoped>
 .text {
