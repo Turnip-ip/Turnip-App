@@ -20,7 +20,7 @@
       to="answer"
       class="rounded p-2 hover:bg-gray-300"
     >
-      Answer
+      Submit
     </NuxtLink>
   </nav>
 </template>
@@ -33,6 +33,11 @@ defineProps<{
 
 <style scoped>
 button {
+  font-family: "Press Start 2P", sans-serif;
+  color: darkslateblue;
+}
+
+.nuxt-link {
   font-family: "Press Start 2P", sans-serif;
   color: darkslateblue;
 }

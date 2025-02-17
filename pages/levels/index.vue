@@ -1,9 +1,11 @@
 <template>
-  <GraphView
-    :dot="dot"
-    class="h-82 m-4 w-72"
-    @click="handleLevelGraphClick"
-  />
+  <div class="graph-container">
+    <GraphView
+      :dot="dot"
+      class="h-82 m-4 w-72"
+      @click="handleLevelGraphClick"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -37,7 +39,7 @@ function build_lvl_graph(): string {
   // Create the dot graph from the JSON file
   let dot_levels: string = "digraph {";
   // Global setup
-  dot_levels += `graph [fontsize=10 fontname="Verdana" compound=true clusterrank=local style=filled bgcolor=pink ];`;
+  dot_levels += `graph [fontsize=10 fontname="Verdana" compound=true clusterrank=local style=filled  bgcolor=transparent image="/background.jpg" imagescale=true ];`;
   dot_levels += `node [shape=octagon fontsize=10 fontname="Verdana" style=filled fillcolor=white];`;
 
   // Create clusters corresponding to a group
@@ -48,7 +50,10 @@ function build_lvl_graph(): string {
     // Create the cluster
     clusters_ids[group_name] = cluster_i;
     dot_levels += `subgraph cluster_${cluster_i.toString()} {`;
+    dot_levels += `style=filled; color="${colors[cluster_i]}";`;
     dot_levels += `style=filled;color="${colors[cluster_i]}";node [style=filled color=grey]`;
+
+    dot_levels += `invisibleNode [style=invisible];`;
 
     // Get the nodes in the group
     const group: Group = groups[group_name];
@@ -68,6 +73,7 @@ function build_lvl_graph(): string {
     dot_levels += `label="${group.label}"`;
 
     dot_levels += "}";
+
     ++cluster_i;
   }
 
@@ -200,6 +206,18 @@ function read_completed_lvl() {
 .graph {
   width: 100%;
   margin: 0;
+}
+
+.graph-container {
+  height: 100%;
+  background-image: url("/background.jpg");
+  /* Correct path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 body {
