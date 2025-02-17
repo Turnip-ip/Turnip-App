@@ -73,6 +73,14 @@ interface Level {
    *
    */
   grammar_version: number;
+  /**
+   *
+   */
+  unlocks0: string[];
+  /**
+   *
+   */
+  unlocks: string[];
 }
 
 interface Data {

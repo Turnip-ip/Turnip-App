@@ -3,35 +3,129 @@ import type { Data } from "./types";
 const LevelsData: Data = {
   texts: {
     text0: {
-      content: "[present the grammar on an example: code writing 10101010 eg]",
+      content: `## Presentation of the grammar of Turing machine
+
+We will present the basics of the grammar chosen here to represent TM with the following example, encoding a TM that writes 01 on all input.
+
+Here Our alphabet is \`{0, 1}\` and the head can move left (\`L\`), right (\`R\`) or can stay still (\`S\`).
+
+\`\`\`
+// We start by declaring the START State
+START
+// Then we declare a rule that reads any bit b and writes a 0 at that same spot,
+// Then moves right (R) and goes to the state END to end the execution of the Turing Machine
+| 0 -> (0, R), q1
+| 1 -> (0, R), q1
+
+q1
+|1 -> (1, R), END
+|0 -> (1, R), END
+\`\`\`
+
+On the above examples, the states are \`START\`, \`END\`, \`ERROR\` (those states always exist, by default) and \`q1\`.
+
+After the declaration of a state, we specify the transitions out of this states, of the form \`read -> (write, move), next_state\``,
       tooltip: "Presentation of the grammar",
       from: undefined,
       to: "Tutorial",
     },
     text1: {
-      content:
-        "[explain why 1 tape is equivalent to 2 tapes: countable number of cell (actually, I think uncountable is also fine) and longuer transitions (here we don't care about efficiency)]",
+      content: `## Two tapes Turing machine
+
+In the following levels, we will use two tapes: a main tape and a work tape (as it is well known that a machine with a finite number of tapes can be simulated by a TM with one tape in O(n**2); these models are equivalent). They are both assumed semi-infinite on the right.
+
+Here is an example of a code that exchenge the first two bytes of the main and work tape:
+
+\`\`\`
+START
+  |0, 1 -> (1, R), (0, R), q1
+  |1, 0 -> (0, R), (1, R), q1
+  |a, b -> (a, R), (a, R), q1
+q1
+  |0, 1 -> (1, R), (0, R), END
+  |1, 0 -> (0, R), (1, R), END
+  |a, b -> (a, R), (a, R), END
+\`\`\`
+
+here we juste duplicate the actions on the tapes (read, write, move): the first one is for the main tape and the second one for the work tape.`,
       tooltip: "Introduction of 2 tapes",
       from: "Tutorial",
       to: "Tapes",
     },
     text2: {
-      content:
-        "[present functions WRITE and MOVE and explain why we can use them and how]",
+      content: `## Adding function call
+
+Now we will extend our grammar, by adding functions (\`MOVE_L\`, \`MOVE_R\`, \`WRITE\`).
+
+The general idea of functions here is that we re-use the TM defined in the above levels.
+
+Calling a function is equivalent to "branch" the TM defined in a previous level in out TM. We can branch sevral TM by merging the \`END\` state of one with the \`START\` state of another one.
+
+It enable us to write TM like this (a transition is either a basic transition, or a sequence a function, ie of TM):
+
+\`\`\`
+START
+  | 0 -> (1, S), q
+  | 1 -> (0, S), q
+q
+  |_ -> [MOVE_R(8), WRITE_M(255), MOVE_L(8)], END
+\`\`\`
+
+For now we have three functions: \`MOVE_L(n)\` moves to the left n times, \`MOVE_R(n)\` moves to the right n times, \`WRITE(n)\` writes n, considered as a byte (write on 8 cells).`,
       tooltip: "Presentation of functions",
       from: "Tutorial",
       to: "Basics",
     },
     text3: {
-      content:
-        "[present matching on 1 byte / explain spirit of working tape, which is always initialized at * in the following]",
+      content: `## Working on bytes
+
+Until now, we worked bit per bit, but we can work byte per byte (it is equivalent to extend our alphabet: we read 8 cell at once and then decide which transition to perform: as we read a constant number of cell at each time, this model is equivalent to the previous one).
+
+We will be working on two tapes, and we will have access to the bitwise functions defined in the previous levels. This way, we sill have the expressivity of the previous levels throught these funtions, but we also abstract to have more powerfull expressions.
+
+Here, the work tape can be used to perform operations. At the beggening on the level, the content of the work tape is arbitrary (\`_\`).
+
+Here we will have two types of funtions:
+- the functions named \`FCT_M\` or \`FCT_W\` which respectively acts on the main tape and work tape in place
+- the functions named \`FCT\` which read its argument on the main tape, computes using the work tape, and write the result on the main tape. As these functions uses the work tape, after calling them, the content of the work tape on the right of the initial position of the head will be corrupted, so keep that in mind. Moreover, the result of the funtion will be written after the arguments, so this cell will be changed. And the cell after could be corrupted, so put your arguments at the end of the main tape before calling a function.
+
+Here, the main tape must not be used for computation in order not to corrupt it. The main tape is only here to store the arguments of the funtions and the result they return. The main tape and the work tape can be seen as the stack and the head in a real computer.
+
+Here is a simple example of the new syntax:
+\`\`\`
+START
+  |a, _ -> [MOVE_BYTE_M(2), WRITE_M(a), MOVE_BYTE_M(-1)], q
+q
+  |b, _ -> [MOVE_BYTE_M(1), ADD1_M(b), MOVE_BYTE_M(-2)], END
+\`\`\`
+It is very similar to the syntax in the previous levels, it is a "merge" of the two syntaxes of the levels above. The main difference is that now the matching is extended on bytes, ie on \`0..255\``,
       tooltip: "Presentation of matching on one byte",
       from: "Tapes",
       to: "Medium",
     },
     text4: {
-      content:
-        "[same as text3... validate both at the same time?? or say other things?combine 2 tapes and extended matching]",
+      content: `## Working on bytes
+
+Until now, we worked bit per bit, but we can work byte per byte (it is equivalent to extend our alphabet: we read 8 cell at once and then decide which transition to perform: as we read a constant number of cell at each time, this model is equivalent to the previous one).
+
+We will be working on two tapes, and we will have access to the bitwise functions defined in the previous levels. This way, we sill have the expressivity of the previous levels throught these funtions, but we also abstract to have more powerfull expressions.
+
+Here, the work tape can be used to perform operations. At the beggening on the level, the content of the work tape is arbitrary (\`_\`).
+
+Here we will have two types of funtions:
+- the functions named \`FCT_M\` or \`FCT_W\` which respectively acts on the main tape and work tape in place
+- the functions named \`FCT\` which read its argument on the main tape, computes using the work tape, and write the result on the main tape. As these functions uses the work tape, after calling them, the content of the work tape on the right of the initial position of the head will be corrupted, so keep that in mind. Moreover, the result of the funtion will be written after the arguments, so this cell will be changed. And the cell after could be corrupted, so put your arguments at the end of the main tape before calling a function.
+
+Here, the main tape must not be used for computation in order not to corrupt it. The main tape is only here to store the arguments of the funtions and the result they return. The main tape and the work tape can be seen as the stack and the head in a real computer.
+
+Here is a simple example of the new syntax:
+\`\`\`
+START
+  |a, _ -> [MOVE_BYTE_M(2), WRITE_M(a), MOVE_BYTE_M(-1)], q
+q
+  |b, _ -> [MOVE_BYTE_M(1), ADD1_M(b), MOVE_BYTE_M(-2)], END
+\`\`\`
+It is very similar to the syntax in the previous levels, it is a "merge" of the two syntaxes of the levels above. The main difference is that now the matching is extended on bytes, ie on \`0..255\``,
       tooltip: "Presentation of matching on one byte",
       from: "Basics",
       to: "Medium",
@@ -76,16 +170,18 @@ const LevelsData: Data = {
     ZERO: {
       tooltip: "Writing a 0 on the tape",
       description:
-        "An example Turing Machine (TM) to get you started\nHere, you have a TM that writes 0 on one bit and moves right.\n\nWe would rather want to write 0 on a whole byte and return in our initial position. Add states and/or state rules to perform this",
+        "An example Turing Machine (TM) to get you started. By default, in the code editor you have a TM that writes 0 on one bit and moves right. We would rather want to write 0 on a whole byte and return in our initial position (for the head). Add states and/or state rules to perform this",
       initial_code:
         "// We start by declaring the START State\nSTART\n// Then we declare a rule that reads any bit b and writes a 0 at that same spot,\n// Then moves right (R) and goes to the state END to end the execution of the Turing Machine\n| 0 -> (0, R), END\n| 1 -> (0, R), END\n",
       in: "*: an arbitrary byte",
       out: "0: a byte with value 0",
       constraints:
         "no overflow allowed, at the end the cursor must return to its initial position",
-      ex_in: "1.0101010",
-      ex_out: "0.0000000",
+      ex_in: ".10101010",
+      ex_out: ".00000000",
       requires: [],
+      unlocks0: ["WRITE"],
+      unlocks: ["WRITE_M", "WRITE_W"],
       grammar_version: 0,
     },
     MOVE_R: {
@@ -98,9 +194,11 @@ const LevelsData: Data = {
       out: "*: the same byte (unchanged)",
       constraints:
         "no overflow allowed, at the end the cursor must has been moved to the right",
-      ex_in: "0.0000000",
-      ex_out: "00.000000",
+      ex_in: ".00000000",
+      ex_out: "0.0000000",
       requires: ["ZERO"],
+      unlocks0: ["MOVE_R"],
+      unlocks: ["MOVE_R_M", "MOVE_R_W"],
       grammar_version: 0,
     },
     MOVE_L: {
@@ -113,9 +211,11 @@ const LevelsData: Data = {
       out: "*: the same byte (unchanged)",
       constraints:
         "no overflow allowed, at the end the cursor must has been moved to the left",
-      ex_in: "00000.000",
-      ex_out: "0000.0000",
+      ex_in: "0000.0000",
+      ex_out: "000.00000",
       requires: ["ZERO"],
+      unlocks0: ["MOVE_L"],
+      unlocks: ["MOVE_L_M", "MOVE_L_W"],
       grammar_version: 0,
     },
     ZERO_2: {
@@ -127,9 +227,11 @@ const LevelsData: Data = {
       out: "0, 0",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "1.0101010, 1.0101010",
-      ex_out: "0.0000000, 0.0000000",
+      ex_in: "1010101010101010",
+      ex_out: "0000000000000000",
       requires: [],
+      unlocks0: [],
+      unlocks: [],
       grammar_version: 1,
     },
     COPY_TO_MAIN: {
@@ -141,9 +243,11 @@ const LevelsData: Data = {
       out: "b, b",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "0.0000000, 1.1100010",
-      ex_out: "1.1100010, 1.1100010",
+      ex_in: "0000000011100010",
+      ex_out: "1110001011100010",
       requires: ["ZERO_2"],
+      unlocks0: [],
+      unlocks: [],
       grammar_version: 1,
     },
     COPY_TO_WORK: {
@@ -154,9 +258,11 @@ const LevelsData: Data = {
       out: "b, b",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "1.1100010, 0.0000000",
-      ex_out: "1.1100010, 1.1100010",
+      ex_in: "1110001000000000",
+      ex_out: "1110001011100010",
       requires: ["ZERO_2"],
+      unlocks0: [],
+      unlocks: [],
       grammar_version: 1,
     },
     ADD1: {
@@ -168,9 +274,11 @@ const LevelsData: Data = {
       out: "b+1: mod 256",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "00001011",
-      ex_out: "00001100",
+      ex_in: ".00001011",
+      ex_out: ".00001100",
       requires: [],
+      unlocks0: ["ADD1"],
+      unlocks: ["ADD1_M", "ADD1_W"],
       grammar_version: 0,
     },
     SUB1: {
@@ -182,9 +290,11 @@ const LevelsData: Data = {
       out: "b-1: mod 256",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "00010100",
-      ex_out: "00010011",
+      ex_in: ".00010100",
+      ex_out: ".00010011",
       requires: [],
+      unlocks0: ["SUB1"],
+      unlocks: ["SUB1_M", "SUB1_W"],
       grammar_version: 0,
     },
     NEG: {
@@ -196,9 +306,11 @@ const LevelsData: Data = {
       out: "-b: mod 256 (Two's complement)",
       constraints:
         "no overflow allowed, at the end the head must return at its initial position",
-      ex_in: "00000010",
-      ex_out: "11111110",
+      ex_in: ".00000010",
+      ex_out: ".11111110",
       requires: ["ADD1"],
+      unlocks0: ["NEG"],
+      unlocks: ["NEG_M", "NEG_W"],
       grammar_version: 0,
     },
     ADD: {
@@ -209,9 +321,10 @@ const LevelsData: Data = {
       out: "b1|b2|(b1+b2 mod 256)",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "3|4|11",
-      ex_out: "3|4|7",
+      ex_in: [3, 4, 11],
+      ex_out: [3, 4, 7],
       requires: [],
+      unlocks: ["ADD"],
       grammar_version: 2,
     },
     SUB: {
@@ -223,9 +336,10 @@ const LevelsData: Data = {
       out: "b1|b2|(b1-b2 mod 256)",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "45|26|3",
-      ex_out: "45|26|19",
+      ex_in: [45, 26, 3],
+      ex_out: [45, 26, 19],
       requires: [],
+      unlocks: ["SUB"],
       grammar_version: 2,
     },
     GEQ: {
@@ -237,9 +351,10 @@ const LevelsData: Data = {
       out: "b1|b2|1 if b1 >= b2 and b1|b2|0 otherwise",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "5|4|36",
-      ex_out: "5|4|1",
+      ex_in: [5, 4, 36],
+      ex_out: [5, 4, 1],
       requires: [],
+      unlocks: ["GEQ"],
       grammar_version: 2,
     },
     LEQ: {
@@ -251,9 +366,10 @@ const LevelsData: Data = {
       out: "b1|b2|1 if b1 <= b2 and b1|b2|0 otherwise",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "5|4|36",
-      ex_out: "5|4|0",
+      ex_in: [5, 4, 36],
+      ex_out: [5, 4, "0"], //the "0" is intentional, otherwise js does its thing...
       requires: [],
+      unlocks: ["LEQ"],
       grammar_version: 2,
     },
     MUL: {
@@ -264,9 +380,10 @@ const LevelsData: Data = {
       out: "b1|b2|(b1*b2 mod 256)",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "5|7|",
-      ex_out: "5|7|35",
+      ex_in: [5, 7],
+      ex_out: [5, 7, 35],
       requires: ["ADD"],
+      unlocks: ["MUL"],
       grammar_version: 2,
     },
     MOD: {
@@ -278,9 +395,10 @@ const LevelsData: Data = {
       out: "b1|b2|(b1%b2) where % is the modulo operator",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "34|5|",
-      ex_out: "34|5|4",
+      ex_in: [34, 5],
+      ex_out: [34, 5, 4],
       requires: ["LEQ", "GEQ", "SUB"],
+      unlocks: ["MOD"],
       grammar_version: 2,
     },
     DIV: {
@@ -292,9 +410,10 @@ const LevelsData: Data = {
       out: "b1|b2|(b1/b2) where / is the euclidian division",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "34|5|",
-      ex_out: "34|5|6",
+      ex_in: [34, 5],
+      ex_out: [34, 5, 6],
       requires: ["LEQ", "GEQ", "SUB"],
+      unlocks: ["DIV"],
       grammar_version: 2,
     },
     EXP: {
@@ -305,9 +424,10 @@ const LevelsData: Data = {
       out: "b1|b2|(b1^b2 mod 256)",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "3|4|",
-      ex_out: "3|4|81",
+      ex_in: [3, 4],
+      ex_out: [3, 4, 81],
       requires: ["MUL"],
+      unlocks: ["EXP"],
       grammar_version: 2,
     },
     IS_PRIME: {
@@ -319,9 +439,10 @@ const LevelsData: Data = {
       out: "b|1 if b is prime, b|0 otherwise",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "121",
-      ex_out: "121|0",
+      ex_in: [121],
+      ex_out: [121, 0],
       requires: ["MOD"],
+      unlocks: [],
       grammar_version: 2,
     },
     LEN_SYRACUSE: {
@@ -333,9 +454,10 @@ const LevelsData: Data = {
       out: "b|n where n is the smallest integer such that syracuse(b, n) = 1",
       constraints:
         "overflow only allowed on the right, at the end the head must return at its initial position",
-      ex_in: "4",
-      ex_out: "2",
+      ex_in: [4],
+      ex_out: [4, 2],
       requires: ["MUL", "MOD", "DIV"],
+      unlocks: [],
       grammar_version: 2,
     },
   },

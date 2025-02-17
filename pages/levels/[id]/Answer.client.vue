@@ -6,6 +6,10 @@
       class="h-max"
     >
       <ResizablePanel class="bg-[#8391A3]">
+        <div class="unlockfcts_hover">
+          authorized functions &darr;
+          <div class="unlockfcts_list"></div>
+        </div>
         <TextEditor
           v-model="dotArea"
           class="p-10"
@@ -53,6 +57,7 @@ import { ref } from "vue";
 import { LevelsData } from "~/lib/levels_data";
 
 import init, { tm_string_to_dot, Simu } from "tm_parser?init";
+import { Tape } from "~/lib/tapes";
 
 await init();
 
@@ -89,6 +94,14 @@ q
 onMounted(() => {
   const existingCode = localStorage.getItem(`level-${currentLevelId}`);
   dotArea.value = existingCode || level.initial_code || defaultCode;
+
+  const tape = new Tape(
+    level.grammar_version,
+    document.body.getElementsByTagName("tape_head")[0]
+      .parentElement as HTMLDivElement,
+  );
+  tape.write("hello");
+  tape.move(5);
 });
 
 watch(dotArea, (newCode) => {
@@ -192,4 +205,105 @@ function check() {
   // add current j=level to completed_lvl
   add_completed_lvl(currentLevelId);
 }
+
+// FCT LEGAL FCTS
+
+function legal_fct() {
+  const completed_lvl = read_completed_lvl();
+  let res: string[] = [];
+  if (level.grammar_version == 0) {
+    for (let i = 0; i < completed_lvl.length; i++) {
+      if (completed_lvl[i] in LevelsData.levels) {
+        const tab = LevelsData.levels[completed_lvl[i]].unlocks0;
+        res = res.concat(tab);
+      }
+    }
+  } else {
+    for (let i = 0; i < completed_lvl.length; i++) {
+      if (completed_lvl[i] in LevelsData.levels) {
+        const tab = LevelsData.levels[completed_lvl[i]].unlocks;
+        res = res.concat(tab);
+      }
+    }
+  }
+  return res;
+}
+
+function read_completed_lvl() {
+  // read completed_lvl in localStorage
+  const res = localStorage.getItem("completed_lvl");
+  if (res == null) return [];
+  return JSON.parse(res) as string[];
+}
+
+// print list functions: events
+onMounted(() => {
+  const button: HTMLDivElement =
+    document.getElementsByClassName("unlockfcts_hover")[0];
+  const menu: HTMLDivElement =
+    document.getElementsByClassName("unlockfcts_list")[0];
+
+  button.addEventListener("mouseover", () => {
+    menu.style.height = "auto"; // Set the desired height here
+    menu.style.padding = "10px";
+  });
+  menu.addEventListener("mouseover", () => {
+    menu.style.height = "auto"; // Set the desired height here
+    menu.style.padding = "10px";
+  });
+
+  button.addEventListener("mouseout", () => {
+    menu.style.height = "0";
+    menu.style.padding = "0 10px";
+  });
+  menu.addEventListener("mouseout", () => {
+    menu.style.height = "0";
+    menu.style.padding = "0 10px";
+  });
+});
+
+function display_legal_fcts(arr_legal_fcts: string[]) {
+  if (arr_legal_fcts.length != 0) {
+    document.getElementsByClassName("unlockfcts_list")[0].innerHTML =
+      arr_legal_fcts.join("<br/>");
+  } else {
+    document.getElementsByClassName("unlockfcts_list")[0].innerHTML =
+      "No authorized<br/>function yet";
+  }
+}
+
+onMounted(() => {
+  const arr_legal_fcts: string[] = legal_fct();
+  display_legal_fcts(arr_legal_fcts);
+});
 </script>
+
+<style scoped>
+.text {
+  height: 1005px;
+}
+
+.unlockfcts_hover {
+  border: 2px solid black;
+  padding: 3px;
+  border-radius: 5px;
+  background: silver;
+  position: absolute;
+  top: 80px;
+  left: 40px;
+  font-size: 15px;
+  color: black;
+  z-index: 2;
+}
+
+.unlockfcts_list {
+  width: 150px;
+  height: 0;
+  padding: 0 10px;
+  overflow: hidden;
+  transition: 0.5s ease-out;
+  color: white;
+  background: gray;
+  border-radius: 10px;
+}
+</style>

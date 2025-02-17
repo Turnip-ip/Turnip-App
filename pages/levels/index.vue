@@ -12,6 +12,7 @@
 import { navigateTo } from "nuxt/app";
 
 import { LevelsData } from "~/lib/levels_data";
+import { find_group_of_lvl } from "~/lib/tools";
 import type { Group, Level, TextPage } from "~/lib/types";
 
 const dot = build_lvl_graph();
@@ -146,7 +147,7 @@ async function start_level(name: string) {
     await navigateTo(`/levels/texts/${name}`);
   } else if (level) {
     //level: group where i am is unblock && check requires
-    const group = find_group_of_lvl(name);
+    const group = find_group_of_lvl(name, LevelsData);
     let required = group["requires"];
     const passed = read_completed_lvl();
     let res = "";
@@ -183,15 +184,6 @@ function search_in_levels(name: string): {
     level: LevelsData.levels[name],
     text: LevelsData.texts[name],
   };
-}
-
-function find_group_of_lvl(name: string) {
-  //find the group level name belongs to
-  for (const e in LevelsData.groups) {
-    if (LevelsData.groups[e].levels.includes(name)) {
-      return LevelsData.groups[e];
-    }
-  }
 }
 
 function read_completed_lvl() {
