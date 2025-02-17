@@ -14,18 +14,8 @@
 
       <ResizablePanel>
         <div class="h-1/2 bg-[#D0D9E2]">
-          <ButtonsBar
-            :start="start"
-            :running="running"
-            :end="end"
-            :previous-step="previousStep"
-            :next-step="nextStep"
-            :all-steps="allSteps"
-            :stop="stop"
-            :reset="reset"
-            :check="check"
-            :code-valid="codeValid"
-          />
+          <ButtonsBar :start="start" :running="running" :end="end" :previous-step="previousStep" :next-step="nextStep"
+            :all-steps="allSteps" :stop="stop" :reset="reset" :check="check" :code-valid="codeValid" />
           <div class="h-full pb-6">
             <TuringGraphView class="h-full pb-4" :dot="dot" />
           </div>
@@ -33,15 +23,38 @@
 
         <div class="h-[5px] bg-black" />
 
-        {{ main_tape }}
 
-        <AnswerRubanPanel class="h-1/4" />
+        <div class="h-1/4 bg-[#EAE2DD] flex flex-col items-center justify-center gap-4">
+
+          <table>
+            <tr>
+              <td v-for="(char, index) in main_tape" :key="index"
+                :class="'border-2 border-black  w-10 h-10 text-center' + (index == pos_main_tape ? ' bg-red-500' : '')">
+                {{ char }}
+              </td>
+            </tr>
+          </table>
+
+          <table>
+            <tr>
+              <td v-for="(char, index) in work_tape" :key="index"
+                :class="'border-2 border-black w-10 h-10 text-center' + (index == pos_work_tape ? ' bg-red-500' : '')">
+                {{ char }}
+              </td>
+            </tr>
+          </table>
+        </div>
 
         <div class="h-[5px] bg-black" />
 
-        {{ logs }}
-
-        <AnswerOutputPanel class="h-1/4" />
+        <div class="bg-[#D9DFE5] h-1/4">
+          <ScrollArea class="h-[200px] w-[350px] rounded-md border p-4 w-full">
+            <span v-for="(log, index) in logs.slice(-20)" :key="index">
+              <span v-html="log.replace('\n', '<br/>')" />
+              <br />
+            </span>
+          </ScrollArea>
+        </div>
       </ResizablePanel>
     </ResizablePanelGroup>
   </div>
@@ -52,7 +65,6 @@ import { ref } from "vue";
 import { LevelsData } from "~/lib/levels_data";
 
 import init, { tm_string_to_dot, Simu } from "tm_parser?init";
-import { Tape } from "~/lib/tapes";
 
 await init();
 
@@ -71,6 +83,9 @@ const dot = ref<string>("");
 const main_tape = ref<Uint8Array>(new Uint8Array(10));
 const work_tape = ref<Uint8Array>(new Uint8Array(10));
 
+const pos_main_tape = ref(0);
+const pos_work_tape = ref(0);
+
 const start = ref(true);
 const end = ref(false);
 const running = ref(false);
@@ -79,8 +94,6 @@ const running = ref(false);
 const codeValid = ref(true);
 
 const logs: string[] = [];
-
-let step = 0;
 
 const defaultCode = `START
 | b -> (b,R), START
@@ -94,13 +107,6 @@ q
 onMounted(() => {
   const existingCode = localStorage.getItem(`level-${currentLevelId}`);
   dotArea.value = existingCode || level.initial_code || defaultCode;
-
-  const tape = new Tape(
-    level.grammar_version,
-    document.body.getElementsByTagName("tape_head")[0]
-      .parentElement as HTMLDivElement,
-  );
-  tape.write(level.ex_in);
 });
 
 watch(dotArea, (newCode) => {
@@ -110,6 +116,7 @@ watch(dotArea, (newCode) => {
     dot.value = dotCode;
   } catch (e) {
     console.log(e);
+    logs.push(e.toString());
     dot.value = "digraph  {bgcolor='transparent';}";
   }
 });
@@ -123,14 +130,6 @@ function getSimulator(): Simu {
     console.log("Init simulator");
     codeOfCurrentSimulator = dotArea.value;
 
-    // TODO: authorized methods
-    console.log(
-      codeOfCurrentSimulator,
-      level.grammar_version,
-      main_tape.value,
-      work_tape.value,
-      legal_fct(),
-    );
     try {
       currentSimulator = Simu.new(
         codeOfCurrentSimulator,
@@ -142,7 +141,6 @@ function getSimulator(): Simu {
 
     } catch (e) {
       console.error(e);
-      codeValid.value = false;
       logs.push(e.toString());
       throw e;
     }
@@ -167,6 +165,8 @@ function handleNewStep(simu: Simu) {
   colorCurrentState(currentState, 'red');
   main_tape.value = simu.get_main_tape();
   work_tape.value = simu.get_work_tape();
+  pos_main_tape.value = simu.head_pos_main();
+  pos_work_tape.value = simu.head_pos_work();
 }
 
 function previousStep() {
