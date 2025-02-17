@@ -109,6 +109,7 @@ if (level.grammar_version == 0) {
 <style scoped>
 .imag {
   position: absolute;
+  z-index: 0;
   top: 77px;
   left: 0;
   width: 100%;
