@@ -20,7 +20,7 @@
       <ResizableHandle with-handle />
 
       <ResizablePanel>
-        <div class="bg-[#D0D9E2]">
+        <div class="h-1/2 bg-[#D0D9E2]">
           <ButtonsBar
             :start="start"
             :running="running"
