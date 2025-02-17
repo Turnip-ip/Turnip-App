@@ -1,19 +1,38 @@
 <template>
   <div class="h-full">
     <!-- Resizable Panels -->
-    <ResizablePanelGroup direction="horizontal" class="h-max">
+    <ResizablePanelGroup
+      direction="horizontal"
+      class="h-max"
+    >
       <ResizablePanel class="bg-[#8391A3]">
-        <TextEditor v-model="dotArea" class="p-10" height="100%" />
+        <TextEditor
+          v-model="dotArea"
+          class="p-10"
+          height="100%"
+        />
       </ResizablePanel>
 
       <ResizableHandle with-handle />
 
       <ResizablePanel>
         <div class="bg-[#D0D9E2]">
-          <ButtonsBar :start="start" :running="running" :end="end" :previousStep="previousStep" :nextStep="nextStep"
-            :allSteps="allSteps" :stop="stop" :reset="reset" :check="check" />
+          <ButtonsBar
+            :start="start"
+            :running="running"
+            :end="end"
+            :previous-step="previousStep"
+            :next-step="nextStep"
+            :all-steps="allSteps"
+            :stop="stop"
+            :reset="reset"
+            :check="check"
+          />
           <div class="h-full pb-6">
-            <TuringGraphView class="h-full pb-4" :dot="dot" />
+            <TuringGraphView
+              class="h-full pb-4"
+              :dot="dot"
+            />
           </div>
         </div>
 
@@ -52,7 +71,6 @@ const dot = ref<string>("");
 const main_tape = ref<Uint8Array>(new Uint8Array(10));
 const work_tape = ref<Uint8Array>(new Uint8Array(10));
 
-
 const start = ref(true);
 const end = ref(false);
 const running = ref(false);
@@ -79,11 +97,7 @@ watch(dotArea, (newCode) => {
   // TODO: try/catch ?
   const dotCode = tm_string_to_dot(newCode, "", 0);
   dot.value = dotCode;
-
-
-
 });
-
 
 let currentSimulator: Simu | null = null;
 let codeOfCurrentSimulator: string | null = null;
@@ -94,9 +108,21 @@ function getSimulator(): Simu {
     codeOfCurrentSimulator = dotArea.value;
 
     // TODO: authorized methods
-    console.log(codeOfCurrentSimulator, level.grammar_version, main_tape.value, work_tape.value, [])
+    console.log(
+      codeOfCurrentSimulator,
+      level.grammar_version,
+      main_tape.value,
+      work_tape.value,
+      [],
+    );
     try {
-      currentSimulator = Simu.new(codeOfCurrentSimulator, level.grammar_version, main_tape.value, work_tape.value, []);
+      currentSimulator = Simu.new(
+        codeOfCurrentSimulator,
+        level.grammar_version,
+        main_tape.value,
+        work_tape.value,
+        [],
+      );
     } catch (e) {
       console.log(e);
     }
@@ -115,7 +141,7 @@ function previousStep() {
 
 function nextStep() {
   console.log("nextStep");
-  const simu = getSimulator()
+  const _simu = getSimulator();
   step += 1;
   if (step === 10) {
     end.value = true;
@@ -149,6 +175,15 @@ function reset() {
   step = 0;
   start.value = true;
   end.value = false;
+}
+
+function add_completed_lvl(currentLvlId: string) {
+  // read completed_lvl in localStorage
+  const res = localStorage.getItem("completed_lvl");
+  const arr_compl = res != null ? (JSON.parse(res) as string[]) : [];
+  // add and save
+  if (!arr_compl.includes(currentLvlId)) arr_compl.push(currentLvlId);
+  localStorage.setItem("completed_lvl", JSON.stringify(arr_compl));
 }
 
 function check() {

@@ -7,5 +7,5 @@ interface Props {
   dot: string;
 }
 
-const _props = withDefaults(defineProps<Props>(), { dot: '' });
+const _props = withDefaults(defineProps<Props>(), { dot: "" });
 </script>
