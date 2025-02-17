@@ -26,23 +26,8 @@
 
         <div class="h-1/4 bg-[#EAE2DD] flex flex-col items-center justify-center gap-4">
 
-          <table>
-            <tr>
-              <td v-for="(char, index) in main_tape" :key="index"
-                :class="'border-2 border-black  w-10 h-10 text-center' + (index == pos_main_tape ? ' bg-red-500' : '')">
-                {{ char }}
-              </td>
-            </tr>
-          </table>
+          <DynTape :gramm-ver="level.grammar_version" initial-text="00001" :initial-pos="0"></DynTape>
 
-          <table v-if="level.grammar_version == 2">
-            <tr>
-              <td v-for="(char, index) in work_tape" :key="index"
-                :class="'border-2 border-black w-10 h-10 text-center' + (index == pos_work_tape ? ' bg-red-500' : '')">
-                {{ char }}
-              </td>
-            </tr>
-          </table>
         </div>
 
         <div class="h-[5px] bg-black" />
@@ -65,6 +50,7 @@ import { ref } from "vue";
 import { LevelsData } from "~/lib/levels_data";
 
 import init, { tm_string_to_dot, Simu } from "tm_parser?init";
+import { Tape } from "~/lib/tapes";
 
 await init();
 
@@ -106,9 +92,22 @@ q
 | 0 -> (1,L), END
 `;
 
+let tape_object: Tape;
+
 onMounted(() => {
   const existingCode = localStorage.getItem(`level-${currentLevelId}`);
   dotArea.value = existingCode || level.initial_code || defaultCode;
+
+  tape_object = new Tape(
+    level.grammar_version,
+    document.body.getElementsByTagName("tape_head")[0].parentElement,
+  );
+  if (level.grammar_version == 0) {
+    tape_object.write([0, 0, 0, 0, 0]);
+  } else {
+    tape_object.writeM([0, 0, 0, 0, 0]);
+    tape_object.writeW([0, 0, 0, 0, 0]);
+  }
 });
 
 watch(dotArea, (newCode) => {
@@ -140,6 +139,13 @@ function resetSimulation() {
   start.value = true;
   end.value = false;
   running.value = false;
+
+  if (level.grammar_version == 0) {
+    tape_object.write(main_tape.value);
+  } else {
+    tape_object.writeM(main_tape.value);
+    tape_object.writeW(work_tape.value);
+  }
 }
 
 function getSimulator(): Simu {
@@ -184,6 +190,16 @@ function handleNewStep(simu: Simu) {
   work_tape.value = simu.get_work_tape();
   pos_main_tape.value = simu.head_pos_main();
   pos_work_tape.value = simu.head_pos_work();
+
+  if (level.grammar_version == 0) {
+    tape_object.write(main_tape.value);
+    tape_object.move(pos_main_tape.value);
+  } else {
+    tape_object.writeM(main_tape.value);
+    tape_object.writeW(work_tape.value);
+    tape_object.moveM(pos_main_tape.value);
+    tape_object.moveW(pos_work_tape.value);
+  }
 }
 
 function previousStep() {
