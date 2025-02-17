@@ -30,10 +30,6 @@ interface Group {
    * Text node IDs that need to be read to unlock this group.
    */
   requires: string[];
-  /**
-   *
-   */
-  grammar_version: number;
 }
 
 interface Level {
@@ -73,6 +69,10 @@ interface Level {
    *
    */
   ex_out: string;
+  /**
+   *
+   */
+  grammar_version: number;
 }
 
 interface Data {
