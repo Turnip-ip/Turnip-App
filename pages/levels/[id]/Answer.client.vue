@@ -1,20 +1,13 @@
 <template>
   <div class="h-full">
     <!-- Resizable Panels -->
-    <ResizablePanelGroup
-      direction="horizontal"
-      class="h-max"
-    >
+    <ResizablePanelGroup direction="horizontal" class="h-max">
       <ResizablePanel class="bg-[#8391A3]">
         <div class="unlockfcts_hover">
           authorized functions &darr;
           <div class="unlockfcts_list"></div>
         </div>
-        <TextEditor
-          v-model="dotArea"
-          class="p-10"
-          height="100%"
-        />
+        <TextEditor v-model="dotArea" class="p-10" height="100%" />
       </ResizablePanel>
 
       <ResizableHandle with-handle />
@@ -33,14 +26,13 @@
             :check="check"
           />
           <div class="h-full pb-6">
-            <TuringGraphView
-              class="h-full pb-4"
-              :dot="dot"
-            />
+            <TuringGraphView class="h-full pb-4" :dot="dot" />
           </div>
         </div>
 
         <div class="h-[5px] bg-black" />
+
+        {{ main_tape }}
 
         <AnswerRubanPanel class="h-1/4" />
 
@@ -73,8 +65,8 @@ const dotArea = ref<string>("");
 const dot = ref<string>("");
 
 // TODO: use level start tape
-const main_tape = ref<Uint8Array>(new Uint8Array(10));
-const work_tape = ref<Uint8Array>(new Uint8Array(10));
+let main_tape = ref<Uint8Array>(new Uint8Array(10));
+let work_tape = ref<Uint8Array>(new Uint8Array(10));
 
 const start = ref(true);
 const end = ref(false);
@@ -100,25 +92,23 @@ onMounted(() => {
     document.body.getElementsByTagName("tape_head")[0]
       .parentElement as HTMLDivElement,
   );
-  tape.write("hello");
-  tape.move(5);
+  tape.write(level.ex_in);
 });
 
 watch(dotArea, (newCode) => {
   localStorage.setItem(`level-${currentLevelId}`, newCode);
-
   try {
     const dotCode = tm_string_to_dot(newCode, "", 0);
     dot.value = dotCode;
-    // TODO -> effacer les potentielles erreurs dans AnswerOutputPanel
   } catch (e) {
+    console.log(e);
     dot.value = "digraph  {bgcolor='transparent';}";
-    console.log(e); // TODO -> ecrire e dans AnswerOutputPanel
   }
 });
 
 let currentSimulator: Simu | null = null;
 let codeOfCurrentSimulator: string | null = null;
+let currentState = "START";
 
 function getSimulator(): Simu {
   if (currentSimulator === null || codeOfCurrentSimulator !== dotArea.value) {
@@ -131,7 +121,7 @@ function getSimulator(): Simu {
       level.grammar_version,
       main_tape.value,
       work_tape.value,
-      [],
+      legal_fct(),
     );
     try {
       currentSimulator = Simu.new(
@@ -139,48 +129,75 @@ function getSimulator(): Simu {
         level.grammar_version,
         main_tape.value,
         work_tape.value,
-        [],
+        legal_fct(),
       );
     } catch (e) {
       console.log(e);
+      // TODO throw
     }
   }
   return currentSimulator;
 }
 
-function previousStep() {
-  console.log("previousStep");
-  step -= 1;
-  if (step === 0) {
-    start.value = true;
+function colorCurrentState(state: string, color: string) {
+  const node = document.getElementById(state)
+  for (const child of node?.children ?? []) {
+    console.log(child, child.tagName, child.className);
+    if (child.tagName === 'ellipse' || child.tagName === 'polygon') {
+      console.log(child.getAttribute('stroke'));
+      child.setAttribute('stroke', color);
+    }
   }
-  end.value = false;
+}
+
+function handleNewStep(simu: Simu) {
+  colorCurrentState(currentState, 'black');
+  currentState = simu.get_current_state();
+  colorCurrentState(currentState, 'red');
+  main_tape = simu.get_main_tape();
+  work_tape = simu.get_work_tape();
+}
+
+function previousStep() {
+  running.value = true;
+  const simu = getSimulator();
+  try {
+    simu.prev_step();
+    handleNewStep(simu);
+  } catch (e) {
+    console.log(e);
+  }
+  end.value = simu.is_end();
+  start.value = simu.is_start();
+  running.value = false;
 }
 
 function nextStep() {
-  console.log("nextStep");
-  const _simu = getSimulator();
-  step += 1;
-  if (step === 10) {
-    end.value = true;
-  }
-  start.value = false;
-}
-
-function delay(delay: number) {
-  return new Promise((r) => {
-    setTimeout(r, delay);
-  });
-}
-
-async function allSteps() {
-  console.log("run");
   running.value = true;
-  await delay(5000);
-  start.value = false;
-  end.value = true;
+  const simu = getSimulator();
+  try {
+    simu.next_step();
+    handleNewStep(simu);
+  } catch (e) {
+    console.log(e);
+  }
+  end.value = simu.is_end();
+  start.value = simu.is_start();
   running.value = false;
-  step = 10;
+}
+
+function allSteps() {
+  running.value = true;
+  const simu = getSimulator();
+  try {
+    simu.all_steps();
+    handleNewStep(simu);
+  } catch (e) {
+    console.log(e);
+  }
+  end.value = simu.is_end();
+  start.value = simu.is_start();
+  running.value = false;
 }
 
 function stop() {
