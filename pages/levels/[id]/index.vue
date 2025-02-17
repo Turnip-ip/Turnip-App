@@ -87,6 +87,8 @@ const currentLevelId: string = route.params.id as string;
 
 const level = LevelsData.levels[currentLevelId];
 
+const grammVer = level.grammar_version;
+
 definePageMeta({
   layout: "level",
 });
