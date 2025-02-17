@@ -164,6 +164,7 @@ body {
   width: 100%;
   height: calc(100vh - 77px);
   overflow: hidden;
+  z-index: -1;
 }
 
 .turnip {
