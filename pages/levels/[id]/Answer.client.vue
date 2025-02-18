@@ -94,8 +94,8 @@ const dotArea = ref<string>("");
 const dot = ref<string>("");
 
 // TODO: use level start tape
-const main_tape = ref<Uint8Array>(new Uint8Array(8));
-const work_tape = ref<Uint8Array>(new Uint8Array(8));
+const main_tape = ref<Uint8Array>(new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]));
+const work_tape = ref<Uint8Array>(new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]));
 
 const pos_main_tape = ref(0);
 const pos_work_tape = ref(0);
@@ -186,8 +186,8 @@ function resetSimulation() {
   currentState = "START";
   colorCurrentState(currentState, "red");
 
-  main_tape.value = new Uint8Array(8);
-  work_tape.value = new Uint8Array(8);
+  main_tape.value = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
+  work_tape.value = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
   pos_main_tape.value = 0;
   pos_work_tape.value = 0;
 
@@ -324,8 +324,11 @@ function add_completed_lvl(currentLvlId: string) {
 
 function check() {
   console.log("check");
-  const simu = getSimulator();
   logs.push("Running tests...");
+  const test_logs = [];
+  running.value = true;
+  resetSimulation();
+  const simu = getSimulator();
   let is_ok = true;
   for (let i = 0; i < 255; ++i) {
     const input_main = new Uint8Array((i >>> 0).toString(2).padStart(8, "0").split('').map(c => parseInt(c)));
@@ -344,15 +347,19 @@ function check() {
     const expected = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
     if (!simu.verify_output(expected)) {
       is_ok = false;
-      logs.push(`Tests failed, expected output: ${expected.toString()} on input ${input_main.toString()}`);
+      test_logs.push(`Tests failed, expected output: ${expected.toString()} on input ${input_main.toString()} but got ${simu.get_main_tape().toString()}`);
     }
   }
   // Check that the tests passed
   if (is_ok) {
     // add current j=level to completed_lvl if it passed the check
     add_completed_lvl(currentLevelId);
-    logs.push(`Tests completed successfully! The next levels are now unlocked.`);
+    test_logs.push(`Tests completed successfully! The next levels are now unlocked.`);
   }
+
+  running.value = false;
+  resetSimulation();
+  logs = logs.concat(test_logs);
 }
 
 // FCT LEGAL FCTS
