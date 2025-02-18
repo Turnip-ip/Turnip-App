@@ -107,7 +107,7 @@ const running = ref(false);
 // If the code is not valid, we can not display, nor run the TM
 const codeValid = ref(true);
 
-let logs: string[] = [];
+let logs = ref<string[]>([]);
 
 const newMainTape = ref<string>("");
 const newWorkTape = ref<string>("");
@@ -168,7 +168,7 @@ watch(dotArea, (newCode) => {
     dot.value = dotCode;
   } catch (e) {
     console.error(e);
-    logs.push(e.toString());
+    logs.value.push(e.toString());
     dot.value = "digraph  {bgcolor='transparent';}";
   }
 });
@@ -205,7 +205,7 @@ function resetSimulation() {
     tape_object.moveW(0);
   }
 
-  logs = [];
+  logs.value = [];
 }
 
 function getSimulator(): Simu {
@@ -225,7 +225,7 @@ function getSimulator(): Simu {
       );
     } catch (e) {
       console.error(e);
-      logs.push(e.toString());
+      logs.value.push(e.toString());
       throw e;
     }
   }
@@ -324,7 +324,7 @@ function add_completed_lvl(currentLvlId: string) {
 
 function check() {
   console.log("check");
-  logs.push("Running tests...");
+  logs.value.push("Running tests...");
   const test_logs = [];
   running.value = true;
   resetSimulation();
@@ -359,7 +359,7 @@ function check() {
 
   running.value = false;
   resetSimulation();
-  logs = logs.concat(test_logs);
+  logs.value = logs.value.concat(test_logs);
 }
 
 // FCT LEGAL FCTS
@@ -437,6 +437,7 @@ onMounted(() => {
 <style scoped>
 .text {
   height: 1005px;
+  min-height: fit-content;
 }
 
 .titleButtons {
