@@ -169,7 +169,7 @@ function setWorkTape() {
     newWorkTape.value.split(",").map((x) => parseInt(x)),
   );
   if (level.grammar_version == 1) {
-    tape_object.writeM(work_tape.value);
+    tape_object.writeW(work_tape.value);
   }
   resetSimulation();
 }
