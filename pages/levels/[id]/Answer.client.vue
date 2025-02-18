@@ -528,5 +528,6 @@ onMounted(() => {
   border: 5px solid black;
   border-radius: 15px;
   text-align: center;
+  overflow: auto;
 }
 </style>
