@@ -5,7 +5,7 @@
         <TooltipTrigger>
           <Button
             variant="secondary"
-            :disabled="start || running"
+            :disabled="start || running || !codeValid"
             @click="previousStep"
           >
             <ChevronLeft class="h-4 w-4" />
@@ -20,7 +20,7 @@
         <TooltipTrigger>
           <Button
             variant="secondary"
-            :disabled="end || running"
+            :disabled="end || running || !codeValid"
             @click="nextStep"
           >
             <ChevronRight class="h-4 w-4" />
@@ -34,7 +34,7 @@
       <Tooltip>
         <TooltipTrigger>
           <Button
-            :disabled="end || running"
+            :disabled="end || running || !codeValid"
             @click="allSteps"
           >
             <LoaderCircle
@@ -85,7 +85,7 @@
         <TooltipTrigger>
           <Button
             variant="secondary"
-            :disabled="running"
+            :disabled="running || !codeValid"
             @click="check"
           >
             <MonitorCheck class="h-4 w-4" /> Run tests
@@ -114,6 +114,7 @@ interface Props {
   start: boolean;
   end: boolean;
   running: boolean;
+  codeValid: boolean;
   previousStep: (...args: unknown[]) => void;
   nextStep: (...args: unknown[]) => void;
   allSteps: (...args: unknown[]) => void;
