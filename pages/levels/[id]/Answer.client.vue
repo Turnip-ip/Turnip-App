@@ -582,6 +582,9 @@ onMounted(() => {
 }
 
 .log-entry {
-  white-space: pre-wrap; /* Key for preserving newlines */
+  white-space: pre-wrap;
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: auto;
 }
 </style>
