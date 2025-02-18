@@ -95,13 +95,14 @@
         <div class="h-1/4 bg-[#D9DFE5]">
           <div class="outputtitle">ERROR LOGS</div>
           <div class="popuP">
-            <ScrollArea class="h-full w-full">
+            <ScrollArea
+              class="ml-1 h-full w-full whitespace-pre-wrap font-mono"
+            >
               <span
                 v-for="(log, index) in logs.slice(-20)"
                 :key="index"
               >
-                // eslint-disable-next-line vue/no-v-html
-                <span v-html="log.replace('\n', '<br/>')" />
+                <span v-html="log.replaceAll('\n', '<br>')" />
                 <br />
               </span>
             </ScrollArea>
@@ -505,7 +506,7 @@ onMounted(() => {
   background-color: rgb(188, 248, 228);
   border: 5px solid black;
   border-radius: 15px;
-  text-align: center;
+  text-align: left;
 }
 
 .rubantitle {
