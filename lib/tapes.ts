@@ -1,3 +1,5 @@
+type ContentTape = string | number[];
+
 export class Tape {
   head: HTMLDivElement;
   tape: HTMLDivElement;
@@ -36,7 +38,7 @@ export class Tape {
     }
   }
 
-  write_tape(str: string, tape: HTMLDivElement) {
+  write_tape(str: ContentTape, tape: HTMLDivElement) {
     // write one character per cell
     const children = tape.children;
     if (children.length < str.length) {
@@ -50,7 +52,7 @@ export class Tape {
     }
   }
 
-  write_fade(div: HTMLDivElement, cont: string) {
+  write_fade(div: HTMLDivElement, cont: ContentTape) {
     div.style.opacity = 0;
     setTimeout(() => {
       div.textContent = cont;
@@ -58,15 +60,15 @@ export class Tape {
     }, 100);
   }
 
-  write(str: string) {
+  write(str: ContentTape) {
     if (this.gramm_v == 0) this.write_tape(str, this.tape);
     else console.log("write called with grammar version > 0");
   }
-  writeM(str: string) {
+  writeM(str: ContentTape) {
     if (this.gramm_v != 0) this.write_tape(str, this.tapeM);
     else console.log("writeM called with grammar version 0");
   }
-  writeW(str: string) {
+  writeW(str: ContentTape) {
     if (this.gramm_v != 0) this.write_tape(str, this.tapeW);
     else console.log("writeW called with grammar version 0");
   }

@@ -1,21 +1,14 @@
 <template>
   <div class="h-full">
     <!-- Resizable Panels -->
-    <ResizablePanelGroup
-      direction="horizontal"
-      class="h-max"
-    >
+    <ResizablePanelGroup direction="horizontal" class="h-max">
       <ResizablePanel class="bg-[#8391A3]">
         <div class="unlockfcts_hover">
           authorized functions &darr;
           <div class="unlockfcts_list"></div>
         </div>
 
-        <TextEditor
-          v-model="dotArea"
-          class="p-10"
-          height="100%"
-        />
+        <TextEditor v-model="dotArea" class="p-10" height="100%" />
       </ResizablePanel>
 
       <ResizableHandle with-handle />
@@ -24,18 +17,8 @@
         <div class="h-1/2 bg-[#D0D9E2]">
           <div class="titleButtons">
             <div class="graphTitle">GRAPH</div>
-            <ButtonsBar
-              :start="start"
-              :running="running"
-              :end="end"
-              :previous-step="previousStep"
-              :next-step="nextStep"
-              :all-steps="allSteps"
-              :stop="stop"
-              :reset="reset"
-              :check="check"
-              :code-valid="codeValid"
-            />
+            <ButtonsBar :start="start" :running="running" :end="end" :previous-step="previousStep" :next-step="nextStep"
+              :all-steps="allSteps" :stop="stop" :reset="reset" :check="check" :code-valid="codeValid" />
 
             <Popover class="mr-2">
               <PopoverTrigger>
@@ -44,22 +27,11 @@
               <PopoverContent>
                 <div class="flex flex-col gap-2">
                   <div class="flex w-full max-w-sm items-center gap-1.5">
-                    <Input
-                      id="email"
-                      v-model="newMainTape"
-                      placeholder="0, 0, 0, 0"
-                    />
+                    <Input id="email" v-model="newMainTape" placeholder="0, 0, 0, 0" />
                     <Button @click="setMainTape()"> Save </Button>
                   </div>
-                  <div
-                    v-if="level.grammar_version == 1"
-                    class="flex w-full max-w-sm items-center gap-1.5"
-                  >
-                    <Input
-                      id="email"
-                      v-model="newWorkTape"
-                      placeholder="0, 0, 0, 0"
-                    />
+                  <div v-if="level.grammar_version == 1" class="flex w-full max-w-sm items-center gap-1.5">
+                    <Input id="email" v-model="newWorkTape" placeholder="0, 0, 0, 0" />
                     <Button @click="setWorkTape()"> Save </Button>
                   </div>
                 </div>
@@ -68,10 +40,7 @@
           </div>
 
           <div class="h-full pb-6">
-            <TuringGraphView
-              class="h-full pb-4"
-              :dot="dot"
-            />
+            <TuringGraphView class="h-full pb-4" :dot="dot" />
           </div>
         </div>
 
@@ -81,11 +50,7 @@
           <div class="rubantitle">TAPE</div>
           <div class="rubanpopup">
             <div style="display: flex; column-gap: 10px">
-              <DynTape
-                :gramm-ver="level.grammar_version"
-                initial-text="00001"
-                :initial-pos="0"
-              ></DynTape>
+              <DynTape :gramm-ver="level.grammar_version" initial-text="00001" :initial-pos="0"></DynTape>
             </div>
           </div>
         </div>
@@ -95,13 +60,8 @@
         <div class="h-1/4 bg-[#D9DFE5]">
           <div class="outputtitle">ERROR LOGS</div>
           <div class="popuP">
-            <ScrollArea
-              class="ml-1 h-full w-full whitespace-pre-wrap font-mono"
-            >
-              <span
-                v-for="(log, index) in logs.slice(-20)"
-                :key="index"
-              >
+            <ScrollArea class="ml-1 h-full w-full whitespace-pre-wrap font-mono">
+              <span v-for="(log, index) in logs.slice(-20)" :key="index">
                 <span v-html="log.replaceAll('\n', '<br>')" />
                 <br />
               </span>
@@ -134,8 +94,8 @@ const dotArea = ref<string>("");
 const dot = ref<string>("");
 
 // TODO: use level start tape
-const main_tape = ref<Uint8Array>(new Uint8Array(10));
-const work_tape = ref<Uint8Array>(new Uint8Array(10));
+const main_tape = ref<Uint8Array>(new Uint8Array(8));
+const work_tape = ref<Uint8Array>(new Uint8Array(8));
 
 const pos_main_tape = ref(0);
 const pos_work_tape = ref(0);
@@ -157,9 +117,9 @@ function setMainTape() {
     newMainTape.value.split(",").map((x) => parseInt(x)),
   );
   if (level.grammar_version == 0) {
-    tape_object.write(main_tape.value);
+    tape_object.write(main_tape.value.toString().replaceAll(',', ''));
   } else {
-    tape_object.writeM(main_tape.value);
+    tape_object.writeM(main_tape.value.toString().replaceAll(',', ''));
   }
   resetSimulation();
 }
@@ -169,7 +129,7 @@ function setWorkTape() {
     newWorkTape.value.split(",").map((x) => parseInt(x)),
   );
   if (level.grammar_version == 1) {
-    tape_object.writeW(work_tape.value);
+    tape_object.writeW(work_tape.value.toString().replaceAll(',', ''));
   }
   resetSimulation();
 }
@@ -194,10 +154,10 @@ onMounted(() => {
     document.body.getElementsByTagName("tape_head")[0].parentElement,
   );
   if (level.grammar_version == 0) {
-    tape_object.write([0, 0, 0, 0, 0]);
+    tape_object.write([0, 0, 0, 0, 0, 0, 0, 0].toString().replaceAll(',', ''));
   } else {
-    tape_object.writeM([0, 0, 0, 0, 0]);
-    tape_object.writeW([0, 0, 0, 0, 0]);
+    tape_object.writeM([0, 0, 0, 0, 0, 0, 0, 0].toString().replaceAll(',', ''));
+    tape_object.writeW([0, 0, 0, 0, 0, 0, 0, 0].toString().replaceAll(',', ''));
   }
 });
 
@@ -226,8 +186,8 @@ function resetSimulation() {
   currentState = "START";
   colorCurrentState(currentState, "red");
 
-  main_tape.value = new Uint8Array(10);
-  work_tape.value = new Uint8Array(10);
+  main_tape.value = new Uint8Array(8);
+  work_tape.value = new Uint8Array(8);
   pos_main_tape.value = 0;
   pos_work_tape.value = 0;
 
@@ -236,11 +196,11 @@ function resetSimulation() {
   running.value = false;
 
   if (level.grammar_version == 0) {
-    tape_object.write(main_tape.value);
+    tape_object.write(main_tape.value.toString().replaceAll(',', ''));
     tape_object.move(0);
   } else {
-    tape_object.writeM(main_tape.value);
-    tape_object.writeW(work_tape.value);
+    tape_object.writeM(main_tape.value.toString().replaceAll(',', ''));
+    tape_object.writeW(work_tape.value.toString().replaceAll(',', ''));
     tape_object.moveM(0);
     tape_object.moveW(0);
   }
@@ -291,11 +251,11 @@ function handleNewStep(simu: Simu) {
   pos_work_tape.value = simu.head_pos_work();
 
   if (level.grammar_version == 0) {
-    tape_object.write(main_tape.value);
+    tape_object.write(main_tape.value.toString().replaceAll(',', ''));
     tape_object.move(pos_main_tape.value);
   } else {
-    tape_object.writeM(main_tape.value);
-    tape_object.writeW(work_tape.value);
+    tape_object.writeM(main_tape.value.toString().replaceAll(',', ''));
+    tape_object.writeW(work_tape.value.toString().replaceAll(',', ''));
     tape_object.moveM(pos_main_tape.value);
     tape_object.moveW(pos_work_tape.value);
   }
@@ -364,9 +324,35 @@ function add_completed_lvl(currentLvlId: string) {
 
 function check() {
   console.log("check");
-  // TODO: test the TM on all input using rust
-  // add current j=level to completed_lvl
-  add_completed_lvl(currentLevelId);
+  const simu = getSimulator();
+  logs.push("Running tests...");
+  let is_ok = true;
+  for (let i = 0; i < 255; ++i) {
+    const input_main = new Uint8Array((i >>> 0).toString(2).padStart(8, "0").split('').map(c => parseInt(c)));
+    const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
+    simu.reset(input_main, input_work);
+
+    // Run the machine
+    try {
+      simu.all_steps();
+    } catch (e) {
+      console.error(e);
+    }
+
+    // Verify test output
+    // TODO: change HARD CODE
+    const expected = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
+    if (!simu.verify_output(expected)) {
+      is_ok = false;
+      logs.push(`Tests failed, expected output: ${expected.toString()} on input ${input_main.toString()}`);
+    }
+  }
+  // Check that the tests passed
+  if (is_ok) {
+    // add current j=level to completed_lvl if it passed the check
+    add_completed_lvl(currentLevelId);
+    logs.push(`Tests completed successfully! The next levels are now unlocked.`);
+  }
 }
 
 // FCT LEGAL FCTS
