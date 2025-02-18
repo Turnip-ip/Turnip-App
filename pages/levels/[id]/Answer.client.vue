@@ -147,7 +147,7 @@ const running = ref(false);
 // If the code is not valid, we can not display, nor run the TM
 const codeValid = ref(true);
 
-const logs: string[] = [];
+let logs: string[] = [];
 
 const newMainTape = ref<string>("");
 const newWorkTape = ref<string>("");
@@ -244,6 +244,8 @@ function resetSimulation() {
     tape_object.moveM(0);
     tape_object.moveW(0);
   }
+
+  logs = [];
 }
 
 function getSimulator(): Simu {
