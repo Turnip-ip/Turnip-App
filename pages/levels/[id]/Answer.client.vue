@@ -250,6 +250,8 @@ function resetSimulation() {
 
 function getSimulator(): Simu {
   if (currentSimulator === null || codeOfCurrentSimulator !== dotArea.value) {
+    resetSimulation();
+
     console.log("Init simulator");
     codeOfCurrentSimulator = dotArea.value;
 
