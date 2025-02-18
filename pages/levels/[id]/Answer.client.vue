@@ -96,6 +96,7 @@
           <div class="outputtitle">ERROR LOGS</div>
           <div class="popuP">
             <ScrollArea
+              ref="scrollArea"
               class="ml-1 h-full w-full whitespace-pre-wrap font-mono"
             >
               <span
@@ -115,7 +116,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch, nextTick } from "vue";
 import { LevelsData } from "~/lib/levels_data";
 
 import init, { tm_string_to_dot, Simu } from "tm_parser?init";
@@ -483,6 +484,26 @@ onMounted(() => {
   const arr_legal_fcts: string[] = legal_fct();
   display_legal_fcts(arr_legal_fcts);
 });
+
+// LOGS: SCROLL TO BOTTOM
+const scrollArea = ref(null);
+
+watch(logs.value, () => {
+  nextTick(() => {
+    scrollToBottom();
+  })
+    .then(() => {})
+    .catch((e: unknown) => {
+      console.error(e);
+    });
+});
+
+function scrollToBottom() {
+  const cont = scrollArea.value.$el as HTMLDivElement;
+  const scrollElement = cont.childNodes[2] as HTMLDivElement;
+  scrollElement.scrollTop = scrollElement.scrollHeight;
+  console.log(scrollElement);
+}
 </script>
 
 <style scoped>
@@ -578,13 +599,6 @@ onMounted(() => {
   border: 5px solid black;
   border-radius: 15px;
   text-align: center;
-  overflow: auto;
-}
-
-.log-entry {
-  white-space: pre-wrap;
-  display: flex;
-  flex-direction: column-reverse;
   overflow: auto;
 }
 </style>
