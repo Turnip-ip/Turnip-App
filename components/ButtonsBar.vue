@@ -3,7 +3,11 @@
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger>
-          <Button variant="secondary" :disabled="start || running || !codeValid" @click="previousStep">
+          <Button
+            variant="secondary"
+            :disabled="start || running || !codeValid"
+            @click="previousStep"
+          >
             <ChevronLeft class="h-4 w-4" />
           </Button>
         </TooltipTrigger>
@@ -14,7 +18,11 @@
 
       <Tooltip>
         <TooltipTrigger>
-          <Button variant="secondary" :disabled="end || running || !codeValid" @click="nextStep">
+          <Button
+            variant="secondary"
+            :disabled="end || running || !codeValid"
+            @click="nextStep"
+          >
             <ChevronRight class="h-4 w-4" />
           </Button>
         </TooltipTrigger>
@@ -25,9 +33,18 @@
 
       <Tooltip>
         <TooltipTrigger>
-          <Button :disabled="end || running || !codeValid" @click="allSteps">
-            <LoaderCircle v-if="running" class="h-4 w-4 animate-spin" />
-            <ChevronLast v-else class="h-4 w-4" />
+          <Button
+            :disabled="end || running || !codeValid"
+            @click="allSteps"
+          >
+            <LoaderCircle
+              v-if="running"
+              class="h-4 w-4 animate-spin"
+            />
+            <ChevronLast
+              v-else
+              class="h-4 w-4"
+            />
           </Button>
         </TooltipTrigger>
         <TooltipContent>
@@ -37,7 +54,10 @@
 
       <Tooltip>
         <TooltipTrigger>
-          <Button :disabled="!running" @click="stop">
+          <Button
+            :disabled="!running"
+            @click="stop"
+          >
             <OctagonX class="h-4 w-4" />
           </Button>
         </TooltipTrigger>
@@ -48,7 +68,11 @@
 
       <Tooltip>
         <TooltipTrigger>
-          <Button variant="destructive" :disabled="start || running" @click="reset">
+          <Button
+            variant="destructive"
+            :disabled="start || running"
+            @click="reset"
+          >
             <RotateCcw class="h-4 w-4" />
           </Button>
         </TooltipTrigger>
@@ -59,7 +83,11 @@
 
       <Tooltip>
         <TooltipTrigger>
-          <Button variant="secondary" :disabled="running || !codeValid" @click="check">
+          <Button
+            variant="secondary"
+            :disabled="running || !codeValid"
+            @click="check"
+          >
             <MonitorCheck class="h-4 w-4" /> Run tests
           </Button>
         </TooltipTrigger>

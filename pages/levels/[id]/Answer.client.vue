@@ -1,16 +1,21 @@
 <template>
   <div class="h-full">
     <!-- Resizable Panels -->
-    <ResizablePanelGroup direction="horizontal" class="h-max">
+    <ResizablePanelGroup
+      direction="horizontal"
+      class="h-max"
+    >
       <ResizablePanel class="bg-[#8391A3]">
-
         <div class="unlockfcts_hover">
           authorized functions &darr;
           <div class="unlockfcts_list"></div>
         </div>
 
-
-        <TextEditor v-model="dotArea" class="p-10" height="100%" />
+        <TextEditor
+          v-model="dotArea"
+          class="p-10"
+          height="100%"
+        />
       </ResizablePanel>
 
       <ResizableHandle with-handle />
@@ -19,8 +24,18 @@
         <div class="h-1/2 bg-[#D0D9E2]">
           <div class="titleButtons">
             <div class="graphTitle">GRAPH</div>
-            <ButtonsBar :start="start" :running="running" :end="end" :previous-step="previousStep" :next-step="nextStep"
-              :all-steps="allSteps" :stop="stop" :reset="reset" :check="check" :code-valid="codeValid" />
+            <ButtonsBar
+              :start="start"
+              :running="running"
+              :end="end"
+              :previous-step="previousStep"
+              :next-step="nextStep"
+              :all-steps="allSteps"
+              :stop="stop"
+              :reset="reset"
+              :check="check"
+              :code-valid="codeValid"
+            />
 
             <Popover class="mr-2">
               <PopoverTrigger>
@@ -29,16 +44,23 @@
               <PopoverContent>
                 <div class="flex flex-col gap-2">
                   <div class="flex w-full max-w-sm items-center gap-1.5">
-                    <Input id="email" placeholder="0, 0, 0, 0" v-model="newMainTape" />
-                    <Button @click="setMainTape()">
-                      Save
-                    </Button>
+                    <Input
+                      id="email"
+                      v-model="newMainTape"
+                      placeholder="0, 0, 0, 0"
+                    />
+                    <Button @click="setMainTape()"> Save </Button>
                   </div>
-                  <div v-if="level.grammar_version == 1" class="flex w-full max-w-sm items-center gap-1.5">
-                    <Input id="email" placeholder="0, 0, 0, 0" v-model="newWorkTape" />
-                    <Button @click="setWorkTape()">
-                      Save
-                    </Button>
+                  <div
+                    v-if="level.grammar_version == 1"
+                    class="flex w-full max-w-sm items-center gap-1.5"
+                  >
+                    <Input
+                      id="email"
+                      v-model="newWorkTape"
+                      placeholder="0, 0, 0, 0"
+                    />
+                    <Button @click="setWorkTape()"> Save </Button>
                   </div>
                 </div>
               </PopoverContent>
@@ -46,44 +68,44 @@
           </div>
 
           <div class="h-full pb-6">
-            <TuringGraphView class="h-full pb-4" :dot="dot" />
+            <TuringGraphView
+              class="h-full pb-4"
+              :dot="dot"
+            />
           </div>
         </div>
 
         <div class="h-[5px] bg-black" />
 
-
-        <div class="h-1/4 bg-[#EAE2DD] flex flex-col">
+        <div class="flex h-1/4 flex-col bg-[#EAE2DD]">
           <div class="rubantitle">TAPE</div>
           <div class="rubanpopup">
-
             <div style="display: flex; column-gap: 10px">
-
-
-              <DynTape :gramm-ver="level.grammar_version" initial-text="00001" :initial-pos="0"></DynTape>
-
+              <DynTape
+                :gramm-ver="level.grammar_version"
+                initial-text="00001"
+                :initial-pos="0"
+              ></DynTape>
             </div>
-
           </div>
-
-
-
         </div>
 
         <div class="h-[5px] bg-black" />
 
-        <div class="bg-[#D9DFE5] h-1/4">
+        <div class="h-1/4 bg-[#D9DFE5]">
           <div class="outputtitle">ERROR LOGS</div>
           <div class="popuP">
             <ScrollArea class="h-full w-full">
-              <span v-for="(log, index) in logs.slice(-20)" :key="index">
+              <span
+                v-for="(log, index) in logs.slice(-20)"
+                :key="index"
+              >
+                // eslint-disable-next-line vue/no-v-html
                 <span v-html="log.replace('\n', '<br/>')" />
                 <br />
               </span>
             </ScrollArea>
           </div>
-
-
         </div>
       </ResizablePanel>
     </ResizablePanelGroup>
@@ -96,7 +118,6 @@ import { LevelsData } from "~/lib/levels_data";
 
 import init, { tm_string_to_dot, Simu } from "tm_parser?init";
 import { Tape } from "~/lib/tapes";
-
 
 await init();
 
@@ -131,7 +152,9 @@ const newMainTape = ref<string>("");
 const newWorkTape = ref<string>("");
 
 function setMainTape() {
-  main_tape.value = new Uint8Array(newMainTape.value.split(",").map((x) => parseInt(x)));
+  main_tape.value = new Uint8Array(
+    newMainTape.value.split(",").map((x) => parseInt(x)),
+  );
   if (level.grammar_version == 0) {
     tape_object.write(main_tape.value);
   } else {
@@ -141,13 +164,14 @@ function setMainTape() {
 }
 
 function setWorkTape() {
-  work_tape.value = new Uint8Array(newWorkTape.value.split(",").map((x) => parseInt(x)));
+  work_tape.value = new Uint8Array(
+    newWorkTape.value.split(",").map((x) => parseInt(x)),
+  );
   if (level.grammar_version == 1) {
     tape_object.writeM(work_tape.value);
   }
   resetSimulation();
 }
-
 
 const defaultCode = `START
 | b -> (b,R), START
@@ -197,9 +221,9 @@ function resetSimulation() {
     currentSimulator.reset(main_tape.value, work_tape.value);
   }
 
-  colorCurrentState(currentState, 'black');
+  colorCurrentState(currentState, "black");
   currentState = "START";
-  colorCurrentState(currentState, 'red');
+  colorCurrentState(currentState, "red");
 
   main_tape.value = new Uint8Array(10);
   work_tape.value = new Uint8Array(10);
@@ -234,7 +258,6 @@ function getSimulator(): Simu {
         work_tape.value,
         legal_fct(),
       );
-
     } catch (e) {
       console.error(e);
       logs.push(e.toString());
@@ -245,18 +268,18 @@ function getSimulator(): Simu {
 }
 
 function colorCurrentState(state: string, color: string) {
-  const node = document.getElementById(state)
+  const node = document.getElementById(state);
   for (const child of node?.children ?? []) {
-    if (child.tagName === 'ellipse' || child.tagName === 'polygon') {
-      child.setAttribute('stroke', color);
+    if (child.tagName === "ellipse" || child.tagName === "polygon") {
+      child.setAttribute("stroke", color);
     }
   }
 }
 
 function handleNewStep(simu: Simu) {
-  colorCurrentState(currentState, 'black');
+  colorCurrentState(currentState, "black");
   currentState = simu.get_current_state();
-  colorCurrentState(currentState, 'red');
+  colorCurrentState(currentState, "red");
   main_tape.value = simu.get_main_tape();
   work_tape.value = simu.get_work_tape();
   pos_main_tape.value = simu.head_pos_main();
@@ -322,7 +345,7 @@ function stop() {
 
 function reset() {
   console.log("reset");
-  resetSimulation()
+  resetSimulation();
 }
 
 function add_completed_lvl(currentLvlId: string) {
@@ -484,7 +507,6 @@ onMounted(() => {
   border-radius: 15px;
   text-align: center;
 }
-
 
 .rubantitle {
   position: relative;
