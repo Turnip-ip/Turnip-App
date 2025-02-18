@@ -47,7 +47,7 @@
                     <Input
                       id="email"
                       v-model="newMainTape"
-                      placeholder="0, 0, 0, 0"
+                      placeholder="0, 0, 0, 0, 0, 0, 0, 0"
                     />
                     <Button @click="setMainTape()"> Save </Button>
                   </div>
@@ -135,11 +135,16 @@ const level = LevelsData.levels[currentLevelId];
 const dotArea = ref<string>("");
 const dot = ref<string>("");
 
-// TODO: use level start tape
+const init_main_tape = ref<Uint8Array>(
+  new Uint8Array([0, 0, 1, 0, 1, 0, 1, 0]),
+);
+const init_work_tape = ref<Uint8Array>(
+  new Uint8Array([1, 1, 0, 1, 0, 1, 0, 1]),
+);
 const main_tape = ref<Uint8Array>(new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]));
 const work_tape = ref<Uint8Array>(new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]));
 
-const pos_main_tape = ref(0);
+const pos_main_tape = ref(0); // TODO: use level start position
 const pos_work_tape = ref(0);
 
 const start = ref(true);
@@ -155,19 +160,16 @@ const newMainTape = ref<string>("");
 const newWorkTape = ref<string>("");
 
 function setMainTape() {
-  main_tape.value = new Uint8Array(
+  // to edit main tape
+  init_main_tape.value = new Uint8Array(
     newMainTape.value.split(",").map((x) => parseInt(x)),
   );
-  if (level.grammar_version == 0) {
-    tape_object.write(main_tape.value.toString().replaceAll(",", ""));
-  } else {
-    tape_object.writeM(main_tape.value.toString().replaceAll(",", ""));
-  }
   resetSimulation();
 }
 
 function setWorkTape() {
-  work_tape.value = new Uint8Array(
+  // to edit work tape -> only for grammVer == 1
+  init_work_tape.value = new Uint8Array(
     newWorkTape.value.split(",").map((x) => parseInt(x)),
   );
   if (level.grammar_version == 1) {
@@ -196,10 +198,10 @@ onMounted(() => {
     document.body.getElementsByTagName("tape_head")[0].parentElement,
   );
   if (level.grammar_version == 0) {
-    tape_object.write([0, 0, 0, 0, 0, 0, 0, 0].toString().replaceAll(",", ""));
+    tape_object.write(init_main_tape.value.toString().replaceAll(",", ""));
   } else {
-    tape_object.writeM([0, 0, 0, 0, 0, 0, 0, 0].toString().replaceAll(",", ""));
-    tape_object.writeW([0, 0, 0, 0, 0, 0, 0, 0].toString().replaceAll(",", ""));
+    tape_object.writeM(init_main_tape.value.toString().replaceAll(",", ""));
+    tape_object.writeW(init_work_tape.value.toString().replaceAll(",", ""));
   }
 });
 
@@ -228,9 +230,9 @@ function resetSimulation() {
   currentState = "START";
   colorCurrentState(currentState, "red");
 
-  main_tape.value = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
-  work_tape.value = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
-  pos_main_tape.value = 0;
+  main_tape.value = init_main_tape.value;
+  work_tape.value = init_work_tape.value;
+  pos_main_tape.value = 0; //TODO: no, don't work for LEFT
   pos_work_tape.value = 0;
 
   start.value = true;
@@ -365,6 +367,7 @@ function add_completed_lvl(currentLvlId: string) {
 }
 
 function check() {
+  //TODO
   console.log("check");
   logs.value.push("Running tests...");
   const test_logs = [];
