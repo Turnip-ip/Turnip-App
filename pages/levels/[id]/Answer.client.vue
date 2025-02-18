@@ -3,10 +3,13 @@
     <!-- Resizable Panels -->
     <ResizablePanelGroup direction="horizontal" class="h-max">
       <ResizablePanel class="bg-[#8391A3]">
+
         <div class="unlockfcts_hover">
           authorized functions &darr;
           <div class="unlockfcts_list"></div>
         </div>
+
+
         <TextEditor v-model="dotArea" class="p-10" height="100%" />
       </ResizablePanel>
 
@@ -14,8 +17,34 @@
 
       <ResizablePanel>
         <div class="h-1/2 bg-[#D0D9E2]">
-          <ButtonsBar :start="start" :running="running" :end="end" :previous-step="previousStep" :next-step="nextStep"
-            :all-steps="allSteps" :stop="stop" :reset="reset" :check="check" :code-valid="codeValid" />
+          <div class="titleButtons">
+            <div class="graphTitle">GRAPH</div>
+            <ButtonsBar :start="start" :running="running" :end="end" :previous-step="previousStep" :next-step="nextStep"
+              :all-steps="allSteps" :stop="stop" :reset="reset" :check="check" :code-valid="codeValid" />
+
+            <Popover class="mr-2">
+              <PopoverTrigger>
+                <Button>Edit tapes</Button>
+              </PopoverTrigger>
+              <PopoverContent>
+                <div class="flex flex-col gap-2">
+                  <div class="flex w-full max-w-sm items-center gap-1.5">
+                    <Input id="email" placeholder="0, 0, 0, 0" v-model="newMainTape" />
+                    <Button @click="setMainTape()">
+                      Save
+                    </Button>
+                  </div>
+                  <div v-if="level.grammar_version == 1" class="flex w-full max-w-sm items-center gap-1.5">
+                    <Input id="email" placeholder="0, 0, 0, 0" v-model="newWorkTape" />
+                    <Button @click="setWorkTape()">
+                      Save
+                    </Button>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
+
           <div class="h-full pb-6">
             <TuringGraphView class="h-full pb-4" :dot="dot" />
           </div>
@@ -24,43 +53,37 @@
         <div class="h-[5px] bg-black" />
 
 
-        <div class="h-1/4 bg-[#EAE2DD] flex flex-col items-center justify-center gap-4">
+        <div class="h-1/4 bg-[#EAE2DD] flex flex-col">
+          <div class="rubantitle">TAPE</div>
+          <div class="rubanpopup">
 
-          <Popover>
-            <PopoverTrigger>
-              Edit tapes
-            </PopoverTrigger>
-            <PopoverContent>
-              <div class="flex flex-col gap-2">
-                <div class="flex w-full max-w-sm items-center gap-1.5">
-                  <Input id="email" placeholder="0, 0, 0, 0" v-model="newMainTape" />
-                  <Button @click="setMainTape()">
-                    Save
-                  </Button>
-                </div>
-                <div v-if="level.grammar_version == 1" class="flex w-full max-w-sm items-center gap-1.5">
-                  <Input id="email" placeholder="0, 0, 0, 0" v-model="newWorkTape" />
-                  <Button @click="setWorkTape()">
-                    Save
-                  </Button>
-                </div>
-              </div>
-            </PopoverContent>
-          </Popover>
+            <div style="display: flex; column-gap: 10px">
 
-          <DynTape :gramm-ver="level.grammar_version" initial-text="00001" :initial-pos="0"></DynTape>
+
+              <DynTape :gramm-ver="level.grammar_version" initial-text="00001" :initial-pos="0"></DynTape>
+
+            </div>
+
+          </div>
+
+
 
         </div>
 
         <div class="h-[5px] bg-black" />
 
         <div class="bg-[#D9DFE5] h-1/4">
-          <ScrollArea class="h-[200px] w-[350px] rounded-md border p-4 w-full">
-            <span v-for="(log, index) in logs.slice(-20)" :key="index">
-              <span v-html="log.replace('\n', '<br/>')" />
-              <br />
-            </span>
-          </ScrollArea>
+          <div class="outputtitle">ERROR LOGS</div>
+          <div class="popuP">
+            <ScrollArea class="h-full w-full">
+              <span v-for="(log, index) in logs.slice(-20)" :key="index">
+                <span v-html="log.replace('\n', '<br/>')" />
+                <br />
+              </span>
+            </ScrollArea>
+          </div>
+
+
         </div>
       </ResizablePanel>
     </ResizablePanelGroup>
@@ -73,6 +96,7 @@ import { LevelsData } from "~/lib/levels_data";
 
 import init, { tm_string_to_dot, Simu } from "tm_parser?init";
 import { Tape } from "~/lib/tapes";
+
 
 await init();
 
@@ -394,6 +418,26 @@ onMounted(() => {
   height: 1005px;
 }
 
+.titleButtons {
+  display: flex;
+  /* Enables flexbox */
+  align-items: center;
+  /* Aligns items vertically in the center */
+  justify-content: space-between;
+  /* Distributes space evenly */
+  gap: 10px;
+  /* Adds spacing between elements */
+  width: 100%;
+}
+
+.graphTitle {
+  position: relative;
+  font-family: "Press Start 2P", sans-serif;
+  left: 3%;
+  color: rgb(8, 8, 10);
+  font-size: clamp(10px, 2vw, 25px);
+}
+
 .unlockfcts_hover {
   border: 2px solid black;
   padding: 3px;
@@ -416,5 +460,51 @@ onMounted(() => {
   color: white;
   background: gray;
   border-radius: 10px;
+}
+
+.outputtitle {
+  position: relative;
+  font-family: "Press Start 2P", sans-serif;
+  z-index: 100;
+  left: 3%;
+  color: rgb(8, 8, 10);
+  font-size: clamp(10px, 2vw, 25px);
+}
+
+.popuP {
+  position: relative;
+  z-index: 1000;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 18vh;
+  width: 45vw;
+  background-color: rgb(188, 248, 228);
+  border: 5px solid black;
+  border-radius: 15px;
+  text-align: center;
+}
+
+
+.rubantitle {
+  position: relative;
+  font-family: "Press Start 2P", sans-serif;
+  left: 3%;
+  color: rgb(8, 8, 10);
+  font-size: clamp(10px, 2vw, 25px);
+}
+
+.rubanpopup {
+  position: relative;
+  z-index: 1000;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 18vh;
+  width: 45vw;
+  background-color: rgb(243, 208, 161);
+  border: 5px solid black;
+  border-radius: 15px;
+  text-align: center;
 }
 </style>
