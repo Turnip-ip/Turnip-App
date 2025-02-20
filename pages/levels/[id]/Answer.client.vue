@@ -164,11 +164,10 @@ function setMainTape() {
   let elements = newMainTape.value.split(",");
   elements = elements.filter((element) => element.trim() !== ""); // Remove empty strings
   // force the size
-  if (elements.length < 8) {
-    while (elements.length < 8) {
-      elements.push("0");
-    }
-  } else if (elements.length > 8) {
+  while (elements.length < 8) {
+    elements.push("0");
+  }
+  while (elements.length > 8) {
     elements.pop();
   }
   init_main_tape.value = new Uint8Array(elements.map((x) => parseInt(x, 10)));
@@ -180,11 +179,10 @@ function setWorkTape() {
   let elements = newWorkTape.value.split(",");
   elements = elements.filter((element) => element.trim() !== ""); // Remove empty strings
   // force the size
-  if (elements.length < 8) {
-    while (elements.length < 8) {
-      elements.push("0");
-    }
-  } else if (elements.length > 8) {
+  while (elements.length < 8) {
+    elements.push("0");
+  }
+  while (elements.length > 8) {
     elements.pop();
   }
   init_work_tape.value = new Uint8Array(elements.map((x) => parseInt(x, 10)));
