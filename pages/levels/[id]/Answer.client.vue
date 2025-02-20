@@ -161,17 +161,33 @@ const newWorkTape = ref<string>("");
 
 function setMainTape() {
   // to edit main tape
-  init_main_tape.value = new Uint8Array(
-    newMainTape.value.split(",").map((x) => parseInt(x)),
-  );
+  let elements = newMainTape.value.split(",");
+  elements = elements.filter((element) => element.trim() !== ""); // Remove empty strings
+  // force the size
+  if (elements.length < 8) {
+    while (elements.length < 8) {
+      elements.push("0");
+    }
+  } else if (elements.length > 8) {
+    elements.pop();
+  }
+  init_main_tape.value = new Uint8Array(elements.map((x) => parseInt(x, 10)));
   resetSimulation();
 }
 
 function setWorkTape() {
   // to edit work tape -> only for grammVer == 1
-  init_work_tape.value = new Uint8Array(
-    newWorkTape.value.split(",").map((x) => parseInt(x)),
-  );
+  let elements = newWorkTape.value.split(",");
+  elements = elements.filter((element) => element.trim() !== ""); // Remove empty strings
+  // force the size
+  if (elements.length < 8) {
+    while (elements.length < 8) {
+      elements.push("0");
+    }
+  } else if (elements.length > 8) {
+    elements.pop();
+  }
+  init_work_tape.value = new Uint8Array(elements.map((x) => parseInt(x, 10)));
   if (level.grammar_version == 1) {
     tape_object.writeW(work_tape.value.toString().replaceAll(",", ""));
   }
