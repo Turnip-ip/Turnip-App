@@ -223,7 +223,7 @@ let currentState = "START";
 
 function resetSimulation() {
   if (currentSimulator !== null) {
-    currentSimulator.reset(main_tape.value, work_tape.value);
+    currentSimulator.reset(init_main_tape.value, init_work_tape.value);
   }
 
   colorCurrentState(currentState, "black");
