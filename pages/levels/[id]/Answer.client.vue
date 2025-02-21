@@ -146,7 +146,10 @@ const work_tape = ref<Uint8Array>(new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]));
 
 const pos_main_tape = ref(0);
 const init_pos_main_tape = ref(0);
-if (currentLevelId=="MOVE_L") {pos_main_tape.value=1; init_pos_main_tape.value=1;}
+if (currentLevelId == "MOVE_L") {
+  pos_main_tape.value = 1;
+  init_pos_main_tape.value = 1;
+}
 const pos_work_tape = ref(0);
 
 const start = ref(true);
