@@ -144,7 +144,9 @@ const init_work_tape = ref<Uint8Array>(
 const main_tape = ref<Uint8Array>(new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]));
 const work_tape = ref<Uint8Array>(new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]));
 
-const pos_main_tape = ref(0); // TODO: use level start position
+const pos_main_tape = ref(0);
+const init_pos_main_tape = ref(0);
+if (currentLevelId=="MOVE_L") {pos_main_tape.value=1; init_pos_main_tape.value=1;}
 const pos_work_tape = ref(0);
 
 const start = ref(true);
@@ -213,9 +215,12 @@ onMounted(() => {
   );
   if (level.grammar_version == 0) {
     tape_object.write(init_main_tape.value.toString().replaceAll(",", ""));
+    tape_object.move(pos_main_tape.value);
   } else {
     tape_object.writeM(init_main_tape.value.toString().replaceAll(",", ""));
     tape_object.writeW(init_work_tape.value.toString().replaceAll(",", ""));
+    tape_object.moveM(pos_main_tape.value);
+    tape_object.moveW(pos_work_tape.value);
   }
 });
 
@@ -224,6 +229,7 @@ watch(dotArea, (newCode) => {
   try {
     const dotCode = tm_string_to_dot(newCode, "", 0);
     dot.value = dotCode;
+    logs.value.push("\n\n\ncompilation succeeded!\n\n\n");
   } catch (e) {
     console.error(e);
     logs.value.push(String(e));
@@ -246,7 +252,7 @@ function resetSimulation() {
 
   main_tape.value = init_main_tape.value;
   work_tape.value = init_work_tape.value;
-  pos_main_tape.value = 0; //TODO: no, don't work for LEFT
+  pos_main_tape.value = init_pos_main_tape.value;
   pos_work_tape.value = 0;
 
   start.value = true;
@@ -255,12 +261,12 @@ function resetSimulation() {
 
   if (level.grammar_version == 0) {
     tape_object.write(main_tape.value.toString().replaceAll(",", ""));
-    tape_object.move(0);
+    tape_object.move(pos_main_tape.value);
   } else {
     tape_object.writeM(main_tape.value.toString().replaceAll(",", ""));
     tape_object.writeW(work_tape.value.toString().replaceAll(",", ""));
-    tape_object.moveM(0);
-    tape_object.moveW(0);
+    tape_object.moveM(pos_main_tape.value);
+    tape_object.moveW(pos_work_tape.value);
   }
 
   logs.value = [];
