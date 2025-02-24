@@ -1,14 +1,21 @@
 <template>
   <div class="h-full">
     <!-- Resizable Panels -->
-    <ResizablePanelGroup direction="horizontal" class="h-max">
+    <ResizablePanelGroup
+      direction="horizontal"
+      class="h-max"
+    >
       <ResizablePanel class="bg-[#8391A3]">
         <div class="unlockfcts_hover">
           authorized functions &darr;
           <div class="unlockfcts_list"></div>
         </div>
 
-        <TextEditor v-model="dotArea" class="p-10" height="100%" />
+        <TextEditor
+          v-model="dotArea"
+          class="p-10"
+          height="100%"
+        />
       </ResizablePanel>
 
       <ResizableHandle with-handle />
@@ -17,8 +24,17 @@
         <div class="h-1/2 bg-[#D0D9E2]">
           <div class="titleButtons">
             <div class="graphTitle">GRAPH</div>
-            <ButtonsBar :start="start" :running="running" :end="end" :previous-step="previousStep" :next-step="nextStep"
-              :all-steps="allSteps" :stop="stop" :reset="reset" :check="check" :code-valid="codeValid" />
+            <ButtonsBar
+              :start="start"
+              :running="running"
+              :end="end"
+              :previous-step="previousStep"
+              :next-step="nextStep"
+              :all-steps="allSteps"
+              :reset="reset"
+              :check="check"
+              :code-valid="codeValid"
+            />
 
             <Popover class="mr-2">
               <PopoverTrigger>
@@ -27,11 +43,22 @@
               <PopoverContent>
                 <div class="flex flex-col gap-2">
                   <div class="flex w-full max-w-sm items-center gap-1.5">
-                    <Input id="email" v-model="newMainTape" placeholder="0, 0, 0, 0" />
+                    <Input
+                      id="email"
+                      v-model="newMainTape"
+                      placeholder="0, 0, 0, 0, 0, 0, 0, 0"
+                    />
                     <Button @click="setMainTape()"> Save </Button>
                   </div>
-                  <div v-if="level.grammar_version == 1" class="flex w-full max-w-sm items-center gap-1.5">
-                    <Input id="email" v-model="newWorkTape" placeholder="0, 0, 0, 0" />
+                  <div
+                    v-if="level.grammar_version == 1"
+                    class="flex w-full max-w-sm items-center gap-1.5"
+                  >
+                    <Input
+                      id="email"
+                      v-model="newWorkTape"
+                      placeholder="0, 0, 0, 0"
+                    />
                     <Button @click="setWorkTape()"> Save </Button>
                   </div>
                 </div>
@@ -40,7 +67,10 @@
           </div>
 
           <div class="h-full pb-6">
-            <TuringGraphView class="h-full pb-4" :dot="dot" />
+            <TuringGraphView
+              class="h-full pb-4"
+              :dot="dot"
+            />
           </div>
         </div>
 
@@ -50,7 +80,11 @@
           <div class="rubantitle">TAPE</div>
           <div class="rubanpopup">
             <div style="display: flex; column-gap: 10px">
-              <DynTape :gramm-ver="level.grammar_version" initial-text="00001" :initial-pos="0"></DynTape>
+              <DynTape
+                :gramm-ver="level.grammar_version"
+                initial-text="00001"
+                :initial-pos="0"
+              ></DynTape>
             </div>
           </div>
         </div>
@@ -60,9 +94,16 @@
         <div class="h-1/4 bg-[#D9DFE5]">
           <div class="outputtitle">ERROR LOGS</div>
           <div class="popuP">
-            <ScrollArea class="ml-1 h-full w-full whitespace-pre-wrap font-mono">
-              <span v-for="(log, index) in logs.slice(-20)" :key="index">
-                <span v-html="log.replaceAll('\n', '<br>')" />
+            <ScrollArea
+              ref="scrollArea"
+              class="ml-1 h-full w-full whitespace-pre-wrap font-mono"
+            >
+              <span
+                v-for="(log, index) in logs.slice(-20)"
+                :key="index"
+                class="log-entry"
+              >
+                {{ log }}
                 <br />
               </span>
             </ScrollArea>
@@ -74,8 +115,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch, nextTick } from "vue";
 import { LevelsData } from "~/lib/levels_data";
+import { checkLevel } from "~/lib/level_checker";
 
 import init, { tm_string_to_dot, Simu } from "tm_parser?init";
 import { Tape } from "~/lib/tapes";
@@ -93,11 +135,21 @@ const level = LevelsData.levels[currentLevelId];
 const dotArea = ref<string>("");
 const dot = ref<string>("");
 
-// TODO: use level start tape
+const init_main_tape = ref<Uint8Array>(
+  new Uint8Array([0, 0, 1, 0, 1, 0, 1, 0]),
+);
+const init_work_tape = ref<Uint8Array>(
+  new Uint8Array([1, 1, 0, 1, 0, 1, 0, 1]),
+);
 const main_tape = ref<Uint8Array>(new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]));
 const work_tape = ref<Uint8Array>(new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]));
 
 const pos_main_tape = ref(0);
+const init_pos_main_tape = ref(0);
+if (currentLevelId == "MOVE_L") {
+  pos_main_tape.value = 1;
+  init_pos_main_tape.value = 1;
+}
 const pos_work_tape = ref(0);
 
 const start = ref(true);
@@ -107,32 +159,10 @@ const running = ref(false);
 // If the code is not valid, we can not display, nor run the TM
 const codeValid = ref(true);
 
-let logs = ref<string[]>([]);
+const logs = ref<string[]>([]);
 
 const newMainTape = ref<string>("");
 const newWorkTape = ref<string>("");
-
-function setMainTape() {
-  main_tape.value = new Uint8Array(
-    newMainTape.value.split(",").map((x) => parseInt(x)),
-  );
-  if (level.grammar_version == 0) {
-    tape_object.write(main_tape.value.toString().replaceAll(',', ''));
-  } else {
-    tape_object.writeM(main_tape.value.toString().replaceAll(',', ''));
-  }
-  resetSimulation();
-}
-
-function setWorkTape() {
-  work_tape.value = new Uint8Array(
-    newWorkTape.value.split(",").map((x) => parseInt(x)),
-  );
-  if (level.grammar_version == 1) {
-    tape_object.writeW(work_tape.value.toString().replaceAll(',', ''));
-  }
-  resetSimulation();
-}
 
 const defaultCode = `START
 | b -> (b,R), START
@@ -149,87 +179,142 @@ onMounted(() => {
   const existingCode = localStorage.getItem(`level-${currentLevelId}`);
   dotArea.value = existingCode || level.initial_code || defaultCode;
 
-  tape_object = new Tape(
-    level.grammar_version,
-    document.body.getElementsByTagName("tape_head")[0].parentElement,
-  );
+  const tape_head_elem: HTMLCollection =
+    document.body.getElementsByTagName("tape_head");
+  if (tape_head_elem[0].parentElement != null) {
+    tape_object = new Tape(
+      level.grammar_version,
+      tape_head_elem[0].parentElement as HTMLDivElement,
+    );
+  }
   if (level.grammar_version == 0) {
-    tape_object.write([0, 0, 0, 0, 0, 0, 0, 0].toString().replaceAll(',', ''));
+    tape_object.write(init_main_tape.value.toString().replaceAll(",", ""));
+    tape_object.move(pos_main_tape.value);
   } else {
-    tape_object.writeM([0, 0, 0, 0, 0, 0, 0, 0].toString().replaceAll(',', ''));
-    tape_object.writeW([0, 0, 0, 0, 0, 0, 0, 0].toString().replaceAll(',', ''));
+    tape_object.writeM(init_main_tape.value.toString().replaceAll(",", ""));
+    tape_object.writeW(init_work_tape.value.toString().replaceAll(",", ""));
+    tape_object.moveM(pos_main_tape.value);
+    tape_object.moveW(pos_work_tape.value);
   }
 });
 
 watch(dotArea, (newCode) => {
   localStorage.setItem(`level-${currentLevelId}`, newCode);
   try {
-    const dotCode = tm_string_to_dot(newCode, "", 0);
+    const dotCode = tm_string_to_dot(newCode, "", level.grammar_version);
     dot.value = dotCode;
+    logs.value.push("\n\n\ncompilation succeeded!\n\n\n");
   } catch (e) {
     console.error(e);
-    logs.value.push(e.toString());
+    logs.value = [String(e)];
     dot.value = "digraph  {bgcolor='transparent';}";
   }
 });
 
-let currentSimulator: Simu | null = null;
-let codeOfCurrentSimulator: string | null = null;
+let currentSimulation: Simu | null = null;
+let codeOfcurrentSimulation: string | null = null;
 let currentState = "START";
 
+/////////////////////////////////////////
+//           Simulation utils          //
+/////////////////////////////////////////
+/**
+ * Function to call to reset a simulation to its initial state.
+ * Either, we just compile the code if no simulation was there,
+ * or we reset the tape and set back the head positions and state.
+ */
 function resetSimulation() {
-  if (currentSimulator !== null) {
-    currentSimulator.reset(main_tape.value, work_tape.value);
+  if (currentSimulation === null || codeOfcurrentSimulation !== dotArea.value) {
+    compileSimulation();
   }
+
+  if (currentSimulation)
+    // This if statement should always be true
+    currentSimulation.reset(init_main_tape.value, init_work_tape.value);
 
   colorCurrentState(currentState, "black");
   currentState = "START";
   colorCurrentState(currentState, "red");
 
-  main_tape.value = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
-  work_tape.value = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
-  pos_main_tape.value = 0;
+  main_tape.value = init_main_tape.value;
+  work_tape.value = init_work_tape.value;
+  pos_main_tape.value = init_pos_main_tape.value;
   pos_work_tape.value = 0;
 
   start.value = true;
   end.value = false;
   running.value = false;
 
+  // TODO: the cast to string might not be necessary
   if (level.grammar_version == 0) {
-    tape_object.write(main_tape.value.toString().replaceAll(',', ''));
-    tape_object.move(0);
+    tape_object.write(main_tape.value.toString().replaceAll(",", ""));
+    tape_object.move(pos_main_tape.value);
   } else {
-    tape_object.writeM(main_tape.value.toString().replaceAll(',', ''));
-    tape_object.writeW(work_tape.value.toString().replaceAll(',', ''));
-    tape_object.moveM(0);
-    tape_object.moveW(0);
+    tape_object.writeM(main_tape.value.toString().replaceAll(",", ""));
+    tape_object.writeW(work_tape.value.toString().replaceAll(",", ""));
+    tape_object.moveM(pos_main_tape.value);
+    tape_object.moveW(pos_work_tape.value);
   }
 
   logs.value = [];
 }
 
-function getSimulator(): Simu {
-  if (currentSimulator === null || codeOfCurrentSimulator !== dotArea.value) {
-    resetSimulation();
+/**
+ * This function compiles the current Turnip code and turns it into a new
+ * Simulation object that replaces the previously compiled one.
+ */
+function compileSimulation() {
+  if (currentSimulation === null || codeOfcurrentSimulation !== dotArea.value) {
+    codeOfcurrentSimulation = dotArea.value;
 
-    console.log("Init simulator");
-    codeOfCurrentSimulator = dotArea.value;
-
+    console.log(level.grammar_version);
     try {
-      currentSimulator = Simu.new(
-        codeOfCurrentSimulator,
+      currentSimulation = Simu.new(
+        codeOfcurrentSimulation,
         level.grammar_version,
-        main_tape.value,
-        work_tape.value,
+        init_main_tape.value,
+        init_work_tape.value,
         legal_fct(),
       );
     } catch (e) {
       console.error(e);
-      logs.value.push(e.toString());
+      logs.value.push(String(e));
       throw e;
     }
   }
-  return currentSimulator;
+}
+
+function setMainTape() {
+  // to edit main tape
+  let elements = newMainTape.value.split(",");
+  elements = elements.filter((element) => element.trim() !== ""); // Remove empty strings
+  // force the size
+  while (elements.length < 8) {
+    elements.push("0");
+  }
+  while (elements.length > 8) {
+    elements.pop();
+  }
+  init_main_tape.value = new Uint8Array(elements.map((x) => parseInt(x, 10)));
+  resetSimulation();
+}
+
+function setWorkTape() {
+  // to edit work tape -> only for grammVer == 1
+  let elements = newWorkTape.value.split(",");
+  elements = elements.filter((element) => element.trim() !== ""); // Remove empty strings
+  // force the size
+  while (elements.length < 8) {
+    elements.push("0");
+  }
+  while (elements.length > 8) {
+    elements.pop();
+  }
+  init_work_tape.value = new Uint8Array(elements.map((x) => parseInt(x, 10)));
+  if (level.grammar_version == 1) {
+    tape_object.writeW(work_tape.value.toString().replaceAll(",", ""));
+  }
+  resetSimulation();
 }
 
 function colorCurrentState(state: string, color: string) {
@@ -251,66 +336,14 @@ function handleNewStep(simu: Simu) {
   pos_work_tape.value = simu.head_pos_work();
 
   if (level.grammar_version == 0) {
-    tape_object.write(main_tape.value.toString().replaceAll(',', ''));
+    tape_object.write(main_tape.value.toString().replaceAll(",", ""));
     tape_object.move(pos_main_tape.value);
   } else {
-    tape_object.writeM(main_tape.value.toString().replaceAll(',', ''));
-    tape_object.writeW(work_tape.value.toString().replaceAll(',', ''));
+    tape_object.writeM(main_tape.value.toString().replaceAll(",", ""));
+    tape_object.writeW(work_tape.value.toString().replaceAll(",", ""));
     tape_object.moveM(pos_main_tape.value);
     tape_object.moveW(pos_work_tape.value);
   }
-}
-
-function previousStep() {
-  running.value = true;
-  const simu = getSimulator();
-  try {
-    simu.prev_step();
-    handleNewStep(simu);
-  } catch (e) {
-    console.error(e);
-  }
-  end.value = simu.is_end();
-  start.value = simu.is_start();
-  running.value = false;
-}
-
-function nextStep() {
-  running.value = true;
-  const simu = getSimulator();
-  try {
-    simu.next_step();
-    handleNewStep(simu);
-  } catch (e) {
-    console.error(e);
-  }
-  end.value = simu.is_end();
-  start.value = simu.is_start();
-  running.value = false;
-}
-
-function allSteps() {
-  running.value = true;
-  const simu = getSimulator();
-  try {
-    simu.all_steps();
-    handleNewStep(simu);
-  } catch (e) {
-    console.error(e);
-  }
-  end.value = simu.is_end();
-  start.value = simu.is_start();
-  running.value = false;
-}
-
-function stop() {
-  console.log("stop");
-  running.value = false;
-}
-
-function reset() {
-  console.log("reset");
-  resetSimulation();
 }
 
 function add_completed_lvl(currentLvlId: string) {
@@ -322,48 +355,106 @@ function add_completed_lvl(currentLvlId: string) {
   localStorage.setItem("completed_lvl", JSON.stringify(arr_compl));
 }
 
-function check() {
-  console.log("check");
-  logs.value.push("Running tests...");
-  const test_logs = [];
-  running.value = true;
-  resetSimulation();
-  const simu = getSimulator();
-  let is_ok = true;
-  for (let i = 0; i < 255; ++i) {
-    const input_main = new Uint8Array((i >>> 0).toString(2).padStart(8, "0").split('').map(c => parseInt(c)));
-    const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
-    simu.reset(input_main, input_work);
-
-    // Run the machine
+/////////////////////////////////////////
+//           BUTTONS HANDLERS          //
+/////////////////////////////////////////
+/**
+ * Goes back one step in the Turnip Machine step by step execution.
+ */
+function previousStep() {
+  if (currentSimulation) {
+    running.value = true;
     try {
-      simu.all_steps();
+      currentSimulation.prev_step();
+      handleNewStep(currentSimulation);
     } catch (e) {
       console.error(e);
     }
-
-    // Verify test output
-    // TODO: change HARD CODE
-    const expected = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
-    if (!simu.verify_output(expected)) {
-      is_ok = false;
-      test_logs.push(`Tests failed, expected output: ${expected.toString()} on input ${input_main.toString()} but got ${simu.get_main_tape().toString()}`);
-    }
+    end.value = currentSimulation.is_end();
+    start.value = currentSimulation.is_start();
+    running.value = false;
   }
-  // Check that the tests passed
-  if (is_ok) {
-    // add current j=level to completed_lvl if it passed the check
-    add_completed_lvl(currentLevelId);
-    test_logs.push(`Tests completed successfully! The next levels are now unlocked.`);
-  }
-
-  running.value = false;
-  resetSimulation();
-  logs.value = logs.value.concat(test_logs);
 }
 
-// FCT LEGAL FCTS
+/**
+ * Goes forward one step in the Turnip Machine step by step execution.
+ */
+function nextStep() {
+  if (currentSimulation == null || codeOfcurrentSimulation !== dotArea.value)
+    resetSimulation();
 
+  if (currentSimulation) {
+    // Should be true
+    running.value = true;
+    try {
+      currentSimulation.next_step();
+      handleNewStep(currentSimulation);
+    } catch (e) {
+      console.error(e);
+    }
+    end.value = currentSimulation.is_end();
+    start.value = currentSimulation.is_start();
+    running.value = false;
+  }
+}
+
+/**
+ * Runs the machine up until it ends or it reaches the iteration limit.
+ */
+function allSteps() {
+  if (currentSimulation == null || codeOfcurrentSimulation !== dotArea.value)
+    resetSimulation();
+
+  if (currentSimulation) {
+    // Should be true
+    running.value = true;
+    try {
+      currentSimulation.all_steps();
+      handleNewStep(currentSimulation);
+    } catch (e) {
+      console.error(e);
+    }
+    end.value = currentSimulation.is_end();
+    start.value = currentSimulation.is_start();
+    running.value = false;
+  }
+}
+
+/**
+ * Function called when the reset simulation button is pressed
+ */
+function reset() {
+  resetSimulation();
+}
+
+/**
+ * Function called when the check code button is pressed
+ */
+function check() {
+  logs.value.push("Running tests...");
+  running.value = true;
+  resetSimulation();
+
+  if (currentSimulation) {
+    // Check that the tests passed
+    const check_output = checkLevel(currentLevelId, currentSimulation);
+    running.value = false;
+    resetSimulation();
+    if (check_output.passed) {
+      // add current j=level to completed_lvl if it passed the check
+      add_completed_lvl(currentLevelId);
+      logs.value = [
+        "Tests completed successfully! The next levels are now unlocked.",
+      ];
+    } else {
+      logs.value = check_output.logs;
+    }
+  }
+}
+
+/**
+ * Computes the authoried (legal) functions that are allowing in this level.
+ */
 function legal_fct() {
   const completed_lvl = read_completed_lvl();
   let res: string[] = [];
@@ -394,10 +485,12 @@ function read_completed_lvl() {
 
 // print list functions: events
 onMounted(() => {
-  const button: HTMLDivElement =
-    document.getElementsByClassName("unlockfcts_hover")[0];
-  const menu: HTMLDivElement =
-    document.getElementsByClassName("unlockfcts_list")[0];
+  const button: HTMLDivElement = document.getElementsByClassName(
+    "unlockfcts_hover",
+  )[0] as HTMLDivElement;
+  const menu: HTMLDivElement = document.getElementsByClassName(
+    "unlockfcts_list",
+  )[0] as HTMLDivElement;
 
   button.addEventListener("mouseover", () => {
     menu.style.height = "auto"; // Set the desired height here
@@ -432,6 +525,26 @@ onMounted(() => {
   const arr_legal_fcts: string[] = legal_fct();
   display_legal_fcts(arr_legal_fcts);
 });
+
+// LOGS: SCROLL TO BOTTOM
+const scrollArea = ref(null);
+
+watch(logs.value, () => {
+  nextTick(() => {
+    scrollToBottom();
+  })
+    .then(() => {})
+    .catch((e: unknown) => {
+      console.error(e);
+    });
+});
+
+function scrollToBottom() {
+  const cont = scrollArea.value.$el as HTMLDivElement;
+  const scrollElement = cont.childNodes[2] as HTMLDivElement;
+  scrollElement.scrollTop = scrollElement.scrollHeight;
+  // console.log(scrollElement);// DEBUG
+}
 </script>
 
 <style scoped>

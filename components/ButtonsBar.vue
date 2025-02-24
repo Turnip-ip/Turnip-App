@@ -55,22 +55,7 @@
       <Tooltip>
         <TooltipTrigger>
           <Button
-            :disabled="!running"
-            @click="stop"
-          >
-            <OctagonX class="h-4 w-4" />
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          <p>Abort simulation</p>
-        </TooltipContent>
-      </Tooltip>
-
-      <Tooltip>
-        <TooltipTrigger>
-          <Button
             variant="destructive"
-            :disabled="start || running"
             @click="reset"
           >
             <RotateCcw class="h-4 w-4" />
@@ -105,7 +90,6 @@ import {
   ChevronLeft,
   ChevronRight,
   LoaderCircle,
-  OctagonX,
   RotateCcw,
   MonitorCheck,
 } from "lucide-vue-next";
@@ -118,7 +102,6 @@ interface Props {
   previousStep: (...args: unknown[]) => void;
   nextStep: (...args: unknown[]) => void;
   allSteps: (...args: unknown[]) => void;
-  stop: (...args: unknown[]) => void;
   reset: (...args: unknown[]) => void;
   check: (...args: unknown[]) => void;
 }

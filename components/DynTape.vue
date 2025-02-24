@@ -1,5 +1,8 @@
 <template>
-  <div ref="tapeDiv" class="tape_cont">
+  <div
+    ref="tapeDiv"
+    class="tape_cont"
+  >
     <tape_head>
       <stick></stick>
       <arrow></arrow>
@@ -15,7 +18,10 @@
           <td></td>
           <td></td>
           <td></td>
-          <td v-if="props.grammVer === 2" class="last"></td>
+          <td
+            v-if="props.grammVer === 2"
+            class="last"
+          ></td>
         </tr>
       </tbody>
     </table>
@@ -24,7 +30,10 @@
       <stick></stick>
       <arrow></arrow>
     </tape_head>
-    <table v-if="props.grammVer >= 1" class="tape">
+    <table
+      v-if="props.grammVer >= 1"
+      class="tape"
+    >
       <tbody>
         <tr>
           <td></td>
@@ -35,7 +44,10 @@
           <td></td>
           <td></td>
           <td></td>
-          <td v-if="props.grammVer === 2" class="last"></td>
+          <td
+            v-if="props.grammVer === 2"
+            class="last"
+          ></td>
         </tr>
       </tbody>
     </table>

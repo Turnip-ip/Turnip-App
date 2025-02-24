@@ -2,17 +2,21 @@ type ContentTape = string | number[];
 
 export class Tape {
   head: HTMLDivElement;
+  head_pos: number | null;
   tape: HTMLDivElement;
   headM: HTMLDivElement;
+  head_posM: number | null;
   tapeM: HTMLDivElement;
   headW: HTMLDivElement;
+  head_posW: number | null;
   tapeW: HTMLDivElement;
+  gramm_v: number;
 
   constructor(gramm_ver: number, elem: HTMLDivElement) {
     switch (gramm_ver) {
       case 0:
         this.gramm_v = 0;
-        this.head = elem.getElementsByTagName("tape_head")[0];
+        this.head = elem.getElementsByTagName("tape_head")[0] as HTMLDivElement;
         this.head_pos = null;
         this.tape = elem.getElementsByTagName("tr")[0];
         break;
@@ -22,18 +26,27 @@ export class Tape {
         this.tapeW = elem.getElementsByTagName("tr")[1];
         this.head_posM = null;
         this.head_posW = null;
-        this.headM = elem.getElementsByTagName("tape_head")[0];
-        this.headW = elem.getElementsByTagName("tape_head")[1];
+        this.headM = elem.getElementsByTagName(
+          "tape_head",
+        )[0] as HTMLDivElement;
+        this.headW = elem.getElementsByTagName(
+          "tape_head",
+        )[1] as HTMLDivElement;
         break;
       case 2:
+      default:
         // +++ we need size max...
         this.gramm_v = 2;
-        this.tapeM = elem.getElementsByTagName("tr")[0];
-        this.tapeW = elem.getElementsByTagName("tr")[1];
+        this.tapeM = elem.getElementsByTagName("tr")[0] as HTMLDivElement;
+        this.tapeW = elem.getElementsByTagName("tr")[1] as HTMLDivElement;
         this.head_posM = null;
         this.head_posW = null;
-        this.headM = elem.getElementsByTagName("tape_head")[0];
-        this.headW = elem.getElementsByTagName("tape_head")[1];
+        this.headM = elem.getElementsByTagName(
+          "tape_head",
+        )[0] as HTMLDivElement;
+        this.headW = elem.getElementsByTagName(
+          "tape_head",
+        )[1] as HTMLDivElement;
         break;
     }
   }
@@ -47,16 +60,16 @@ export class Tape {
     }
     for (let i = 0; i < children.length; i++) {
       if (children[i].textContent != str[i]) {
-        this.write_fade(children[i], str[i]);
+        this.write_fade(children[i] as HTMLDivElement, str[i] as ContentTape);
       }
     }
   }
 
   write_fade(div: HTMLDivElement, cont: ContentTape) {
-    div.style.opacity = 0;
+    div.style.opacity = "0";
     setTimeout(() => {
-      div.textContent = cont;
-      div.style.opacity = 1;
+      div.textContent = cont as string;
+      div.style.opacity = "1";
     }, 100);
   }
 
