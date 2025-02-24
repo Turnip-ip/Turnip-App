@@ -1,14 +1,21 @@
 <template>
   <div class="h-full">
     <!-- Resizable Panels -->
-    <ResizablePanelGroup direction="horizontal" class="h-max">
+    <ResizablePanelGroup
+      direction="horizontal"
+      class="h-max"
+    >
       <ResizablePanel class="bg-[#8391A3]">
         <div class="unlockfcts_hover">
           authorized functions &darr;
           <div class="unlockfcts_list"></div>
         </div>
 
-        <TextEditor v-model="dotArea" class="p-10" height="100%" />
+        <TextEditor
+          v-model="dotArea"
+          class="p-10"
+          height="100%"
+        />
       </ResizablePanel>
 
       <ResizableHandle with-handle />
@@ -17,8 +24,17 @@
         <div class="h-1/2 bg-[#D0D9E2]">
           <div class="titleButtons">
             <div class="graphTitle">GRAPH</div>
-            <ButtonsBar :start="start" :running="running" :end="end" :previous-step="previousStep" :next-step="nextStep"
-              :all-steps="allSteps" :reset="reset" :check="check" :code-valid="codeValid" />
+            <ButtonsBar
+              :start="start"
+              :running="running"
+              :end="end"
+              :previous-step="previousStep"
+              :next-step="nextStep"
+              :all-steps="allSteps"
+              :reset="reset"
+              :check="check"
+              :code-valid="codeValid"
+            />
 
             <Popover class="mr-2">
               <PopoverTrigger>
@@ -27,11 +43,22 @@
               <PopoverContent>
                 <div class="flex flex-col gap-2">
                   <div class="flex w-full max-w-sm items-center gap-1.5">
-                    <Input id="email" v-model="newMainTape" placeholder="0, 0, 0, 0, 0, 0, 0, 0" />
+                    <Input
+                      id="email"
+                      v-model="newMainTape"
+                      placeholder="0, 0, 0, 0, 0, 0, 0, 0"
+                    />
                     <Button @click="setMainTape()"> Save </Button>
                   </div>
-                  <div v-if="level.grammar_version == 1" class="flex w-full max-w-sm items-center gap-1.5">
-                    <Input id="email" v-model="newWorkTape" placeholder="0, 0, 0, 0" />
+                  <div
+                    v-if="level.grammar_version == 1"
+                    class="flex w-full max-w-sm items-center gap-1.5"
+                  >
+                    <Input
+                      id="email"
+                      v-model="newWorkTape"
+                      placeholder="0, 0, 0, 0"
+                    />
                     <Button @click="setWorkTape()"> Save </Button>
                   </div>
                 </div>
@@ -40,7 +67,10 @@
           </div>
 
           <div class="h-full pb-6">
-            <TuringGraphView class="h-full pb-4" :dot="dot" />
+            <TuringGraphView
+              class="h-full pb-4"
+              :dot="dot"
+            />
           </div>
         </div>
 
@@ -50,7 +80,11 @@
           <div class="rubantitle">TAPE</div>
           <div class="rubanpopup">
             <div style="display: flex; column-gap: 10px">
-              <DynTape :gramm-ver="level.grammar_version" initial-text="00001" :initial-pos="0"></DynTape>
+              <DynTape
+                :gramm-ver="level.grammar_version"
+                initial-text="00001"
+                :initial-pos="0"
+              ></DynTape>
             </div>
           </div>
         </div>
@@ -60,8 +94,15 @@
         <div class="h-1/4 bg-[#D9DFE5]">
           <div class="outputtitle">ERROR LOGS</div>
           <div class="popuP">
-            <ScrollArea ref="scrollArea" class="ml-1 h-full w-full whitespace-pre-wrap font-mono">
-              <span v-for="(log, index) in logs.slice(-20)" :key="index" class="log-entry">
+            <ScrollArea
+              ref="scrollArea"
+              class="ml-1 h-full w-full whitespace-pre-wrap font-mono"
+            >
+              <span
+                v-for="(log, index) in logs.slice(-20)"
+                :key="index"
+                class="log-entry"
+              >
                 {{ log }}
                 <br />
               </span>
@@ -76,7 +117,7 @@
 <script setup lang="ts">
 import { ref, watch, nextTick } from "vue";
 import { LevelsData } from "~/lib/levels_data";
-import { checkLevel } from "~/lib/level_checker"
+import { checkLevel } from "~/lib/level_checker";
 
 import init, { tm_string_to_dot, Simu } from "tm_parser?init";
 import { Tape } from "~/lib/tapes";
@@ -138,11 +179,12 @@ onMounted(() => {
   const existingCode = localStorage.getItem(`level-${currentLevelId}`);
   dotArea.value = existingCode || level.initial_code || defaultCode;
 
-  const tape_head_elem: HTMLCollection = document.body.getElementsByTagName("tape_head");
+  const tape_head_elem: HTMLCollection =
+    document.body.getElementsByTagName("tape_head");
   if (tape_head_elem[0].parentElement != null) {
     tape_object = new Tape(
       level.grammar_version,
-      tape_head_elem[0].parentElement as HTMLDivElement
+      tape_head_elem[0].parentElement as HTMLDivElement,
     );
   }
   if (level.grammar_version == 0) {
@@ -173,7 +215,6 @@ let currentSimulation: Simu | null = null;
 let codeOfcurrentSimulation: string | null = null;
 let currentState = "START";
 
-
 /////////////////////////////////////////
 //           Simulation utils          //
 /////////////////////////////////////////
@@ -187,7 +228,8 @@ function resetSimulation() {
     compileSimulation();
   }
 
-  if (currentSimulation)// This if statement should always be true
+  if (currentSimulation)
+    // This if statement should always be true
     currentSimulation.reset(init_main_tape.value, init_work_tape.value);
 
   colorCurrentState(currentState, "black");
@@ -225,7 +267,7 @@ function compileSimulation() {
   if (currentSimulation === null || codeOfcurrentSimulation !== dotArea.value) {
     codeOfcurrentSimulation = dotArea.value;
 
-    console.log(level.grammar_version)
+    console.log(level.grammar_version);
     try {
       currentSimulation = Simu.new(
         codeOfcurrentSimulation,
@@ -341,7 +383,8 @@ function nextStep() {
   if (currentSimulation == null || codeOfcurrentSimulation !== dotArea.value)
     resetSimulation();
 
-  if (currentSimulation) {// Should be true
+  if (currentSimulation) {
+    // Should be true
     running.value = true;
     try {
       currentSimulation.next_step();
@@ -362,7 +405,8 @@ function allSteps() {
   if (currentSimulation == null || codeOfcurrentSimulation !== dotArea.value)
     resetSimulation();
 
-  if (currentSimulation) {// Should be true
+  if (currentSimulation) {
+    // Should be true
     running.value = true;
     try {
       currentSimulation.all_steps();
@@ -399,13 +443,14 @@ function check() {
     if (check_output.passed) {
       // add current j=level to completed_lvl if it passed the check
       add_completed_lvl(currentLevelId);
-      logs.value = ["Tests completed successfully! The next levels are now unlocked."];
+      logs.value = [
+        "Tests completed successfully! The next levels are now unlocked.",
+      ];
     } else {
       logs.value = check_output.logs;
     }
   }
 }
-
 
 /**
  * Computes the authoried (legal) functions that are allowing in this level.
@@ -440,10 +485,12 @@ function read_completed_lvl() {
 
 // print list functions: events
 onMounted(() => {
-  const button: HTMLDivElement =
-    document.getElementsByClassName("unlockfcts_hover")[0] as HTMLDivElement;
-  const menu: HTMLDivElement =
-    document.getElementsByClassName("unlockfcts_list")[0] as HTMLDivElement;
+  const button: HTMLDivElement = document.getElementsByClassName(
+    "unlockfcts_hover",
+  )[0] as HTMLDivElement;
+  const menu: HTMLDivElement = document.getElementsByClassName(
+    "unlockfcts_list",
+  )[0] as HTMLDivElement;
 
   button.addEventListener("mouseover", () => {
     menu.style.height = "auto"; // Set the desired height here
@@ -486,7 +533,7 @@ watch(logs.value, () => {
   nextTick(() => {
     scrollToBottom();
   })
-    .then(() => { })
+    .then(() => {})
     .catch((e: unknown) => {
       console.error(e);
     });
