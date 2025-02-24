@@ -161,6 +161,7 @@ watch(dotArea, (newCode) => {
   try {
     const dotCode = tm_string_to_dot(newCode, "", level.grammar_version);
     dot.value = dotCode;
+    logs.value.push("\n\n\ncompilation succeeded!\n\n\n");
   } catch (e) {
     console.error(e);
     logs.value = [String(e)];
@@ -202,7 +203,7 @@ function resetSimulation() {
   end.value = false;
   running.value = false;
 
-  // TODO: the cast to string might not be necessary 
+  // TODO: the cast to string might not be necessary
   if (level.grammar_version == 0) {
     tape_object.write(main_tape.value.toString().replaceAll(",", ""));
     tape_object.move(pos_main_tape.value);
