@@ -578,8 +578,40 @@ export function checkLevel(
     ////////////////////////////////// MOD
     case "MOD":
       {
+        // check mod by 0 case
         for (let i = 0; i < 256; ++i) {
-          for (let j = 0; j < 256; ++j) {
+          const input_main = new Uint8Array(
+            i
+              .toString(2)
+              .padStart(8, "0")
+              .split("")
+              .map((c) => parseInt(c))
+              .concat([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
+          );
+          const input_work = new Uint8Array([
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0,
+          ]);
+          simu.reset(input_main, input_work);
+
+          // Run the machine
+          try {
+            simu.all_steps();
+          } catch (e) {
+            console.error(e);
+          }
+
+          // Verify test output
+          if (!simu.is_error()) {
+            is_ok = false;
+            logs.push(
+              `Tests failed, expected output: ERROR state on input ${input_main.toString()} but got END state. For DIV and MOD by zero, the TM must end in the ERROR state`,
+            );
+          }
+        }
+        //END CASE 0
+        for (let i = 0; i < 256; ++i) {
+          for (let j = 1; j < 256; ++j) {
             const input_main = new Uint8Array(
               i
                 .toString(2)
@@ -643,7 +675,38 @@ export function checkLevel(
     ////////////////////////////////// DIV
     case "DIV":
       {
-        // TODO: check divide by 0 case
+        // check mod by 0 case
+        for (let i = 0; i < 256; ++i) {
+          const input_main = new Uint8Array(
+            i
+              .toString(2)
+              .padStart(8, "0")
+              .split("")
+              .map((c) => parseInt(c))
+              .concat([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
+          );
+          const input_work = new Uint8Array([
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0,
+          ]);
+          simu.reset(input_main, input_work);
+
+          // Run the machine
+          try {
+            simu.all_steps();
+          } catch (e) {
+            console.error(e);
+          }
+
+          // Verify test output
+          if (!simu.is_error()) {
+            is_ok = false;
+            logs.push(
+              `Tests failed, expected output: ERROR state on input ${input_main.toString()} but got END state. For DIV and MOD by zero, the TM must end in the ERROR state`,
+            );
+          }
+        }
+        //END CASE 0
         for (let i = 0; i < 256; ++i) {
           for (let j = 1; j < 256; ++j) {
             const input_main = new Uint8Array(

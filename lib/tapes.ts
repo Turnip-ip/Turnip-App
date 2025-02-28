@@ -59,16 +59,16 @@ export class Tape {
       return;
     }
     for (let i = 0; i < children.length; i++) {
-      if (children[i].textContent != str[i]) {
-        this.write_fade(children[i] as HTMLDivElement, str[i] as ContentTape);
+      if (children[i].textContent != String(str[i])) {
+        this.write_fade(children[i] as HTMLDivElement, String(str[i]));
       }
     }
   }
 
-  write_fade(div: HTMLDivElement, cont: ContentTape) {
+  write_fade(div: HTMLDivElement, cont: string) {
     div.style.opacity = "0";
     setTimeout(() => {
-      div.textContent = cont as string;
+      div.textContent = cont;
       div.style.opacity = "1";
     }, 100);
   }

@@ -188,11 +188,11 @@ onMounted(() => {
     );
   }
   if (level.grammar_version == 0) {
-    tape_object.write(init_main_tape.value.toString().replaceAll(",", ""));
+    tape_object.write(init_main_tape.value);
     tape_object.move(pos_main_tape.value);
   } else {
-    tape_object.writeM(init_main_tape.value.toString().replaceAll(",", ""));
-    tape_object.writeW(init_work_tape.value.toString().replaceAll(",", ""));
+    tape_object.writeM(init_main_tape.value);
+    tape_object.writeW(init_work_tape.value);
     tape_object.moveM(pos_main_tape.value);
     tape_object.moveW(pos_work_tape.value);
   }
@@ -247,11 +247,11 @@ function resetSimulation() {
 
   // TODO: the cast to string might not be necessary
   if (level.grammar_version == 0) {
-    tape_object.write(main_tape.value.toString().replaceAll(",", ""));
+    tape_object.write(main_tape.value);
     tape_object.move(pos_main_tape.value);
   } else {
-    tape_object.writeM(main_tape.value.toString().replaceAll(",", ""));
-    tape_object.writeW(work_tape.value.toString().replaceAll(",", ""));
+    tape_object.writeM(main_tape.value);
+    tape_object.writeW(work_tape.value);
     tape_object.moveM(pos_main_tape.value);
     tape_object.moveW(pos_work_tape.value);
   }
@@ -312,7 +312,7 @@ function setWorkTape() {
   }
   init_work_tape.value = new Uint8Array(elements.map((x) => parseInt(x, 10)));
   if (level.grammar_version == 1) {
-    tape_object.writeW(work_tape.value.toString().replaceAll(",", ""));
+    tape_object.writeW(work_tape.value);
   }
   resetSimulation();
 }
@@ -336,11 +336,11 @@ function handleNewStep(simu: Simu) {
   pos_work_tape.value = simu.head_pos_work();
 
   if (level.grammar_version == 0) {
-    tape_object.write(main_tape.value.toString().replaceAll(",", ""));
+    tape_object.write(main_tape.value);
     tape_object.move(pos_main_tape.value);
   } else {
-    tape_object.writeM(main_tape.value.toString().replaceAll(",", ""));
-    tape_object.writeW(work_tape.value.toString().replaceAll(",", ""));
+    tape_object.writeM(main_tape.value);
+    tape_object.writeW(work_tape.value);
     tape_object.moveM(pos_main_tape.value);
     tape_object.moveW(pos_work_tape.value);
   }
@@ -543,7 +543,6 @@ function scrollToBottom() {
   const cont = scrollArea.value.$el as HTMLDivElement;
   const scrollElement = cont.childNodes[2] as HTMLDivElement;
   scrollElement.scrollTop = scrollElement.scrollHeight;
-  // console.log(scrollElement);// DEBUG
 }
 </script>
 
