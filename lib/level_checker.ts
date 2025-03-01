@@ -161,7 +161,7 @@ export function checkLevel(
     case "COPY_TO_MAIN":
       {
         for (let i = 0; i < 256; ++i) {
-          const input_main = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 1, 1]);
+          const input_main = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
           const input_work = new Uint8Array(
             (i >>> 0)
               .toString(2)
@@ -212,7 +212,7 @@ export function checkLevel(
               .map((c) => parseInt(c))
               .concat([0, 0]),
           );
-          const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 1, 1]);
+          const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
           simu.reset(input_main, input_work);
 
           // Run the machine
@@ -255,7 +255,7 @@ export function checkLevel(
               .map((c) => parseInt(c))
               .concat([0, 0]),
           );
-          const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
           simu.reset(input_main, input_work);
 
           // Run the machine
@@ -298,7 +298,7 @@ export function checkLevel(
               .map((c) => parseInt(c))
               .concat([0, 0]),
           );
-          const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
           simu.reset(input_main, input_work);
 
           // Run the machine
@@ -341,7 +341,7 @@ export function checkLevel(
               .map((c) => parseInt(c))
               .concat([0, 0]),
           );
-          const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+          const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
           simu.reset(input_main, input_work);
 
           // Run the machine
@@ -385,25 +385,8 @@ export function checkLevel(
       {
         for (let i = 0; i < 256; ++i) {
           for (let j = 0; j < 256; ++j) {
-            const input_main = new Uint8Array(
-              i
-                .toString(2)
-                .padStart(8, "0")
-                .split("")
-                .map((c) => parseInt(c))
-                .concat(
-                  j
-                    .toString(2)
-                    .padStart(8, "0")
-                    .split("")
-                    .map((c) => parseInt(c))
-                    .concat([0, 0, 0, 0, 0, 0, 0, 0]),
-                ),
-            );
-            const input_work = new Uint8Array([
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-              0, 0,
-            ]);
+            const input_main = new Uint8Array([i, j, 0, 0, 0, 0, 0, 0]);
+            const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
             simu.reset(input_main, input_work);
 
             // Run the machine
@@ -414,27 +397,16 @@ export function checkLevel(
             }
 
             // Verify test output
-            const expected = new Uint8Array(
-              i
-                .toString(2)
-                .padStart(8, "0")
-                .split("")
-                .map((c) => parseInt(c))
-                .concat(
-                  j
-                    .toString(2)
-                    .padStart(8, "0")
-                    .split("")
-                    .map((c) => parseInt(c))
-                    .concat(
-                      ((i + j) % 256)
-                        .toString(2)
-                        .padStart(8, "0")
-                        .split("")
-                        .map((c) => parseInt(c)),
-                    ),
-                ),
-            );
+            const expected = new Uint8Array([
+              i,
+              j,
+              (i + j) % 256,
+              0,
+              0,
+              0,
+              0,
+              0,
+            ]);
             if (!simu.verify_output(expected)) {
               is_ok = false;
               logs.push(
@@ -450,25 +422,8 @@ export function checkLevel(
       {
         for (let i = 0; i < 256; ++i) {
           for (let j = 0; j < 256; ++j) {
-            const input_main = new Uint8Array(
-              i
-                .toString(2)
-                .padStart(8, "0")
-                .split("")
-                .map((c) => parseInt(c))
-                .concat(
-                  j
-                    .toString(2)
-                    .padStart(8, "0")
-                    .split("")
-                    .map((c) => parseInt(c))
-                    .concat([0, 0, 0, 0, 0, 0, 0, 0]),
-                ),
-            );
-            const input_work = new Uint8Array([
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-              0, 0,
-            ]);
+            const input_main = new Uint8Array([i, j, 0, 0, 0, 0, 0, 0]);
+            const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
             simu.reset(input_main, input_work);
 
             // Run the machine
@@ -479,27 +434,16 @@ export function checkLevel(
             }
 
             // Verify test output
-            const expected = new Uint8Array(
-              i
-                .toString(2)
-                .padStart(8, "0")
-                .split("")
-                .map((c) => parseInt(c))
-                .concat(
-                  j
-                    .toString(2)
-                    .padStart(8, "0")
-                    .split("")
-                    .map((c) => parseInt(c))
-                    .concat(
-                      ((i - j) % 256)
-                        .toString(2)
-                        .padStart(8, "0")
-                        .split("")
-                        .map((c) => parseInt(c)),
-                    ),
-                ),
-            );
+            const expected = new Uint8Array([
+              i,
+              j,
+              (i - j) % 256,
+              0,
+              0,
+              0,
+              0,
+              0,
+            ]);
             if (!simu.verify_output(expected)) {
               is_ok = false;
               logs.push(
@@ -515,25 +459,8 @@ export function checkLevel(
       {
         for (let i = 0; i < 256; ++i) {
           for (let j = 0; j < 256; ++j) {
-            const input_main = new Uint8Array(
-              i
-                .toString(2)
-                .padStart(8, "0")
-                .split("")
-                .map((c) => parseInt(c))
-                .concat(
-                  j
-                    .toString(2)
-                    .padStart(8, "0")
-                    .split("")
-                    .map((c) => parseInt(c))
-                    .concat([0, 0, 0, 0, 0, 0, 0, 0]),
-                ),
-            );
-            const input_work = new Uint8Array([
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-              0, 0,
-            ]);
+            const input_main = new Uint8Array([i, j, 0, 0, 0, 0, 0, 0]);
+            const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
             simu.reset(input_main, input_work);
 
             // Run the machine
@@ -544,27 +471,16 @@ export function checkLevel(
             }
 
             // Verify test output
-            const expected = new Uint8Array(
-              i
-                .toString(2)
-                .padStart(8, "0")
-                .split("")
-                .map((c) => parseInt(c))
-                .concat(
-                  j
-                    .toString(2)
-                    .padStart(8, "0")
-                    .split("")
-                    .map((c) => parseInt(c))
-                    .concat(
-                      ((i * j) % 256)
-                        .toString(2)
-                        .padStart(8, "0")
-                        .split("")
-                        .map((c) => parseInt(c)),
-                    ),
-                ),
-            );
+            const expected = new Uint8Array([
+              i,
+              j,
+              (i * j) % 256,
+              0,
+              0,
+              0,
+              0,
+              0,
+            ]);
             if (!simu.verify_output(expected)) {
               is_ok = false;
               logs.push(
@@ -580,18 +496,8 @@ export function checkLevel(
       {
         // check mod by 0 case
         for (let i = 0; i < 256; ++i) {
-          const input_main = new Uint8Array(
-            i
-              .toString(2)
-              .padStart(8, "0")
-              .split("")
-              .map((c) => parseInt(c))
-              .concat([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
-          );
-          const input_work = new Uint8Array([
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0,
-          ]);
+          const input_main = new Uint8Array([i, 0, 0, 0, 0, 0, 0, 0]);
+          const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
           simu.reset(input_main, input_work);
 
           // Run the machine
@@ -612,25 +518,8 @@ export function checkLevel(
         //END CASE 0
         for (let i = 0; i < 256; ++i) {
           for (let j = 1; j < 256; ++j) {
-            const input_main = new Uint8Array(
-              i
-                .toString(2)
-                .padStart(8, "0")
-                .split("")
-                .map((c) => parseInt(c))
-                .concat(
-                  j
-                    .toString(2)
-                    .padStart(8, "0")
-                    .split("")
-                    .map((c) => parseInt(c))
-                    .concat([0, 0, 0, 0, 0, 0, 0, 0]),
-                ),
-            );
-            const input_work = new Uint8Array([
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-              0, 0,
-            ]);
+            const input_main = new Uint8Array([i, j, 0, 0, 0, 0, 0, 0]);
+            const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
             simu.reset(input_main, input_work);
 
             // Run the machine
@@ -641,27 +530,16 @@ export function checkLevel(
             }
 
             // Verify test output
-            const expected = new Uint8Array(
-              i
-                .toString(2)
-                .padStart(8, "0")
-                .split("")
-                .map((c) => parseInt(c))
-                .concat(
-                  j
-                    .toString(2)
-                    .padStart(8, "0")
-                    .split("")
-                    .map((c) => parseInt(c))
-                    .concat(
-                      ((i % j) % 256)
-                        .toString(2)
-                        .padStart(8, "0")
-                        .split("")
-                        .map((c) => parseInt(c)),
-                    ),
-                ),
-            );
+            const expected = new Uint8Array([
+              i,
+              j,
+              (i % j) % 256,
+              0,
+              0,
+              0,
+              0,
+              0,
+            ]);
             if (!simu.verify_output(expected)) {
               is_ok = false;
               logs.push(
@@ -675,20 +553,10 @@ export function checkLevel(
     ////////////////////////////////// DIV
     case "DIV":
       {
-        // check mod by 0 case
+        // check div by 0 case
         for (let i = 0; i < 256; ++i) {
-          const input_main = new Uint8Array(
-            i
-              .toString(2)
-              .padStart(8, "0")
-              .split("")
-              .map((c) => parseInt(c))
-              .concat([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]),
-          );
-          const input_work = new Uint8Array([
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0,
-          ]);
+          const input_main = new Uint8Array([i, 0, 0, 0, 0, 0, 0, 0]);
+          const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
           simu.reset(input_main, input_work);
 
           // Run the machine
@@ -709,25 +577,8 @@ export function checkLevel(
         //END CASE 0
         for (let i = 0; i < 256; ++i) {
           for (let j = 1; j < 256; ++j) {
-            const input_main = new Uint8Array(
-              i
-                .toString(2)
-                .padStart(8, "0")
-                .split("")
-                .map((c) => parseInt(c))
-                .concat(
-                  j
-                    .toString(2)
-                    .padStart(8, "0")
-                    .split("")
-                    .map((c) => parseInt(c))
-                    .concat([0, 0, 0, 0, 0, 0, 0, 0]),
-                ),
-            );
-            const input_work = new Uint8Array([
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-              0, 0,
-            ]);
+            const input_main = new Uint8Array([i, j, 0, 0, 0, 0, 0, 0]);
+            const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
             simu.reset(input_main, input_work);
 
             // Run the machine
@@ -738,27 +589,16 @@ export function checkLevel(
             }
 
             // Verify test output
-            const expected = new Uint8Array(
-              i
-                .toString(2)
-                .padStart(8, "0")
-                .split("")
-                .map((c) => parseInt(c))
-                .concat(
-                  j
-                    .toString(2)
-                    .padStart(8, "0")
-                    .split("")
-                    .map((c) => parseInt(c))
-                    .concat(
-                      ((i / j) % 256)
-                        .toString(2)
-                        .padStart(8, "0")
-                        .split("")
-                        .map((c) => parseInt(c)),
-                    ),
-                ),
-            );
+            const expected = new Uint8Array([
+              i,
+              j,
+              Math.floor(i / j) % 256,
+              0,
+              0,
+              0,
+              0,
+              0,
+            ]);
             if (!simu.verify_output(expected)) {
               is_ok = false;
               logs.push(
@@ -774,25 +614,8 @@ export function checkLevel(
       {
         for (let i = 0; i < 256; ++i) {
           for (let j = 1; j < 256; ++j) {
-            const input_main = new Uint8Array(
-              i
-                .toString(2)
-                .padStart(8, "0")
-                .split("")
-                .map((c) => parseInt(c))
-                .concat(
-                  j
-                    .toString(2)
-                    .padStart(8, "0")
-                    .split("")
-                    .map((c) => parseInt(c))
-                    .concat([0, 0, 0, 0, 0, 0, 0, 0]),
-                ),
-            );
-            const input_work = new Uint8Array([
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-              0, 0,
-            ]);
+            const input_main = new Uint8Array([i, j, 0, 0, 0, 0, 0, 0]);
+            const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
             simu.reset(input_main, input_work);
 
             // Run the machine
@@ -803,27 +626,16 @@ export function checkLevel(
             }
 
             // Verify test output
-            const expected = new Uint8Array(
-              i
-                .toString(2)
-                .padStart(8, "0")
-                .split("")
-                .map((c) => parseInt(c))
-                .concat(
-                  j
-                    .toString(2)
-                    .padStart(8, "0")
-                    .split("")
-                    .map((c) => parseInt(c))
-                    .concat(
-                      (i ** j % 256)
-                        .toString(2)
-                        .padStart(8, "0")
-                        .split("")
-                        .map((c) => parseInt(c)),
-                    ),
-                ),
-            );
+            const expected = new Uint8Array([
+              i,
+              j,
+              i ** j % 256,
+              0,
+              0,
+              0,
+              0,
+              0,
+            ]);
             if (!simu.verify_output(expected)) {
               is_ok = false;
               logs.push(
@@ -839,24 +651,8 @@ export function checkLevel(
       {
         for (let i = 0; i < 256; ++i) {
           for (let j = 1; j < 256; ++j) {
-            const input_main = new Uint8Array(
-              i
-                .toString(2)
-                .padStart(8, "0")
-                .split("")
-                .map((c) => parseInt(c))
-                .concat(
-                  j
-                    .toString(2)
-                    .padStart(8, "0")
-                    .split("")
-                    .map((c) => parseInt(c))
-                    .concat([0]),
-                ),
-            );
-            const input_work = new Uint8Array([
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            ]);
+            const input_main = new Uint8Array([i, j, 0, 0, 0, 0, 0, 0]);
+            const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
             simu.reset(input_main, input_work);
 
             // Run the machine
@@ -867,21 +663,16 @@ export function checkLevel(
             }
 
             // Verify test output
-            const expected = new Uint8Array(
-              i
-                .toString(2)
-                .padStart(8, "0")
-                .split("")
-                .map((c) => parseInt(c))
-                .concat(
-                  j
-                    .toString(2)
-                    .padStart(8, "0")
-                    .split("")
-                    .map((c) => parseInt(c))
-                    .concat([i >= j ? 1 : 0]),
-                ),
-            );
+            const expected = new Uint8Array([
+              i,
+              j,
+              i >= j ? 1 : 0,
+              0,
+              0,
+              0,
+              0,
+              0,
+            ]);
             if (!simu.verify_output(expected)) {
               is_ok = false;
               logs.push(
@@ -897,24 +688,8 @@ export function checkLevel(
       {
         for (let i = 0; i < 256; ++i) {
           for (let j = 1; j < 256; ++j) {
-            const input_main = new Uint8Array(
-              i
-                .toString(2)
-                .padStart(8, "0")
-                .split("")
-                .map((c) => parseInt(c))
-                .concat(
-                  j
-                    .toString(2)
-                    .padStart(8, "0")
-                    .split("")
-                    .map((c) => parseInt(c))
-                    .concat([0]),
-                ),
-            );
-            const input_work = new Uint8Array([
-              0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            ]);
+            const input_main = new Uint8Array([i, j, 0, 0, 0, 0, 0, 0]);
+            const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
             simu.reset(input_main, input_work);
 
             // Run the machine
@@ -925,21 +700,16 @@ export function checkLevel(
             }
 
             // Verify test output
-            const expected = new Uint8Array(
-              i
-                .toString(2)
-                .padStart(8, "0")
-                .split("")
-                .map((c) => parseInt(c))
-                .concat(
-                  j
-                    .toString(2)
-                    .padStart(8, "0")
-                    .split("")
-                    .map((c) => parseInt(c))
-                    .concat([i <= j ? 1 : 0]),
-                ),
-            );
+            const expected = new Uint8Array([
+              i,
+              j,
+              i <= j ? 1 : 0,
+              0,
+              0,
+              0,
+              0,
+              0,
+            ]);
             if (!simu.verify_output(expected)) {
               is_ok = false;
               logs.push(
@@ -954,17 +724,8 @@ export function checkLevel(
     case "IS_PRIME":
       {
         for (let i = 0; i < 256; ++i) {
-          const input_main = new Uint8Array(
-            i
-              .toString(2)
-              .padStart(8, "0")
-              .split("")
-              .map((c) => parseInt(c))
-              .concat([0]),
-          );
-          const input_work = new Uint8Array([
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          ]);
+          const input_main = new Uint8Array([i, 0, 0, 0, 0, 0, 0, 0]);
+          const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
           simu.reset(input_main, input_work);
 
           // Run the machine
@@ -975,14 +736,16 @@ export function checkLevel(
           }
 
           // Verify test output
-          const expected = new Uint8Array(
-            i
-              .toString(2)
-              .padStart(8, "0")
-              .split("")
-              .map((c) => parseInt(c))
-              .concat([primes.includes(i) ? 1 : 0]),
-          );
+          const expected = new Uint8Array([
+            i,
+            j,
+            primes.includes(i) ? 1 : 0,
+            0,
+            0,
+            0,
+            0,
+            0,
+          ]);
           if (!simu.verify_output(expected)) {
             is_ok = false;
             logs.push(
@@ -996,17 +759,8 @@ export function checkLevel(
     case "LEN_SYRACUSE":
       {
         for (let i = 0; i < 256; ++i) {
-          const input_main = new Uint8Array(
-            i
-              .toString(2)
-              .padStart(8, "0")
-              .split("")
-              .map((c) => parseInt(c))
-              .concat([0, 0, 0, 0, 0, 0, 0, 0]),
-          );
-          const input_work = new Uint8Array([
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-          ]);
+          const input_main = new Uint8Array([i, 0, 0, 0, 0, 0, 0, 0]);
+          const input_work = new Uint8Array([0, 0, 0, 0, 0, 0, 0, 0]);
           simu.reset(input_main, input_work);
 
           // Run the machine
@@ -1017,20 +771,16 @@ export function checkLevel(
           }
 
           // Verify test output
-          const expected = new Uint8Array(
-            i
-              .toString(2)
-              .padStart(8, "0")
-              .split("")
-              .map((c) => parseInt(c))
-              .concat(
-                (length_syracuse(i, 0) % 256)
-                  .toString(2)
-                  .padStart(8, "0")
-                  .split("")
-                  .map((c) => parseInt(c)),
-              ),
-          );
+          const expected = new Uint8Array([
+            i,
+            j,
+            length_syracuse(i, 0) % 256,
+            0,
+            0,
+            0,
+            0,
+            0,
+          ]);
           if (!simu.verify_output(expected)) {
             is_ok = false;
             logs.push(
